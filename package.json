@@ -7,6 +7,7 @@
     "ios": "react-native run-ios --simulator=\"iPhone 7\" --configuration Debug",
     "ios7": "react-native run-ios --simulator=\"iPhone 7\" --configuration Debug",
     "ios7plus": "react-native run-ios --simulator=\"iPhone 7 Plus\" --configuration Debug",
+    "android": "react-native run-android",
     "test": "jest"
   },
   "dependencies": {
