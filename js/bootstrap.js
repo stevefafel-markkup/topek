@@ -1,29 +1,38 @@
 import React, { Component, Text } from "react"
 import { Provider } from "react-redux"
-import Parse from "parse/react-native"
+import Api from "./api"
 import App from "./app"
 import Config from "./config"
 import State from "./state"
+import SplashScreen from "./screens/SplashScreen"
 
 export default function bootstrap() {
 
   // initialize dependencies
-  initializeParse();
+  Api.initialize();
 
   // this root components hooks up the state.
+  // it also delays rendering the app until state is rehydrated
   class Root extends Component {
     constructor() {
       super();
       this.state = {
-        store: State.configureStore()
+        store: State.configureStore(),
+        rehydrated: false
       };
     }
 
     componentWillMount(){
-      State.persistStore(this.state.store)
+      State.persistStore(this.state.store, () => {
+        this.setState({rehydrated: true})
+      })
     }
 
+    // render splash screen if we haven't been rehydrated
     render() {
+      if(!this.state.rehydrated){
+        return (<SplashScreen />);
+      }
       return (
         <Provider store={this.state.store}>
           <App />
@@ -33,10 +42,4 @@ export default function bootstrap() {
   }
 
   return Root
-}
-
-function initializeParse() {
-  console.log("Parse: ", Config.serverKey, Config.serverURL)
-  Parse.initialize(Config.serverKey);
-  Parse.serverURL = `${Config.serverURL}/parse`;
 }
