@@ -40,7 +40,7 @@ export default class LoginScreen extends Component {
           />
         </View>
 
-        <FieldGroup title="Enter Credentials">
+        <FieldGroup title="Enter Credentials" ref="group">
           <InputField
             ref="username"
             value={this.props.lastUsername}
@@ -51,9 +51,8 @@ export default class LoginScreen extends Component {
             spellCheck={false}
             autoCorrect={false}
             editable={!this.props.isAuthenticating}
-            onSubmitEditing={() => this.passcode.focus()}
+            onSubmitEditing={() => this.refs.loginForm.refs.group.refs.password.focus()}
             />
-
           <InputField
             ref="password"
             placeholder="Password"
@@ -76,7 +75,7 @@ export default class LoginScreen extends Component {
         <Button
           onPress={() => this._handleFormSubmit()}
           color={Dims.tint}
-          style={{color: "#FFF"}}
+          style={styles.button}
           title="Log in"
         />
         }
@@ -115,6 +114,11 @@ let styles = StyleSheet.create({
     color: "red"
   },
   buttonContainer: {
-    marginTop: 10
+    marginTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20
+  },
+  button: {
+    color: "#FFF"
   }
 })
