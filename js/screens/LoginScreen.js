@@ -108,7 +108,9 @@ let styles = StyleSheet.create({
   errorContainer: {
     flex: 1,
     alignItems: "center",
-    marginTop: 10
+    marginTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20
   },
   error: {
     color: "red"

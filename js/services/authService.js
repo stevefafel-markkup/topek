@@ -3,18 +3,20 @@ import * as Utils from "../lib/utils"
 
 export default {
   login: async (username, password) => {
-    // mock this for now
-    //var json = await Parse.User.logIn(username, password)
-
-    await Utils.sleep(500);
-    if (username == "dave@markkup.com") {
+    try {
+      var json = await Parse.User.logIn(username, password)
       return {
+        ...json,
         username: username
       }
     }
-    else {
+    catch (e) {
+      let err = e;
+      if (typeof e === "object" && e.message) {
+        err = e.message;
+      }
       return {
-        error: "Incorrect username or password"
+        error: err
       }
     }
   }

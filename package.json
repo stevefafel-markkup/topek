@@ -39,6 +39,9 @@
       "node_modules/(?!react-native|parse|react-redux-propmap|react-navigation)"
     ],
     "collectCoverage": true,
-    "verbose": false
+    "verbose": false,
+    "moduleNameMapper": {
+      "^parse/(.*)": "<rootDir>/__mocks__/parse-$1.js"
+    }
   }
 }

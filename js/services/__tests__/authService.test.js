@@ -1,17 +1,20 @@
+jest.mock("parse/react-native")
+
 import authService from "../authService"
+import mockParse from "parse/react-native"
 
 describe("authService", () => {
 
   it("should login", async () => {
-    var validUsername = "dave@markkup.com"
-    var res = await authService.login(validUsername, "password");
+    const validUsername = mockParse.User.__validUser.username
+    const validPassword = mockParse.User.__validUser.password
+    const res = await authService.login(validUsername, validPassword);
     expect(res.username).toEqual(validUsername)
   })
 
   it("should fail login", async () => {
-    var invalidUsername = "user@markkup.com"
-    var res = await authService.login(invalidUsername, "password");
-    expect(res.error).toEqual("Incorrect username or password")
+    const res = await authService.login("username", "password");
+    expect(res.error).toEqual(mockParse.User.__invalidUsernameError)
   })
 
 });
