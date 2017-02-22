@@ -1,5 +1,6 @@
 import React from "react"
 import { TabNavigator } from "react-navigation"
+import { Platform } from "react-native"
 import TabIcon from "../../components/TabIcon"
 import Styles, { Color, Dims } from "../../styles"
 
@@ -15,9 +16,12 @@ const tabsOptions = {
         inactiveTintColor: Color.tintInactive,
         activeTintColor: Color.tint,
         showIcon: true,
-        showLabel: true,
+        showLabel: Platform.OS === "ios",
         style: {
-            backgroundColor: "#FFF",
+          backgroundColor: "#FFF",
+        },
+        indicatorStyle: {
+          borderBottomColor: Color.tint
         }
     },
     animationEnabled: false,
