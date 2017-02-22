@@ -1,6 +1,6 @@
 import React, { Component, Text } from "react"
 import { Provider } from "react-redux"
-import Api from "./api"
+import Services from "./services"
 import App from "./app"
 import Config from "./config"
 import State from "./state"
@@ -9,7 +9,7 @@ import SplashScreen from "./screens/SplashScreen"
 export default function bootstrap() {
 
   // initialize dependencies
-  Api.initialize();
+  Services.initialize();
 
   // this root components hooks up the state.
   // it also delays rendering the app until state is rehydrated

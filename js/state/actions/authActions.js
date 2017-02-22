@@ -1,6 +1,6 @@
 import * as Types from "../types"
-import Api from "../../api"
 import Validate from "../../lib/validate"
+import authService from "../../services/authService"
 
 export function login(username, password) {
   return async dispatch => {
@@ -12,7 +12,9 @@ export function login(username, password) {
       Validate.isEmail(username, "Email is not valid");
       Validate.notEmpty(password, "Password is required");
 
-      var results = await Api.login(username, password);
+      var results = await authService.login(username, password);
+      if (results.error) throw results.error;
+
       dispatch({type: Types.LOGIN_SUCCESS, payload: {
         ...results
       }});
