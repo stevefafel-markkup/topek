@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as authActions from "../state/actions/authActions"
+import ToolbarButton from "../components/ToolbarButton"
+import { FieldGroup, TouchableField } from "react-native-fields"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
@@ -12,23 +14,22 @@ class Props extends PropMap {
 }
 
 @connectprops(Props)
-export default class MainScreen extends Component {
+export default class SettingsScreen extends Component {
 
   static navigationOptions = {
-    title: "Main"
+    title: "Settings",
+    header: ({ state, setParams, goBack }) => ({
+      left: null,
+      right: <Button title="Done" onPress={() => goBack()} />,
+    })
   }
 
   render() {
     return (
       <View style={Styles.screen}>
-        <Text>Content</Text>
-        <Text>{"Authenticated: " + this.props.isAuthenticated}</Text>
-        <Button
-          onPress={this.props.logoutClick}
-          color={Dims.tint}
-          style={{color: "#FFF"}}
-          title="Log Out"
-        />
+        <FieldGroup>
+          <TouchableField text="Log Out" onPress={this.props.logoutClick} />
+        </FieldGroup>
       </View>
     )
   }

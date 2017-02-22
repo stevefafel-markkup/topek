@@ -1,10 +1,12 @@
 import { StackNavigator } from "react-navigation"
-import MainScreen from "../screens/MainScreen"
+import TabsNav from "./tabs"
+import SettingsScreen from "../screens/SettingsScreen"
 
 export default StackNavigator({
-  Main: { screen: MainScreen }
+  Tabs: { screen: TabsNav },
+  Settings: { screen: SettingsScreen }
 }, {
-  initialRouteName: "Main",
+  initialRouteName: "Tabs",
   headerMode: "screen",
   mode: "modal"
 })

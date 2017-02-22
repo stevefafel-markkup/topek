@@ -1,17 +1,17 @@
 import React, { Component } from "react"
 import { StyleSheet, View, StatusBar, Text } from "react-native"
-import { connect } from "react-redux"
+import { connectprops, PropMap } from "react-redux-propmap"
 import Nav from "./navigation"
 import Styles from "./styles"
 import LoginScreen from "./screens/LoginScreen"
 
-function getState(state) {
-  return { 
-    isAuthenticated: state.auth.isAuthenticated
+class Props extends PropMap {
+  map(props) {
+    props.isAuthenticated = this.state.auth.isAuthenticated;
   }
 }
 
-@connect(getState, null)
+@connectprops(Props)
 class App extends Component {
 
   render() {
