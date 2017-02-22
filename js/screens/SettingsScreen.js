@@ -3,11 +3,12 @@ import { StyleSheet, View, Text, Button } from "react-native"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as authActions from "../state/actions/authActions"
 import ToolbarButton from "../components/ToolbarButton"
-import { FieldGroup, TouchableField } from "react-native-fields"
+import { Field, FieldGroup, TouchableField } from "react-native-fields"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
   map(props) {
+    props.username = this.state.auth.lastUsername;
     props.isAuthenticated = this.state.auth.isAuthenticated;
     props.logoutClick = this.bindEvent(authActions.logout);
   }
@@ -28,6 +29,7 @@ export default class SettingsScreen extends Component {
     return (
       <View style={Styles.screen}>
         <FieldGroup>
+          <Field text={this.props.username} />
           <TouchableField text="Log Out" onPress={this.props.logoutClick} />
         </FieldGroup>
       </View>
