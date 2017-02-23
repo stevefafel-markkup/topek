@@ -22,6 +22,7 @@ export default function(state = initialState, action = {}) {
     case REHYDRATE: {
       if (action.payload["auth"]) {
         state = new AuthRecord().mergeDeep(action.payload["auth"])
+          .setIn(["isAuthenticating"], false)
           .setIn(["error"], null);
       }
       return state;  
