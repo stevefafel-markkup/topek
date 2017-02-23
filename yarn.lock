@@ -2115,10 +2115,6 @@ jest-mock@^18.0.0:
   version "18.0.0"
   resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-18.0.0.tgz#5c248846ea33fa558b526f5312ab4a6765e489b3"
 
-jest-react-native@^18.0.0:
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/jest-react-native/-/jest-react-native-18.0.0.tgz#77dd909f069324599f227c58c61c2e62168726ba"
-
 jest-resolve-dependencies@^18.1.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/jest-resolve-dependencies/-/jest-resolve-dependencies-18.1.0.tgz#8134fb5caf59c9ed842fe0152ab01c52711f1bbb"
@@ -2610,7 +2606,7 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-moment@2.x.x:
+moment@2.x.x, moment@>=2.10.3, moment@^2.17.1:
   version "2.17.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.17.1.tgz#fed9506063f36b10f066c8b59a144d7faebe1d82"
 
@@ -2986,6 +2982,12 @@ react-deep-force-update@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
 
+react-native-calendar@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-calendar/-/react-native-calendar-0.10.0.tgz#05a1d2fcefbdcd29b20cfc7f2536070aaa743724"
+  dependencies:
+    moment ">=2.10.3"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -3213,6 +3215,10 @@ redux-logger@^2.8.1:
   resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-2.8.1.tgz#c00e689ba00342f44858701d76b1d73fbade72bd"
   dependencies:
     deep-diff "0.3.4"
+
+redux-mock-store@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.2.2.tgz#38007dc38f12ca8d965c7521afee5ccacc234d03"
 
 redux-persist@^4.1.1:
   version "4.4.0"
