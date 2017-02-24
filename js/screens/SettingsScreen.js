@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as authActions from "../state/actions/authActions"
-import ToolbarButton from "../components/ToolbarButton"
+import { ToolbarButton } from "../components"
 import { Field, FieldGroup, TouchableField } from "react-native-fields"
 import Styles, { Color, Dims } from "../styles"
 

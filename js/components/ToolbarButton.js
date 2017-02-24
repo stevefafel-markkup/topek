@@ -46,17 +46,17 @@ export default class ToolbarButton extends Component {
   }
 }
 
-ToolbarButton.defaultProps = {
-  name: "user",
-  color: "#000",
-  onPress: null
-}
-
 ToolbarButton.propTypes = {
   name: React.PropTypes.string,
   size: React.PropTypes.number,
   color: React.PropTypes.string,
   onPress: React.PropTypes.func
+}
+
+ToolbarButton.defaultProps = {
+  name: "user",
+  color: "#000",
+  onPress: null
 }
 
 var styles = StyleSheet.create({

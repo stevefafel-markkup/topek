@@ -1,9 +1,9 @@
-import { Record } from "immutable"
+import Immutable from "immutable"
 import { REHYDRATE } from "redux-persist/constants"
 import * as Types from "../types"
 
-const AuthRecord = Record({
-    user: new Record({
+const AuthRecord = Immutable.Record({
+    user: new Immutable.Record({
         email: "",
         token: null
     })(),
@@ -29,32 +29,32 @@ export default function(state = initialState, action = {}) {
     }
 
     case Types.LOGIN_REQUEST: {
-      let nextState = state.setIn(["isAuthenticating"], true)
+      state = state.setIn(["isAuthenticating"], true)
         .setIn(["error"], null);
-      return nextState;
+      return state;
     }
 
     case Types.LOGIN_SUCCESS: {
       const {username} = action.payload;
-      let nextState = state.setIn(["isAuthenticated"], true)
+      state = state.setIn(["isAuthenticated"], true)
         .setIn(["lastUsername"], username)
         .setIn(["isAuthenticating"], false)
         .setIn(["error"], null);
-      return nextState;
+      return state;
     }
 
     case Types.LOGIN_FAILURE: {
       const {error} = action.payload;
-      let nextState = state.setIn(["isAuthenticated"], false)
+      state = state.setIn(["isAuthenticated"], false)
         .setIn(["isAuthenticating"], false)
         .setIn(["error"], error);
-      return nextState;
+      return state;
     }
 
     case Types.LOGOUT_SUCCESS: {
-      let nextState = state.setIn(["isAuthenticated"], false)
+      state = state.setIn(["isAuthenticated"], false)
         .setIn(["error"], null);
-      return nextState;
+      return state;
     }
 
     default:

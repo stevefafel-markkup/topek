@@ -1,3 +1,4 @@
+import { StyleSheet } from "react-native"
 import { Color } from "./theme"
 
 export default {
@@ -8,5 +9,10 @@ export default {
   screen: {
     flex: 1,
     backgroundColor: Color.background
+  },
+
+  separator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: Color.separator
   }
 }

@@ -4,19 +4,21 @@ import Icon from "react-native-vector-icons/Ionicons"
 import Styles, { Color, Dims } from "../styles"
 
 export default class TabIcon extends Component {
+  render() {
+    const { icon, focused } = this.props
 
-    render() {
+    return (<Icon 
+      name={focused ? "ios-" + icon : "ios-" + icon + "-outline"} 
+      size={30} 
+      style={focused ? {color: Color.tint} : {color: Color.tintInactive}}
+    />)
+  }
+}
 
-        const { icon, focused } = this.props
-
-        return (<Icon 
-            name={focused ? "ios-" + icon : "ios-" + icon + "-outline"} 
-            size={26} 
-            style={focused ? {color: Color.tint} : {color: Color.tintInactive}}
-        />)
-    }
+TabIcon.propTypes = {
+  icon: React.PropTypes.string.isRequired,
+  focused: React.PropTypes.bool.isRequired
 }
 
 let styles = StyleSheet.create({
-  
-});
+})

@@ -1,7 +1,7 @@
 import React from "react"
 import { TabNavigator } from "react-navigation"
 import { Platform } from "react-native"
-import TabIcon from "../../components/TabIcon"
+import { TabIcon } from "../../components"
 import Styles, { Color, Dims } from "../../styles"
 
 import TopicsScreen from "../../screens/TopicsScreen"

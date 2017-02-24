@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
 import { connectprops, PropMap } from "react-redux-propmap"
-import ToolbarButton from "../components/ToolbarButton"
+import { ToolbarButton } from "../components"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
