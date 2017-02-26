@@ -4,19 +4,12 @@ import * as Utils from "../lib/utils"
 export default {
   login: async (username, password) => {
     try {
-      var json = await Parse.User.logIn(username, password)
-      return {
-        ...json,
-        username: username
-      }
+      var user = await Parse.User.logIn(username, password);
+      return user;
     }
     catch (e) {
-      let err = e;
-      if (typeof e === "object" && e.message) {
-        err = e.message;
-      }
       return {
-        error: err
+        error: Utils.msgFromError(e)
       }
     }
   }

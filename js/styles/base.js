@@ -14,5 +14,14 @@ export default {
   separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: Color.separator
+  },
+
+  navbar: {
+    backgroundColor: Color.tint
+  },
+
+  navbarTitle: {
+    color: Color.tintNavbar
   }
+
 }

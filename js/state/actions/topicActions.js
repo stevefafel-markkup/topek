@@ -1,6 +1,6 @@
 import * as Types from "../types"
 import Validate from "../../lib/validate"
-import * as utils from "../../lib/utils"
+import * as Utils from "../../lib/utils"
 import topicService from "../../services/topicService"
 
 export function load(username, password) {
@@ -16,7 +16,7 @@ export function load(username, password) {
     }
     catch (e) {
       dispatch({type: Types.TOPIC_FAILURE, payload: {
-        error: utils.msgFromError(e)
+        error: Utils.msgFromError(e)
       }});
     }
   }

@@ -36,7 +36,7 @@ export default class LoginScreen extends Component {
           <Image 
             style={styles.logo}
             resizeMode="contain"
-            source={require("../assets/images/login-image.png")}
+            source={require("../assets/images/login-image-800.png")}
           />
         </View>
 

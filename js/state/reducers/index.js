@@ -1,10 +1,12 @@
 import { combineReducers } from "redux"
-import nav from "./navReducers"
-import auth from "./authReducers"
-import topics from "./topicReducers"
+import nav from "./navReducer"
+import auth from "./authReducer"
+import topics from "./topicReducer"
+import profile from "./profileReducer"
 
 export default combineReducers({
   nav,
   auth,
-  topics
+  topics,
+  profile
 });

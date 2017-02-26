@@ -14,12 +14,8 @@ class TopicsService {
       return data;
     }
     catch (e) {
-      let err = e;
-      if (typeof e === "object" && e.message) {
-        err = e.message;
-      }
       return {
-        error: err
+        error: Utils.msgFromError(e)
       }
     }
   }

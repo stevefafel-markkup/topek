@@ -24,7 +24,7 @@ class App extends Component {
         <StatusBar
           translucent={false}
           backgroundColor="rgba(0, 0, 0, 0.2)"
-          barStyle="dark-content"
+          barStyle="light-content"
           />
         <Nav />
       </View>

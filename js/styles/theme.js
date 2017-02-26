@@ -1,9 +1,11 @@
 const Color = {
     text: "#000",
     background: "white",
-    tint: "rgb(0, 122, 255)",
+    backgroundFields: "rgb(248, 247, 250)",
+    tint: "#EC5C5B",
     tintInactive: "#999",
     separator: "rgba(225, 225, 225, 255)",
+    tintNavbar: "#fff",
     red: "rgb(255, 59, 48)",
     orange: "rgb(255, 149, 0)",
     yellow: "rgb(255, 204, 0)",

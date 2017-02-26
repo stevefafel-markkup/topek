@@ -11,7 +11,7 @@ import ActivityScreen from "../../screens/ActivityScreen"
 import MeScreen from "../../screens/MeScreen"
 
 const tabsOptions = {
-    lazyLoad: true,
+    lazyLoad: false,
     tabBarOptions: {
         inactiveTintColor: Color.tintInactive,
         activeTintColor: Color.tint,

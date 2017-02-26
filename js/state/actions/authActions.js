@@ -1,6 +1,7 @@
 import * as Types from "../types"
 import Validate from "../../lib/validate"
 import authService from "../../services/authService"
+import * as Utils from "../../lib/utils"
 
 export function login(username, password) {
   return async dispatch => {
@@ -15,13 +16,11 @@ export function login(username, password) {
       var results = await authService.login(username, password);
       if (results.error) throw results.error;
 
-      dispatch({type: Types.LOGIN_SUCCESS, payload: {
-        ...results
-      }});
+      dispatch({type: Types.LOGIN_SUCCESS, payload: results});
     }
     catch (e) {
       dispatch({type: Types.LOGIN_FAILURE, payload: {
-        error: e
+        error: Utils.msgFromError(e)
       }});
     }
   }
