@@ -8,6 +8,8 @@ import SplashScreen from "./screens/SplashScreen"
 
 export default function bootstrap() {
 
+  State.purgePersistedState(["nav"]);
+
   // initialize dependencies
   Services.initialize();
 

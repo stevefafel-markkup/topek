@@ -1,9 +1,10 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Image, Animated } from "react-native"
+import { NavbarButton, ToolbarButton } from "../components"
 import CachedImage from "react-native-cached-image"
 import { connectprops, PropMap } from "react-redux-propmap"
-import { ToolbarButton } from "../components"
 import Layout from "../lib/Layout"
+import * as authActions from "../state/actions/authActions"
 import { Field, FieldGroup, TouchableField, InputField } from "react-native-fields"
 import Styles, { Color, Dims } from "../styles"
 
@@ -12,7 +13,7 @@ let AnimatedCachedImage = Animated.createAnimatedComponent(CachedImage)
 class Props extends PropMap {
   map(props) {
     props.user = this.state.profile.user;
-    props.isAuthenticated = this.state.auth.isAuthenticated;
+    props.logoutClick = this.bindEvent(authActions.logout);
   }
 }
 
@@ -20,9 +21,10 @@ class Props extends PropMap {
 export default class MeScreen extends Component {
 
   static navigationOptions = {
-    title: "Me",
-    header: ({ state, setParams, navigate }) => ({
-      right: <ToolbarButton name="settings" color={Color.tintNavbar} onPress={() => navigate("Settings")} />,
+    title: "",
+    header: (navigation, defaultHeader) => ({
+      ...defaultHeader,
+      visible: false
     })
   }
 
@@ -35,6 +37,8 @@ export default class MeScreen extends Component {
 
   render() {
     let { scrollY } = this.state;
+
+    const {navigate} = this.props.navigation;
 
     return (
       <View style={Styles.screen}>
@@ -52,9 +56,38 @@ export default class MeScreen extends Component {
               <FieldGroup>
                 <InputField label="Email" value={this.props.user.email} editable={false} />
               </FieldGroup>
+              <FieldGroup>
+                <TouchableField text="Settings" onPress={() => navigate("SettingsStack")} />
+                <TouchableField text="Log Out" onPress={this.props.logoutClick} />
+              </FieldGroup>
             </View>
           </Animated.ScrollView>
         </View>
+        {this._renderNavbar()}
+      </View>
+    )
+  }
+
+  _renderNavbar() {
+    let { scrollY } = this.state;
+
+    let titleOpacity = scrollY.interpolate({
+      inputRange: [-200, 0, 300],
+      outputRange: [0, 0, 1],
+    });
+
+    const {navigate} = this.props.navigation;
+
+    return (
+      <View style={styles.navbar}>
+        <View style={styles.navbarTextContainer}>
+          <Animated.Text style={[styles.navbarText, {opacity: titleOpacity}]}>{this.props.user.name}</Animated.Text>
+        </View>
+        <ToolbarButton 
+          name="more" 
+          color={Color.tintNavbar} 
+          style={styles.navbarButton}
+          onPress={() => navigate("ProfileEditStack")} /> 
       </View>
     )
   }
@@ -72,8 +105,13 @@ export default class MeScreen extends Component {
       outputRange: [40, 0, -40],
     });
 
-    let opacity = scrollY.interpolate({
-      inputRange: [-200, 0, 200],
+    let imgOpacity = scrollY.interpolate({
+      inputRange: [-200, 0, 100],
+      outputRange: [1, 1, 0],
+    });
+
+    let infoOpacity = scrollY.interpolate({
+      inputRange: [-200, 0, 150],
       outputRange: [1, 1, 0],
     });
 
@@ -102,11 +140,10 @@ export default class MeScreen extends Component {
         <View style={styles.header}>
           <AnimatedCachedImage
             source={avatarSource}
-            xdefaultSource={require("../assets/images/circle-user-man-512.png")}
-            style={[styles.avatar, {opacity: opacity, transform: [{scale: imgScale}, {translateY: imgTranslateY}]}]}
+            style={[styles.avatar, {opacity: imgOpacity, transform: [{scale: imgScale}, {translateY: imgTranslateY}]}]}
             resizeMode="contain"
           />
-          <Animated.View style={[styles.headerBottomContainer, {transform: [{translateY: bottomTranslateY}], opacity: opacity}]}>
+          <Animated.View style={[styles.headerBottomContainer, {transform: [{translateY: bottomTranslateY}], opacity: infoOpacity}]}>
             <Text style={styles.headerLine1}>{this.props.user.name}</Text>
             <Text style={styles.headerLine2}>{"@" + this.props.user.alias}</Text>
           </Animated.View>
@@ -116,9 +153,38 @@ export default class MeScreen extends Component {
   }
 }
 
-const HeaderHeight = 200;
+const HeaderHeight = 240;
 
 let styles = StyleSheet.create({
+  navbar: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 64,
+    backgroundColor: Color.tint
+  },
+  navbarButton: {
+    position: "absolute",
+    right: 0,
+    top: 22,
+    width: 50,
+    zIndex: 1000
+  },
+  navbarTextContainer: {
+    position: "absolute",
+    top: 20,
+    left: 0,
+    right: 0
+  },
+  navbarText: {
+    flex: 1,
+    textAlign: "center",
+    fontSize: 17,
+    fontWeight: "600",
+    color: Color.tintNavbar,
+    paddingTop: 12
+  },
   animatedContainer: {
     flex: 1,
     flexDirection: "column", 
@@ -152,6 +218,7 @@ let styles = StyleSheet.create({
   },
   headerLine1: {
     fontSize: 18,
+    fontWeight: "600",
     color: "white"
   },
   headerLine2: {
@@ -166,7 +233,7 @@ let styles = StyleSheet.create({
     height: 100, 
     resizeMode: "contain", 
     borderRadius: 50,
-    marginTop: -150,
+    marginTop: -100,
     backgroundColor: "rgba(255, 255, 255, 0.1)"
   }
 })

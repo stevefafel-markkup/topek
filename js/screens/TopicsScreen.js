@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Button, ListView, TouchableHighlight, RefreshControl } from "react-native"
-import { ErrorHeader } from "../components"
+import { ErrorHeader, ToolbarButton } from "../components"
 import Immutable from "immutable"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as topicActions from "../state/actions/topicActions"
@@ -21,7 +21,11 @@ class Props extends PropMap {
 export default class TopicsScreen extends Component {
 
   static navigationOptions = {
-    title: "Topics"
+    title: "Topics",
+    header: (navigation, defaultHeader) => ({
+      ...defaultHeader,
+      right: <ToolbarButton name="add" color={Color.tintNavbar} onPress={() => navigation.navigate("TopicAddStack")} />,
+    })
   }
 
   constructor(props) {

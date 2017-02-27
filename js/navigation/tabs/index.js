@@ -1,16 +1,17 @@
 import React from "react"
-import { TabNavigator } from "react-navigation"
+import { TabNavigator, StackNavigator } from "react-navigation"
 import { Platform } from "react-native"
 import { TabIcon } from "../../components"
 import Styles, { Color, Dims } from "../../styles"
 
-import TopicsScreen from "../../screens/TopicsScreen"
-import CalendarScreen from "../../screens/CalendarScreen"
-import TasksScreen from "../../screens/TasksScreen"
-import ActivityScreen from "../../screens/ActivityScreen"
-import MeScreen from "../../screens/MeScreen"
+import TopicsTab from "./TopicsTab"
+import CalendarTab from "./CalendarTab"
+import TasksTab from "./TasksTab"
+import ActivityTab from "./ActivityTab"
+import MeTab from "./MeTab"
 
 const tabsOptions = {
+    initialRouteName: "Topics",
     lazyLoad: false,
     tabBarOptions: {
         inactiveTintColor: Color.tintInactive,
@@ -28,9 +29,9 @@ const tabsOptions = {
 }
 
 export default TabNavigator({
-  Topics: { screen: TopicsScreen, navigationOptions: { tabBar: { label: "Topics", icon: (props) => (<TabIcon {...props} icon="analytics" />) }}},
-  Calendar: { screen: CalendarScreen, navigationOptions: { tabBar: { label: "Calendar", icon: (props) => (<TabIcon {...props} icon="calendar" />) }}},
-  Tasks: { screen: TasksScreen, navigationOptions: { tabBar: { label: "Tasks", icon: (props) => (<TabIcon {...props} icon="checkbox" />) }}},
-  Activity: { screen: ActivityScreen, navigationOptions: { tabBar: { label: "Activity", icon: (props) => (<TabIcon {...props} icon="pulse" />) }}},
-  Me: { screen: MeScreen, navigationOptions: { tabBar: { label: "Me", icon: (props) => (<TabIcon {...props} icon="contact" />) }}},
+  Topics: { screen: TopicsTab, navigationOptions: { tabBar: { label: "Topics", icon: (props) => (<TabIcon {...props} icon="analytics" />) }}},
+  Calendar: { screen: CalendarTab, navigationOptions: { tabBar: { label: "Calendar", icon: (props) => (<TabIcon {...props} icon="calendar" />) }}},
+  Tasks: { screen: TasksTab, navigationOptions: { tabBar: { label: "Tasks", icon: (props) => (<TabIcon {...props} icon="checkbox" />) }}},
+  Activity: { screen: ActivityTab, navigationOptions: { tabBar: { label: "Activity", icon: (props) => (<TabIcon {...props} icon="pulse" />) }}},
+  Me: { screen: MeTab, navigationOptions: { tabBar: { label: "Me", icon: (props) => (<TabIcon {...props} icon="contact" />) }}},
 }, tabsOptions);

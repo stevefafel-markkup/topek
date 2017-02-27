@@ -15,14 +15,13 @@ class Props extends PropMap {
 }
 
 @connectprops(Props)
-export default class SettingsScreen extends Component {
+export default class ProfileEditScreen extends Component {
 
   static navigationOptions = {
-    title: "Settings",
+    title: "Edit Profile",
     header: (navigation, defaultHeader) => ({
       ...defaultHeader,
-      right: <NavbarButton title="Close" color={Color.tint} onPress={() => navigation.goBack(null)} />,
-      visible: true
+      right: <NavbarButton title="Close" color={Color.tint} onPress={() => navigation.goBack(null)} />
     })
   }
 

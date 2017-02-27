@@ -1,21 +1,14 @@
 import { StackNavigator } from "react-navigation"
-import Styles, { Color, Dims } from "../styles"
 import TabsNav from "./tabs"
-import SettingsScreen from "../screens/SettingsScreen"
+import { SettingsStack, TopicAddStack, ProfileEditStack } from "./modals"
 
 export default StackNavigator({
   Tabs: { screen: TabsNav },
-  Settings: { screen: SettingsScreen }
+  SettingsStack: { screen: SettingsStack },
+  TopicAddStack: { screen: TopicAddStack },
+  ProfileEditStack: { screen: ProfileEditStack },
 }, {
   initialRouteName: "Tabs",
-  headerMode: "screen",
-  mode: "modal",
-  navigationOptions: {
-    header: (_, defaultHeader) => ({
-      ...defaultHeader,
-      style: Styles.navbar,
-      titleStyle: Styles.navbarTitle,
-      tintColor: Color.white
-    })
-  }
+  headerMode: "none",
+  mode: "modal"
 })

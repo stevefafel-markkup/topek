@@ -6,6 +6,7 @@ const Color = {
     tintInactive: "#999",
     separator: "rgba(225, 225, 225, 255)",
     tintNavbar: "#fff",
+    white: "rgb(255, 255, 255)",
     red: "rgb(255, 59, 48)",
     orange: "rgb(255, 149, 0)",
     yellow: "rgb(255, 204, 0)",

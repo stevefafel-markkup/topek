@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Button } from "react-native"
 import { NavbarButton } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as authActions from "../state/actions/authActions"
-import { Field, FieldGroup, TouchableField } from "react-native-fields"
+import { InputField, Field, FieldGroup, TouchableField } from "react-native-fields"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
@@ -15,22 +15,24 @@ class Props extends PropMap {
 }
 
 @connectprops(Props)
-export default class SettingsScreen extends Component {
+export default class TopicAddScreen extends Component {
 
   static navigationOptions = {
-    title: "Settings",
+    title: "Add a Topic",
     header: (navigation, defaultHeader) => ({
       ...defaultHeader,
-      right: <NavbarButton title="Close" color={Color.tint} onPress={() => navigation.goBack(null)} />,
-      visible: true
+      right: <NavbarButton title="Cancel" color={Color.tint} onPress={() => navigation.goBack(null)} />
     })
   }
 
   render() {
+    const { navigate, goBack } = this.props.navigation;
     return (
       <View style={Styles.screenFields}>
         <FieldGroup>
-          <Field text="TBD" />
+          <InputField label="Title" />
+          <TouchableField text="Save" onPress={() => goBack(null)} />
+          {/*<TouchableField text="Next" onPress={() => navigate("SecondScreen")} />*/}
         </FieldGroup>
       </View>
     )

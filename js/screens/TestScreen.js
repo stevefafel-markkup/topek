@@ -1,3 +1,4 @@
+
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
 import { NavbarButton } from "../components"
@@ -9,28 +10,25 @@ import Styles, { Color, Dims } from "../styles"
 class Props extends PropMap {
   map(props) {
     props.user = this.state.profile.user;
-    props.isAuthenticated = this.state.auth.isAuthenticated;
-    props.logoutClick = this.bindEvent(authActions.logout);
   }
 }
 
 @connectprops(Props)
-export default class SettingsScreen extends Component {
+export default class TestScreen extends Component {
 
   static navigationOptions = {
-    title: "Settings",
+    title: "Test Screen",
     header: (navigation, defaultHeader) => ({
       ...defaultHeader,
-      right: <NavbarButton title="Close" color={Color.tint} onPress={() => navigation.goBack(null)} />,
-      visible: true
+      right: <NavbarButton title="Done" onPress={() => navigation.goBack(null)} />
     })
   }
 
   render() {
     return (
-      <View style={Styles.screenFields}>
+      <View style={Styles.screen}>
         <FieldGroup>
-          <Field text="TBD" />
+          <TouchableField text="Test Something" onPress={() => {}} />
         </FieldGroup>
       </View>
     )

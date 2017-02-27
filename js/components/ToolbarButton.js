@@ -11,11 +11,15 @@ export default class ToolbarButton extends Component {
 
     switch (this.props.name) {
       case "arrow-back": {
-        icon = (<IonIcon name="ios-arrow-back" size={20} color={this.props.color} style={styles.icon} />);
+        icon = (<IonIcon name="ios-arrow-back" size={20} color={this.props.color} style={[styles.icon,...this.props.style]} />);
         break;
       }
       case "add": {
-        icon = (<IonIcon name="ios-add" size={40} color={this.props.color} style={{marginTop:-9}} />);
+        icon = (<IonIcon name="ios-add" size={36} color={this.props.color} style={{marginBottom:-2}} />);
+        break;
+      }
+      case "more": {
+        icon = (<IonIcon name="ios-more-outline" size={36} color={this.props.color} style={styles.icon} />);
         break;
       }
       case "close": {
@@ -37,8 +41,8 @@ export default class ToolbarButton extends Component {
     }
 
     return (
-      <TouchableOpacity underlayColor="#3C5EAE" onPress={this.props.onPress}>
-        <View style={[styles.container, {}]}>
+      <TouchableOpacity style={[styles.touchable, this.props.style]} underlayColor="#3C5EAE" onPress={this.props.onPress}>
+        <View style={styles.container}>
             {icon}
         </View>
       </TouchableOpacity>
@@ -60,6 +64,9 @@ ToolbarButton.defaultProps = {
 }
 
 var styles = StyleSheet.create({
+  touchable: {
+
+  },
   container: {
     padding: 0,
     paddingHorizontal: 8,

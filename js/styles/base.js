@@ -11,6 +11,11 @@ export default {
     backgroundColor: Color.background
   },
 
+  screenFields: {
+    flex: 1,
+    backgroundColor: Color.backgroundFields
+  },
+
   separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: Color.separator
@@ -22,6 +27,14 @@ export default {
 
   navbarTitle: {
     color: Color.tintNavbar
+  },
+
+  navbarModal: {
+    backgroundColor: Color.white
+  },
+
+  navbarTitleModal: {
+    color: Color.tint
   }
 
 }

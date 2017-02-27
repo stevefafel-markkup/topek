@@ -1,5 +1,5 @@
 import { applyMiddleware, createStore, compose } from "redux"
-import { persistStore, autoRehydrate } from "redux-persist"
+import { persistStore, autoRehydrate, purgeStoredState } from "redux-persist"
 import { AsyncStorage } from "react-native"
 import thunkMiddleware from "redux-thunk"
 import createLogger from "redux-logger"
@@ -22,5 +22,13 @@ export default {
       if (cb)
           cb();
     });
-  } 
+  },
+
+  purgePersistedState: (keys) => {
+    purgeStoredState({storage: AsyncStorage}, keys).then(() => {
+      console.log("purge completed")
+    }).catch(() => {
+      console.log("purge of someReducer failed")
+    })
+  }
 } 
