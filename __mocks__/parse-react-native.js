@@ -14,7 +14,9 @@ export default {
         throw {
           message: user.error
         } 
-      return {}
+      return {
+        username: user.username
+      }
     }, 
     __validUser: {
       username: "user@email.com",

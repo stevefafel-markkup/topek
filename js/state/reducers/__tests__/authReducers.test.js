@@ -1,6 +1,6 @@
 import * as Types from "../../types"
 import { REHYDRATE } from "redux-persist/constants"
-import reducer from "../authReducers"
+import reducer from "../authReducer"
 
 describe("authReducer", () => {
 
