@@ -72,7 +72,7 @@ export default class MeScreen extends Component {
     let { scrollY } = this.state;
 
     let titleOpacity = scrollY.interpolate({
-      inputRange: [-200, 0, 300],
+      inputRange: [-200, 0, 100],
       outputRange: [0, 0, 1],
     });
 
@@ -117,7 +117,7 @@ export default class MeScreen extends Component {
 
     let bottomTranslateY = scrollY.interpolate({
       inputRange: [-150, 0, 150],
-      outputRange: [120, 0, -120],
+      outputRange: [120, 0, -220],
     });
 
     let headerBackgroundTranslateY = scrollY.interpolate({
