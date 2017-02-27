@@ -1,16 +1,16 @@
 import React, { Component } from "react"
-import { StyleSheet, View, Text, Button } from "react-native"
-import { NavbarButton } from "../components"
+import { StyleSheet, View, Text, Button, StatusBar, TouchableHighlight } from "react-native"
+import { NavbarButton, ErrorHeader, FieldButton } from "../components"
+import { Form, InputField, Field, FieldGroup, TouchableField } from "react-native-fields"
 import { connectprops, PropMap } from "react-redux-propmap"
-import * as authActions from "../state/actions/authActions"
-import { InputField, Field, FieldGroup, TouchableField } from "react-native-fields"
+import * as topicActions from "../state/actions/topicActions"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
   map(props) {
-    props.user = this.state.profile.user;
-    props.isAuthenticated = this.state.auth.isAuthenticated;
-    props.logoutClick = this.bindEvent(authActions.logout);
+    props.isUpdating = this.state.topics.isUpdating;
+    props.updateError = this.state.topics.updateError;
+    props.saveClick = this.bindEvent(topicActions.add);
   }
 }
 
@@ -18,24 +18,65 @@ class Props extends PropMap {
 export default class TopicAddScreen extends Component {
 
   static navigationOptions = {
-    title: "Add a Topic",
+    title: "Add a New Topic",
     header: (navigation, defaultHeader) => ({
       ...defaultHeader,
       right: <NavbarButton title="Cancel" color={Color.tint} onPress={() => navigation.goBack(null)} />
     })
   }
 
+  constructor(props){
+    super(props);
+    this.state = {
+      title: ""
+    }
+  }
+
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
       <View style={Styles.screenFields}>
-        <FieldGroup>
-          <InputField label="Title" />
-          <TouchableField text="Save" onPress={() => goBack(null)} />
-          {/*<TouchableField text="Next" onPress={() => navigate("SecondScreen")} />*/}
-        </FieldGroup>
+
+        <StatusBar barStyle="dark-content" />
+        { this.props.updateError && <ErrorHeader text={this.props.updateError} /> }
+        
+        <Form
+          ref="form"
+          onChange={this._handleFormChange.bind(this)}>
+        
+          <FieldGroup>
+
+            <InputField 
+              ref="title"
+              placeholder="Type a title" 
+              returnKeyType="done"
+              onSubmitEditing={(event) => {}}
+            />
+
+            {/*<TouchableField text="Save" onPress={this._saveTopic.bind(this)} />*/}
+            {/*<TouchableField text="Next" onPress={() => navigate("SecondScreen")} />*/}
+          </FieldGroup>
+
+          <FieldButton 
+            title="Save Topic" 
+            disabled={this.props.isUpdating}
+            onPress={this._saveTopic.bind(this)} />
+
+        </Form>
+
       </View>
     )
+  }
+
+  _handleFormChange(data) {
+    this.setState({
+      title: data.title
+    })
+  }
+
+  async _saveTopic() {
+    if (await this.props.saveClick(this.state.title))
+      this.props.navigation.goBack(null);
   }
 }
 
