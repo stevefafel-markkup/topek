@@ -1,14 +1,11 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Image, Animated } from "react-native"
-import { NavbarButton, ToolbarButton } from "../components"
-import CachedImage from "react-native-cached-image"
+import { NavbarButton, ToolbarButton, AvatarImage } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
 import Layout from "../lib/Layout"
 import * as authActions from "../state/actions/authActions"
-import { Field, FieldGroup, TouchableField, InputField } from "react-native-fields"
+import { Field, FieldGroup, TouchableField, InputField } from "../react-native-fieldsX"
 import Styles, { Color, Dims } from "../styles"
-
-let AnimatedCachedImage = Animated.createAnimatedComponent(CachedImage)
 
 class Props extends PropMap {
   map(props) {
@@ -138,11 +135,13 @@ export default class MeScreen extends Component {
           style={[styles.headerBackground, { transform: [{translateY: headerBackgroundTranslateY}] }]}
          />
         <View style={styles.header}>
-          <AnimatedCachedImage
-            source={avatarSource}
-            style={[styles.avatar, {opacity: imgOpacity, transform: [{scale: imgScale}, {translateY: imgTranslateY}]}]}
-            resizeMode="contain"
-          />
+          <Animated.View
+            style={{marginTop: -100, opacity: imgOpacity, transform: [{scale: imgScale}, {translateY: imgTranslateY}]}}>
+            <AvatarImage
+              source={avatarSource}
+              size={100}
+            />
+          </Animated.View>
           <Animated.View style={[styles.headerBottomContainer, {transform: [{translateY: bottomTranslateY}], opacity: infoOpacity}]}>
             <Text style={styles.headerLine1}>{this.props.user.name}</Text>
             <Text style={styles.headerLine2}>{"@" + this.props.user.alias}</Text>
@@ -234,6 +233,6 @@ let styles = StyleSheet.create({
     resizeMode: "contain", 
     borderRadius: 50,
     marginTop: -100,
-    backgroundColor: "rgba(255, 255, 255, 0.1)"
+    backgroundColor: "rgba(255, 255, 255, 0.0)"
   }
 })
