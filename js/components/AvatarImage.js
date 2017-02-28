@@ -7,8 +7,20 @@ import Styles, { Color, Dims } from "../styles"
 export default class AvatarImage extends Component {
   render() {
 
+    const { source, user } = this.props;
+
     let darkBg = Platform.OS === "ios" ? "rgba(0, 0, 0, 0.2)" : "rgba(255, 255, 255, 0.0)";
     let lightBg = Platform.OS === "ios" ? "rgba(255, 255, 255, 0.3)" : "rgba(255, 255, 255, 0.0)";
+
+    let avatarSource = source;
+    if (avatarSource == null && user != null) {
+      if (user.avatar.valid) {
+        avatarSource = {
+          uri: user.avatar.url
+        }
+      }
+      else avatarSource = require("../assets/images/circle-user-man-512.png")
+    }
 
     const style = {
       width: this.props.size, 
@@ -18,7 +30,7 @@ export default class AvatarImage extends Component {
     }
 
     return (<CachedImage
-              source={this.props.source}
+              source={avatarSource}
               style={[style, this.props.style]}
             />)
   }
@@ -28,13 +40,16 @@ AvatarImage.propTypes = {
   source: React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.number
-  ]).isRequired,
+  ]),
+  user: React.PropTypes.object,
   size: React.PropTypes.number,
   background: React.PropTypes.string
 }
 
 AvatarImage.defaultProps = {
-  size: 30,
+  source: null,
+  user: null,
+  size: 25,
   background: "light" // dark
 }
 

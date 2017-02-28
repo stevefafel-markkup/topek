@@ -22,7 +22,8 @@ export default {
   },
 
   navbar: {
-    backgroundColor: Color.tint
+    backgroundColor: Color.tint,
+    shadowColor: "transparent"
   },
 
   navbarTitle: {

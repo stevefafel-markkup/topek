@@ -3,9 +3,11 @@ import { StackNavigator } from "react-navigation"
 import Styles, { Color, Dims } from "../../styles"
 
 import TopicsScreen from "../../screens/TopicsScreen"
+import TopicDetailsScreen from "../../screens/TopicDetailsScreen"
 
 export default TopicsStack = StackNavigator({
-  Topics: { screen: TopicsScreen }
+  Topics: { screen: TopicsScreen },
+  TopicDetails: { screen: TopicDetailsScreen }
 }, {
   headerMode: "float",
   navigationOptions: {

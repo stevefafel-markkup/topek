@@ -3,9 +3,10 @@ import Validate from "../../lib/validate"
 import * as Utils from "../../lib/utils"
 import topicService from "../../services/topicService"
 
-export function load() {
+export function load(skipRequest = true) {
   return async (dispatch, getState) => {
-    dispatch({type: Types.TOPICS_REQUEST});
+    if (!skipRequest) 
+      dispatch({type: Types.TOPICS_REQUEST});
     
     try {
       var results = await topicService.load();
@@ -23,7 +24,7 @@ export function load() {
 
 export function add(title) {
   return async (dispatch, getState) => {
-    dispatch({type: Types.TOPIC_ADD_REQUEST});
+    dispatch({type: Types.TOPICS_UPDATE_REQUEST});
     
     try {
       Validate.notEmpty(title, "Title is required");
@@ -31,11 +32,31 @@ export function add(title) {
       var results = await topicService.add(title);
       if (results.error) throw results.error;
 
-      dispatch({type: Types.TOPIC_ADD_SUCCESS, payload: results});
+      dispatch({type: Types.TOPICS_ADD_SUCCESS, payload: results});
       return true;
     }
     catch (e) {
-      dispatch({type: Types.TOPIC_ADD_FAILURE, payload: {
+      dispatch({type: Types.TOPICS_UPDATE_FAILURE, payload: {
+        error: Utils.msgFromError(e)
+      }});
+    }
+    return false;
+  }
+}
+
+export function destroy(id) {
+  return async (dispatch, getState) => {
+    dispatch({type: Types.TOPICS_UPDATE_REQUEST});
+    
+    try {
+      var results = await topicService.destroy(id);
+      if (results.error) throw results.error;
+
+      dispatch({type: Types.TOPICS_REMOVE_SUCCESS, payload: results});
+      return true;
+    }
+    catch (e) {
+      dispatch({type: Types.TOPICS_UPDATE_FAILURE, payload: {
         error: Utils.msgFromError(e)
       }});
     }

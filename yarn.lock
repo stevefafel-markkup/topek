@@ -2994,6 +2994,10 @@ react-deep-force-update@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
 
+react-native-actionsheet@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-actionsheet/-/react-native-actionsheet-2.0.5.tgz#dcb9df969cc44a45d9d5a92aa555ad72fc567201"
+
 react-native-cached-image@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/react-native-cached-image/-/react-native-cached-image-1.2.5.tgz#1c4fda0148777bd9defcff6eea149043bb2ac5f3"
@@ -3030,6 +3034,10 @@ react-native-fs@2.1.0-rc.1:
   dependencies:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
+
+react-native-loading-spinner-overlay@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-loading-spinner-overlay/-/react-native-loading-spinner-overlay-0.4.1.tgz#f1ebc7df6a7f8b9d06588fb51b5554565bb3cddb"
 
 react-native-tab-view@^0.0.56:
   version "0.0.56"

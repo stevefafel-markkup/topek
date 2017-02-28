@@ -36,11 +36,6 @@ export default class TopicsScreen extends Component {
     };
   }
 
-  componentDidMount() {
-    // TBD this shouldn't be done here
-    this.props.loadTopics();
-  }
-
   componentWillReceiveProps(nextProps) {
     if (!Immutable.is(this.props.topics, nextProps.topics)) {
       this.setState({
@@ -71,7 +66,9 @@ export default class TopicsScreen extends Component {
 
   _renderRow(topic, sectionID, rowID, highlightRow) {
     const {navigate} = this.props.navigation;
-    var onPress = () => { };
+    var onPress = () => { 
+      navigate("TopicDetails", {topic: topic})
+    };
     return (
       <TouchableHighlight onPress={onPress} underlayColor="#eee">
         <View style={styles.row}>

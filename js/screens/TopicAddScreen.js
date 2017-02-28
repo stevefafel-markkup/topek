@@ -48,7 +48,9 @@ export default class TopicAddScreen extends Component {
 
             <InputField 
               ref="title"
-              placeholder="Type a title" 
+              multiline={true}
+              height={85}
+              placeholder="Title" 
               returnKeyType="done"
               onSubmitEditing={(event) => {}}
             />

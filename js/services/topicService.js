@@ -43,6 +43,28 @@ class TopicService {
     }
   }
 
+  async destroy(id) {
+
+    await InteractionManager.runAfterInteractions();
+
+    try {
+
+      const Topic = Parse.Object.extend("Topic");
+
+      let topic = new Topic();
+      topic.set("id", id);
+
+      const result = await topic.destroy();
+      return id;
+    }
+    catch (e) {
+      return {
+        error: Utils.msgFromError(e)
+      }
+    }
+
+  }
+
 }
 
 export default new TopicService()

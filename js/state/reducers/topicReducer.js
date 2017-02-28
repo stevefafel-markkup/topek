@@ -3,7 +3,7 @@ import Immutable from "immutable"
 import { REHYDRATE } from "redux-persist/constants"
 import * as Types from "../types"
 
-const isPersistable = false;
+const isPersistable = true;
 const TopicState = Immutable.Record({
   list: new TopicMap(),
   isRefreshing: false,
@@ -21,13 +21,11 @@ export default function(state = initialState, action = {}) {
     case REHYDRATE: {
       if (action.payload["topics"]) {
         if (isPersistable) {
-          state = {...state, 
-            list: TopicMap(action.payload["topics"].list), 
-            isRefreshing: false, 
-            isUpdating: false, 
-            loadError: null,
-            updateError: null
-          }
+          state = new TopicState().set("list", new TopicMap(action.payload["topics"].list))
+            .set("isUpdating", false)
+            .set("updateError", null)
+            .set("isRefreshing", false)
+            .set("loadError", null);
         }
         else state = new TopicState();
       }
@@ -48,7 +46,7 @@ export default function(state = initialState, action = {}) {
 
     case Types.TOPICS_SUCCESS: {
       const topics = action.payload;
-      state = state.set("list", state.list.merge(TopicMap.fromParse(action.payload)))
+      state = state.set("list", TopicMap.fromParse(action.payload))
         .set("isRefreshing", false)
         .set("loadError", null);
       return state;
@@ -61,21 +59,31 @@ export default function(state = initialState, action = {}) {
       return state;
     }
 
-    case Types.TOPIC_ADD_REQUEST: {
+    case Types.TOPICS_UPDATE_REQUEST: {
       state = state.set("isUpdating", true)
         .set("updateError", null);
       return state;
     }
 
-    case Types.TOPIC_ADD_SUCCESS: {
+    case Types.TOPICS_ADD_SUCCESS: {
       const topic = action.payload;
-      state = state.set("list", state.list.merge(TopicMap.fromParse([action.payload])))
+      //state = state.set("list", state.list.merge(TopicMap.fromParse([action.payload])))
+      state = state.set("list", TopicMap.fromParse([action.payload]).merge(state.list))
+      //state = state.set("list", state.list.set(topic.get("id"), Topic.fromParse(topic)))
         .set("isUpdating", false)
         .set("updateError", null);
       return state;
     }
 
-    case Types.TOPIC_ADD_FAILURE: {
+    case Types.TOPICS_REMOVE_SUCCESS: {
+      const topicId = action.payload;
+      state = state.set("list", state.list.delete(topicId))
+        .set("isUpdating", false)
+        .set("updateError", null);
+      return state;
+    }
+
+    case Types.TOPICS_UPDATE_FAILURE: {
       const {error} = action.payload;
       state = state.set("isUpdating", false)
         .set("updateError", error);

@@ -6,6 +6,8 @@ import Config from "./config"
 import State from "./state"
 import SplashScreen from "./screens/SplashScreen"
 
+import * as topicActions from "./state/actions/topicActions"
+
 export default function bootstrap() {
 
   State.purgePersistedState(["nav"]);
@@ -27,6 +29,9 @@ export default function bootstrap() {
     componentWillMount(){
       State.persistStore(this.state.store, () => {
         this.setState({rehydrated: true})
+
+        // load our initial state
+        this.state.store.dispatch(topicActions.load(true))
       })
     }
 
