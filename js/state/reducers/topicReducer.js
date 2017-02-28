@@ -67,9 +67,7 @@ export default function(state = initialState, action = {}) {
 
     case Types.TOPICS_ADD_SUCCESS: {
       const topic = action.payload;
-      //state = state.set("list", state.list.merge(TopicMap.fromParse([action.payload])))
-      state = state.set("list", TopicMap.fromParse([action.payload]).merge(state.list))
-      //state = state.set("list", state.list.set(topic.get("id"), Topic.fromParse(topic)))
+      state = state.set("list", TopicMap.fromParse([topic]).merge(state.list))
         .set("isUpdating", false)
         .set("updateError", null);
       return state;
