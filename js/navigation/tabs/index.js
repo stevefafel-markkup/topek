@@ -13,6 +13,7 @@ import MeTab from "./MeTab"
 const tabsOptions = {
     initialRouteName: "Topics",
     lazyLoad: false,
+    tabBarPosition: "bottom",
     tabBarOptions: {
         inactiveTintColor: Color.tintInactive,
         activeTintColor: Color.tint,

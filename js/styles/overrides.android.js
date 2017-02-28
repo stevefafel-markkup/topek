@@ -1,5 +1,9 @@
+import { Color, Dims } from "./theme"
+
 export default {
-  screenTop: {
-        paddingTop: 0
-    }
+  navbar: {
+    backgroundColor: Color.tint,
+    paddingTop: 16,
+    height: 64
+  }
 }

@@ -25,8 +25,8 @@ class App extends Component {
     return (
       <View style={Styles.app}>
         <StatusBar
-          translucent={false}
-          backgroundColor="rgba(0, 0, 0, 0.2)"
+          translucent={true}
+          backgroundColor="#00000000"
           barStyle="light-content"
           />
         <Nav navigation={addNavigationHelpers({dispatch: this.props.dispatch, state: this.props.nav})} />
