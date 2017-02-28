@@ -16,11 +16,11 @@ export default class FieldButton extends Component {
     }
 
     return (<TouchableHighlight 
-              underlayColor={Color.tint} 
+              underlayColor={this.props.color} 
               activeOpacity={0.6} 
               disabled={disabled}
               onPress={onPress} 
-              style={styles.button}>
+              style={[styles.button, {backgroundColor:this.props.color}]}>
               <View 
                 style={[styles.overlay, overlayStyle]}>
                 <Text 
@@ -35,16 +35,17 @@ export default class FieldButton extends Component {
 FieldButton.propTypes = {
   title: React.PropTypes.string.isRequired,
   onPress: React.PropTypes.func.isRequired,
-  disabled: React.PropTypes.bool
+  disabled: React.PropTypes.bool,
+  color: React.PropTypes.string
 }
 
 FieldButton.defaultProps = {
-  disabled: false
+  disabled: false,
+  color: Color.tint
 }
 
 let styles = StyleSheet.create({
   button: {
-    backgroundColor: Color.tint,
     padding: 0,
     marginHorizontal: 10,
     marginTop: 15,

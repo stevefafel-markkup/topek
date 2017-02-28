@@ -18,20 +18,28 @@ class Props extends PropMap {
 class App extends Component {
 
   render() {
-
-    if (!this.props.isAuthenticated)
-      return <LoginScreen />
-
-    return (
+    if (!this.props.isAuthenticated) {
+      return (
       <View style={Styles.app}>
-        <StatusBar
-          translucent={true}
-          backgroundColor="#00000000"
-          barStyle="light-content"
-          />
+        {this._renderStatusBar()}
+        <LoginScreen />
+      </View>)
+    }
+    else {
+      return (
+      <View style={Styles.app}>
+        {this._renderStatusBar()}
         <Nav navigation={addNavigationHelpers({dispatch: this.props.dispatch, state: this.props.nav})} />
-      </View>
-    )
+      </View>)
+    }
+  }
+
+  _renderStatusBar() {
+    return <StatusBar
+      translucent={true}
+      backgroundColor="#00000000"
+      barStyle="light-content"
+    />
   }
 }
 

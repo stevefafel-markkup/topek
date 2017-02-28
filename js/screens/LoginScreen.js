@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Button, Image, ActivityIndicator } from "react-native"
+import { FieldButton } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap";
 import * as authActions from "../state/actions/authActions"
 import { Form, InputField, KeyboardAwareScrollView, FieldGroup } from "react-native-fields"
@@ -27,7 +28,7 @@ export default class LoginScreen extends Component {
   }
 
   render() {
-    return (<KeyboardAwareScrollView style={Styles.screen} keyboardShouldPersistTaps="always">
+    return (<KeyboardAwareScrollView style={[Styles.screen, styles.screen]} keyboardShouldPersistTaps="always">
       <Form
         ref="loginForm"
         onChange={this._handleFormChange.bind(this)}>
@@ -36,7 +37,7 @@ export default class LoginScreen extends Component {
           <Image 
             style={styles.logo}
             resizeMode="contain"
-            source={require("../assets/images/login-image-800.png")}
+            source={require("../assets/images/app-icon.png")}
           />
         </View>
 
@@ -71,12 +72,15 @@ export default class LoginScreen extends Component {
         </View> }
 
       <View style={styles.buttonContainer}>
+
+        
+
+
         {this.props.isAuthenticating ? <ActivityIndicator /> :
-        <Button
+        <FieldButton 
+          title="Sign In"
+          color="#CC3C3B"
           onPress={() => this._handleFormSubmit()}
-          color={Dims.tint}
-          style={styles.button}
-          title="Log in"
         />
         }
       </View>
@@ -93,6 +97,9 @@ export default class LoginScreen extends Component {
 }
 
 let styles = StyleSheet.create({
+  screen: {
+    backgroundColor: Color.tint
+  },
   logoContainer: {
     flex: 1,
     height: 128,
@@ -113,12 +120,10 @@ let styles = StyleSheet.create({
     paddingRight: 20
   },
   error: {
-    color: "red"
+    color: "#FFFFFFCC"
   },
   buttonContainer: {
-    marginTop: 10,
-    paddingLeft: 20,
-    paddingRight: 20
+    marginTop: 0
   },
   button: {
     color: "#FFF"

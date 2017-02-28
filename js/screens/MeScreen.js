@@ -55,7 +55,7 @@ export default class MeScreen extends Component {
               </FieldGroup>
               <FieldGroup>
                 <TouchableField text="Settings" onPress={() => navigate("SettingsStack")} />
-                <TouchableField text="Log Out" onPress={this.props.logoutClick} />
+                <TouchableField text="Sign Out" onPress={this.props.logoutClick} />
               </FieldGroup>
             </View>
           </Animated.ScrollView>
