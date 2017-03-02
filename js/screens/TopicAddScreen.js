@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Button, StatusBar, TouchableHighlight } from "react-native"
 import { NavbarButton, ErrorHeader, FieldButton } from "../components"
-import { Form, InputField, Field, FieldGroup, TouchableField } from "react-native-fields"
+import { Form, InputField, Field, FieldGroup, TouchableField } from "../react-native-fieldsX"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as topicActions from "../state/actions/topicActions"
 import Styles, { Color, Dims } from "../styles"

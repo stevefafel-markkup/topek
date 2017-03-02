@@ -6,6 +6,7 @@ import * as Types from "../types"
 const isPersistable = true;
 const TopicState = Immutable.Record({
   list: new TopicMap(),
+  selectedTopic: null,
   isRefreshing: false,
   isUpdating: false,
   loadError: null,
@@ -49,6 +50,9 @@ export default function(state = initialState, action = {}) {
       state = state.set("list", TopicMap.fromParse(action.payload))
         .set("isRefreshing", false)
         .set("loadError", null);
+      if (state.selectedTopic) {
+        state.set("selectedTopic", state.find((v, k) => k == state.selectedTopic.id))
+      }
       return state;
     }
 
@@ -65,11 +69,25 @@ export default function(state = initialState, action = {}) {
       return state;
     }
 
+    case Types.TOPICS_UPDATE_SUCCESS: {
+      const topic = action.payload;
+      state = state.set("list", TopicMap.fromParse([topic]).merge(state.list))
+        .set("isUpdating", false)
+        .set("updateError", null);
+      if (state.selectedTopic && state.selectedTopic.id == topic.id) {
+        state = state.set("selectedTopic", Topic.fromParse(topic))
+      }
+      return state;
+    }
+
     case Types.TOPICS_ADD_SUCCESS: {
       const topic = action.payload;
       state = state.set("list", TopicMap.fromParse([topic]).merge(state.list))
         .set("isUpdating", false)
         .set("updateError", null);
+      if (state.selectedTopic && state.selectedTopic.id == topic.id) {
+        state = state.set("selectedTopic", Topic.fromParse(topic))
+      }
       return state;
     }
 
@@ -78,6 +96,9 @@ export default function(state = initialState, action = {}) {
       state = state.set("list", state.list.delete(topicId))
         .set("isUpdating", false)
         .set("updateError", null);
+      if (state.selectedTopic && state.selectedTopic.id == topicId) {
+        state = state.set("selectedTopic", null)
+      }
       return state;
     }
 
@@ -85,6 +106,12 @@ export default function(state = initialState, action = {}) {
       const {error} = action.payload;
       state = state.set("isUpdating", false)
         .set("updateError", error);
+      return state;
+    }
+
+    case Types.TOPICS_SELECT_TOPIC: {
+      const topic = action.payload;
+      state = state.set("selectedTopic", topic);
       return state;
     }
 

@@ -63,3 +63,7 @@ export function destroy(id) {
     return false;
   }
 }
+
+export function setSelected(topic) {
+  return {type: Types.TOPICS_SELECT_TOPIC, payload: topic}
+}

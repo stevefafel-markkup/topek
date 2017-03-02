@@ -23,12 +23,17 @@ export default {
     let subscription = query.subscribe();
     
     subscription.on("create", (topic) => {
-      console.log("Topic dispatch TOPICS_ADD_SUCCESS: ", topic);
+      console.log("LiveQuery(Topic) dispatch TOPICS_ADD_SUCCESS: ", topic);
       dispatch({type: Types.TOPICS_ADD_SUCCESS, payload: topic});
     });
 
+    subscription.on("update", (topic) => {
+      console.log("LiveQuery(Topic) dispatch TOPICS_UPDATE_SUCCESS: ", topic);
+      dispatch({type: Types.TOPICS_UPDATE_SUCCESS, payload: topic});
+    });
+
     subscription.on("delete", (topic) => {
-      console.log("Topic dispatch TOPICS_REMOVE_SUCCESS: ", topic);
+      console.log("LiveQuery(Topic) dispatch TOPICS_REMOVE_SUCCESS: ", topic);
       dispatch({type: Types.TOPICS_REMOVE_SUCCESS, payload: topic.id});
     });
   }

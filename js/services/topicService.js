@@ -7,7 +7,6 @@ class TopicService {
   async load() {
 
     await InteractionManager.runAfterInteractions();
-
     try {
       let query = new Parse.Query("Topic").include("owner").include("members").descending("updatedAt");
       const data = await query.find();
@@ -32,6 +31,19 @@ class TopicService {
       let topic = new Topic();
       topic.set("name", title);
       topic.set("owner", me);
+      topic.set("details", [
+        {
+          type: "event",
+          order: 1,
+          dateStart: new Date(2017, 3, 15, 3, 43, 0),
+          title: "Event starting 3/15/2017"
+        },
+        {
+          type: "info",
+          order: 2,
+          title: "Please bring necessary documentation"
+        }
+      ])
 
       const result = await topic.save();
       return result;

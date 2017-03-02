@@ -14,6 +14,7 @@ class Props extends PropMap {
     props.loadError = this.state.topics.loadError;
     props.loadTopics = this.bindEvent(topicActions.load);
     props.refreshTopics = this.bindEvent(topicActions.load);
+    props.topicSelect = this.bindEvent(topicActions.setSelected);
   }
 }
 
@@ -67,7 +68,8 @@ export default class TopicsScreen extends Component {
   _renderRow(topic, sectionID, rowID, highlightRow) {
     const {navigate} = this.props.navigation;
     var onPress = () => { 
-      navigate("TopicDetails", {topic: topic})
+      this.props.topicSelect(topic)
+      navigate("TopicDetails")
     };
     return (
       <TouchableHighlight onPress={onPress} underlayColor="#eee">

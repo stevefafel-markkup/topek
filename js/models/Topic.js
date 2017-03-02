@@ -6,7 +6,8 @@ const Topic = Immutable.Record({
   createdAt: null,
   updatedAt: null,
   name: "",
-  owner: new User()
+  owner: new User(),
+  details: new Immutable.List()
 })
 
 Topic.fromParse = (topic) => {
@@ -14,7 +15,8 @@ Topic.fromParse = (topic) => {
     .set("id", topic.id)
     .set("createdAt", topic.createdAt)
     .set("updatedAt", topic.updatedAt)
-    .set("name", topic.get("name"));
+    .set("name", topic.get("name"))
+    .set("details", topic.get("details"))
   if (topic.get("owner")) {
     res = res.set("owner", User.fromParse(topic.get("owner")))
   }

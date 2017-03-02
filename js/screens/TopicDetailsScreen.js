@@ -11,7 +11,7 @@ import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
   map(props) {
-    props.topic = this.ownProps.navigation.state.params.topic;
+    props.topic = this.state.topics.selectedTopic;
     props.user = this.state.profile.user;
     props.isUpdating = this.state.topics.isUpdating;
     props.updateError = this.state.topics.updateError;
@@ -26,21 +26,32 @@ export default class TopicDetailsScreen extends Component {
     title: "",
     header: ({state}, defaultHeader) => ({
       ...defaultHeader,
-      right: state.params.rightHeaderButton
+      right: state.params && state.params.rightHeaderButton
     })
   }
 
   componentDidMount() {
-    const params = {
-      rightHeaderButton: <ToolbarButton name="more" color={Color.tintNavbar} onPress={() => this.moreSheet.show()} />
+    if (this.isOwner) {
+      const params = {
+        rightHeaderButton: <ToolbarButton name="more" color={Color.tintNavbar} onPress={() => this.moreSheet.show()} />
+      }
+      this.props.navigation.setParams(params);
     }
-    this.props.navigation.setParams(params);
   }
 
   render() {
     const topic = this.props.topic;
+
+    if (!topic) {
+      return (
+        <View style={Styles.screenFields}>
+          <ErrorHeader text="This topic has been deleted" />
+        </View>
+      )
+    }
+
     return (
-      <View style={Styles.screen}>
+      <View style={Styles.screenFields}>
         <WorkingOverlay visible={this.props.isUpdating} />
         { this.props.updateError && <ErrorHeader text={this.props.updateError} /> }
         <View style={styles.caption}>
@@ -50,9 +61,23 @@ export default class TopicDetailsScreen extends Component {
             <Text style={styles.owner}>{topic.owner.alias}</Text>
           </View>
         </View>
-        <FieldGroup>
-          <TouchableField text="Test Something" onPress={() => {}} />
+
+        <FieldGroup title="Members" link={this.isOwner && "Add"}>
+          <Field>
+            <View style={{flexDirection:"row"}}>
+              <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+              <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+              <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+              <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+            </View>
+          </Field>
         </FieldGroup>
+
+        {this._renderDetails()}
+
+        {/*<View style={{flex: 1, flexDirection:"row", justifyContent: "flex-end", padding: 10}}>
+          <ToolbarButton name="add" color={Color.subtle} onPress={() => {}} />
+        </View>*/}
 
         <ActionSheet 
           ref={(c) => this.moreSheet = c}
@@ -64,6 +89,30 @@ export default class TopicDetailsScreen extends Component {
 
       </View>
     )
+  }
+
+  _renderDetails() {
+    let children = [];
+    const topic = this.props.topic;
+    if (topic.details) {
+      topic.details.map((detail, i) => {
+        children.push(<Field key={detail.type + i} text={detail.title} />)
+      });
+    }
+
+    if (!this.isOwner && children.length == 0)
+      return null;
+
+    return (
+      <FieldGroup title="Details" link={this.isOwner && "Add"}>
+        {children}
+        { this.isOwner && children.length == 0 ? <Field key={-1} text=" " /> : null }
+      </FieldGroup>
+    )
+  }
+
+  get isOwner() {
+    return (this.props.topic.owner.id == this.props.user.id);
   }
 
   async _handleMore(index) {
@@ -78,7 +127,8 @@ let styles = StyleSheet.create({
   caption: {
     backgroundColor: Color.tint,
     paddingHorizontal: Dims.horzPadding,
-    paddingBottom: 15
+    paddingTop: 20,
+    paddingBottom: 25
   },
   captionTitle: {
     color: "white",
@@ -87,7 +137,7 @@ let styles = StyleSheet.create({
   },
   ownerContainer: {
     flexDirection: "row",
-    paddingTop: 8
+    paddingTop: 10
   },
   ownerAvatar: {
   },
