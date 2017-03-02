@@ -1124,7 +1124,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = N33V7Q594B;
 				INFOPLIST_FILE = topek/Info.plist;
@@ -1146,7 +1146,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = N33V7Q594B;
 				INFOPLIST_FILE = topek/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1371,6 +1371,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1393,7 +1394,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = N33V7Q594B;
 				INFOPLIST_FILE = topek/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
