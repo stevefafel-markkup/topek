@@ -1,0 +1,40 @@
+// Export read methods as closures
+ext {
+    readVersionName = this.&readVersionName
+    readBuildCode = this.&readBuildCode
+}
+
+// Read the version and build property values from the version.properties file
+def readVersion() {
+    def versionFile = new File(project.rootDir, 'version.properties')
+    def version = new Properties()
+    def stream
+    try {
+        stream = new FileInputStream(versionFile)
+        version.load(stream)
+    } catch (FileNotFoundException ignore) {
+    } finally {
+        if (stream != null) stream.close()
+    }
+
+    // Defaults in case file is missing
+    if (!version['VERSION_MAJOR']) version['VERSION_MAJOR'] = "1"
+    if (!version['VERSION_MINOR']) version['VERSION_MINOR'] = "0"
+    if (!version['VERSION_PATCH']) version['VERSION_PATCH'] = "0"
+    if (!version['VERSION_BUILD']) version['VERSION_BUILD'] = "0"
+
+    return version
+}
+
+// Returns the version name in the major.minor.patch format
+def readVersionName() {
+    def version = readVersion()
+    return "${version['VERSION_MAJOR']}.${version['VERSION_MINOR']}.${version['VERSION_PATCH']}"
+}
+
+// Returns the version code integer value
+def readBuildCode() {
+    def version = readVersion()
+    def build = version['VERSION_BUILD'] as int
+    return build
+}

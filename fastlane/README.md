@@ -38,14 +38,12 @@ Runs all the tests
 ```
 fastlane ios beta
 ```
-Submit a new Beta Build to HockeyApp
-
-This will also make sure the profile is up to date
+Deploy a new ios version to HockeyApp
 ### ios store
 ```
 fastlane ios store
 ```
-Deploy a new version to the App Store
+Deploy a new ios version to the App Store
 
 ----
 
@@ -59,9 +57,12 @@ Runs all the tests
 ```
 fastlane android beta
 ```
-Submit a new Beta Build to HockeyApp
-
-This will also make sure the profile is up to date
+Deploy a new android version to HockeyApp
+### android store
+```
+fastlane android store
+```
+Deploy a new android version to the Play Store
 
 ----
 

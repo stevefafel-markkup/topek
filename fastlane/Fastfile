@@ -7,7 +7,7 @@
 # All lines starting with a # are ignored when running `fastlane`
 
 # If you want to automatically update fastlane if a new version is available:
-update_fastlane
+#update_fastlane
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
@@ -18,7 +18,6 @@ default_platform :ios
 platform :ios do
   before_all do
     ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
-    
   end
 
   desc "Runs all the tests"
@@ -26,8 +25,7 @@ platform :ios do
     scan
   end
 
-  desc "Submit a new Beta Build to HockeyApp"
-  desc "This will also make sure the profile is up to date"
+  desc "Deploy a new ios version to HockeyApp"
   lane :beta do
     increment_build_number(xcodeproj: "./ios/topek.xcodeproj")
     cert
@@ -37,10 +35,10 @@ platform :ios do
       project: "./ios/topek.xcodeproj",
       configuration: "ReleaseAdhoc")
     hockey(api_token: "59e931660b6041908f0a6d160282439d")
-    slack(message: "Successfully deployed new beta app.")
+    slack(message: "Successfully deployed new ios beta app to HockeyApp.")
   end
 
-  desc "Deploy a new version to the App Store"
+  desc "Deploy a new ios version to the App Store"
   lane :store do
     increment_build_number(xcodeproj: "./ios/topek.xcodeproj")
     #snapshot
@@ -54,14 +52,8 @@ platform :ios do
     # frameit
   end
 
-  # You can define as many lanes as you want
-
   after_all do |lane|
-    # This block is called, only if the executed lane was successful
 
-    # slack(
-    #   message: "Successfully deployed new App Update."
-    # )
   end
 
   error do |lane, exception|
@@ -72,7 +64,6 @@ end
 platform :android do
   before_all do
     ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
-    
   end
 
   desc "Runs all the tests"
@@ -80,25 +71,24 @@ platform :android do
     scan
   end
 
-  desc "Submit a new Beta Build to HockeyApp"
-  desc "This will also make sure the profile is up to date"
+  desc "Deploy a new android version to HockeyApp"
   lane :beta do
-    #increment_build_number(xcodeproj: "./ios/topek.xcodeproj")
+    # https://gist.github.com/boshajones/b7088262cfdd33470381d0c24ff2097c
+    increment_android_version_code(path: "./android/version.properties")
     gradle(task: "assemble", build_type: "Release", project_dir: "android/")
     hockey(api_token: "59e931660b6041908f0a6d160282439d")
-    slack(message: "Successfully deployed new beta app.")
+    slack(message: "Successfully deployed new android beta app to HockeyApp.")
   end
 
+  desc "Deploy a new android version to the Play Store"
+  lane :store do
+    #gradle(task: 'clean', project_dir: "android/") # Clean the Gradle project
+    #gradle(task: "assemble", build_type: "Release", project_dir: "android/") # Build the Release APK
+    #supply(track: "alpha", apk: "android/app/build/outputs/apk/app-release.apk") # Upload the APK to the Play Store (alpha)
+  end
   
-
-  # You can define as many lanes as you want
-
   after_all do |lane|
-    # This block is called, only if the executed lane was successful
 
-    # slack(
-    #   message: "Successfully deployed new App Update."
-    # )
   end
 
   error do |lane, exception|
