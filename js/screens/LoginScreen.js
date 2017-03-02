@@ -28,11 +28,9 @@ export default class LoginScreen extends Component {
   }
 
   render() {
-    return (<KeyboardAwareScrollView style={[Styles.screen, styles.screen]} keyboardShouldPersistTaps="always">
-      <Form
-        ref="loginForm"
-        onChange={this._handleFormChange.bind(this)}>
 
+    return (<KeyboardAwareScrollView style={[Styles.screen, styles.screen]} keyboardShouldPersistTaps="always">
+        
         <View style={styles.logoContainer}>
           <Image 
             style={styles.logo}
@@ -41,54 +39,58 @@ export default class LoginScreen extends Component {
           />
         </View>
 
-        <FieldGroup title="Enter Credentials" ref="group">
-          <InputField
-            ref="username"
-            value={this.props.lastUsername}
-            placeholder="Email"
-            returnKeyType="next"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            spellCheck={false}
-            autoCorrect={false}
-            editable={!this.props.isAuthenticating}
-            onSubmitEditing={() => this.refs.loginForm.refs.group.refs.password.focus()}
+        <View style={styles.formContainer}>
+
+          <Form
+            ref="loginForm"
+            onChange={this._handleFormChange.bind(this)}>
+
+            <FieldGroup title="Enter Credentials" ref="group">
+              <InputField
+                ref="username"
+                value={this.props.lastUsername}
+                placeholder="Email"
+                returnKeyType="next"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                spellCheck={false}
+                autoCorrect={false}
+                editable={!this.props.isAuthenticating}
+                onSubmitEditing={() => this.refs.loginForm.refs.group.refs.password.focus()}
+                />
+              <InputField
+                ref="password"
+                placeholder="Password"
+                secureTextEntry={true}
+                returnKeyType="go"
+                editable={!this.props.isAuthenticating}
+                onSubmitEditing={() => this._handleFormSubmit()} 
+                />
+            </FieldGroup>
+
+          </Form>
+
+          {this.props.error != "" && 
+            <View style={styles.errorContainer}>
+              <Text style={styles.error}>{this.props.error}</Text>
+            </View> }
+
+          <View style={styles.buttonContainer}>
+            {this.props.isAuthenticating ? <ActivityIndicator /> :
+            <FieldButton 
+              title="Sign In"
+              onPress={() => this._handleFormSubmit()}
             />
-          <InputField
-            ref="password"
-            placeholder="Password"
-            secureTextEntry={true}
-            returnKeyType="go"
-            editable={!this.props.isAuthenticating}
-            onSubmitEditing={() => this._handleFormSubmit()} 
-            />
-        </FieldGroup>
+            }
+          </View>
 
-      </Form>
-
-      {this.props.error != "" && 
-        <View style={styles.errorContainer}>
-          <Text style={styles.error}>{this.props.error}</Text>
-        </View> }
-
-      <View style={styles.buttonContainer}>
-
-        
-
-
-        {this.props.isAuthenticating ? <ActivityIndicator /> :
-        <FieldButton 
-          title="Sign In"
-          color="#CC3C3B"
-          onPress={() => this._handleFormSubmit()}
-        />
-        }
-      </View>
-    </KeyboardAwareScrollView>)
+        </View>
+      
+      </KeyboardAwareScrollView>)
   }
 
-  _handleFormChange(formData) {
-    this.setState({username: formData.username, password: formData.password})
+  _handleFormChange(data) {
+    this.setState({username: data.username, password: data.password})
   }
 
   _handleFormSubmit() {
@@ -98,19 +100,26 @@ export default class LoginScreen extends Component {
 
 let styles = StyleSheet.create({
   screen: {
-    backgroundColor: Color.tint
+    flex: 1,
+    backgroundColor: "transparent",
+    flexDirection: "column"
   },
   logoContainer: {
     flex: 1,
-    height: 128,
-    marginTop: 113,
-    marginRight: 120,
-    marginLeft: 120,
-    marginBottom: 80,
+    backgroundColor: Color.tint,
+    paddingTop: 70,
+    paddingRight: 120,
+    paddingLeft: 120,
+    paddingBottom: 70,
     alignItems: "center"
   },
   logo: {
     height: 200
+  },
+  formContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingTop: 20 
   },
   errorContainer: {
     flex: 1,
@@ -120,7 +129,7 @@ let styles = StyleSheet.create({
     paddingRight: 20
   },
   error: {
-    color: "#FFFFFFCC"
+    color: "#FF0000CC"
   },
   buttonContainer: {
     marginTop: 0
