@@ -32,6 +32,9 @@ export default function bootstrap() {
 
         // load our initial state
         this.state.store.dispatch(topicActions.load(true))
+
+        // setup live queries
+        Services.setupLiveQueries(this.state.store.dispatch);
       })
     }
 
