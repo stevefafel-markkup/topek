@@ -26,7 +26,7 @@ platform :ios do
     scan
   end
 
-  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "Submit a new Beta Build to HockeyApp"
   desc "This will also make sure the profile is up to date"
   lane :beta do
     increment_build_number(xcodeproj: "./ios/topek.xcodeproj")
@@ -41,7 +41,7 @@ platform :ios do
   end
 
   desc "Deploy a new version to the App Store"
-  lane :appstore do
+  lane :store do
     increment_build_number(xcodeproj: "./ios/topek.xcodeproj")
     #snapshot
     cert
@@ -53,6 +53,43 @@ platform :ios do
     deliver(force: true)
     # frameit
   end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+
+    # slack(
+    #   message: "Successfully deployed new App Update."
+    # )
+  end
+
+  error do |lane, exception|
+    slack(message: exception.message, success: false)
+  end
+end
+
+platform :android do
+  before_all do
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+    
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    scan
+  end
+
+  desc "Submit a new Beta Build to HockeyApp"
+  desc "This will also make sure the profile is up to date"
+  lane :beta do
+    #increment_build_number(xcodeproj: "./ios/topek.xcodeproj")
+    gradle(task: "assemble", build_type: "Release", project_dir: "android/")
+    hockey(api_token: "59e931660b6041908f0a6d160282439d")
+    slack(message: "Successfully deployed new beta app.")
+  end
+
+  
 
   # You can define as many lanes as you want
 

@@ -38,14 +38,30 @@ Runs all the tests
 ```
 fastlane ios beta
 ```
-Submit a new Beta Build to Apple TestFlight
+Submit a new Beta Build to HockeyApp
 
 This will also make sure the profile is up to date
-### ios appstore
+### ios store
 ```
-fastlane ios appstore
+fastlane ios store
 ```
 Deploy a new version to the App Store
+
+----
+
+## Android
+### android test
+```
+fastlane android test
+```
+Runs all the tests
+### android beta
+```
+fastlane android beta
+```
+Submit a new Beta Build to HockeyApp
+
+This will also make sure the profile is up to date
 
 ----
 
