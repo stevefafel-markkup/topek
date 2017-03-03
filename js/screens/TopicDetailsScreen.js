@@ -62,15 +62,15 @@ export default class TopicDetailsScreen extends Component {
           </View>
         </View>
 
-        <FieldGroup title="Members" link={this.isOwner && "Add"}>
-          <Field>
+        <FieldGroup title="Members">
+          <TouchableField onPress={() => {}} accessory={true}>
             <View style={{flexDirection:"row"}}>
-              <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+              <AvatarImage user={topic.owner} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
               <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
               <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
               <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
             </View>
-          </Field>
+          </TouchableField>
         </FieldGroup>
 
         {this._renderDetails()}

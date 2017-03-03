@@ -9,8 +9,8 @@ export default class AvatarImage extends Component {
 
     const { source, user } = this.props;
 
-    let darkBg = Platform.OS === "ios" ? "rgba(0, 0, 0, 0.2)" : "rgba(255, 255, 255, 0.0)";
-    let lightBg = Platform.OS === "ios" ? "rgba(255, 255, 255, 0.3)" : "rgba(255, 255, 255, 0.0)";
+    let darkBg = Platform.OS === "ios" ? "rgba(0, 0, 0, 0.2)" : "rgba(0, 0, 0, 0.5)";
+    let lightBg = Platform.OS === "ios" ? "rgba(255, 255, 255, 0.3)" : "rgba(255, 255, 255, 0.5)";
 
     let avatarSource = source;
     if (avatarSource == null && user != null) {
@@ -19,8 +19,10 @@ export default class AvatarImage extends Component {
           uri: user.avatar.url
         }
       }
-      else avatarSource = require("../assets/images/circle-user-man-512.png")
     }
+
+    if (avatarSource == null)
+      avatarSource = require("../assets/images/circle-user-man-512.png")
 
     const style = {
       width: this.props.size, 
@@ -29,10 +31,14 @@ export default class AvatarImage extends Component {
       backgroundColor: this.props.background == "dark" ? darkBg : lightBg
     }
 
-    return (<CachedImage
-              source={avatarSource}
-              style={[style, this.props.style]}
-            />)
+    return (
+      <View style={[style, this.props.style]}>
+        <CachedImage
+          source={avatarSource}
+          style={[style, this.props.style, styles.icon]}
+        />
+      </View>
+    )
   }
 }
 
@@ -54,4 +60,9 @@ AvatarImage.defaultProps = {
 }
 
 let styles = StyleSheet.create({
+  icon: {
+    position: "absolute",
+    top: 0,
+    backgroundColor: "transparent"
+  }
 })
