@@ -101,7 +101,7 @@ export default class LoginScreen extends Component {
 let styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "transparent",
+    backgroundColor: "white",
     flexDirection: "column"
   },
   logoContainer: {

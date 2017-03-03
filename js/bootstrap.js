@@ -10,10 +10,8 @@ import * as topicActions from "./state/actions/topicActions"
 
 export default function bootstrap() {
 
+  // for now, don't restore nav state
   State.purgePersistedState(["nav"]);
-
-  // initialize dependencies
-  Services.initialize();
 
   // this root components hooks up the state.
   // it also delays rendering the app until state is rehydrated
@@ -29,6 +27,9 @@ export default function bootstrap() {
     componentWillMount(){
       State.persistStore(this.state.store, () => {
         this.setState({rehydrated: true})
+
+        // initialize dependencies
+        Services.initialize(this.state.store.dispatch);
 
         // load our initial state
         this.state.store.dispatch(topicActions.load(true))

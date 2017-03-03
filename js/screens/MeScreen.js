@@ -4,12 +4,13 @@ import { NavbarButton, ToolbarButton, AvatarImage } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
 import Layout from "../lib/Layout"
 import * as authActions from "../state/actions/authActions"
-import { Field, FieldGroup, TouchableField, InputField } from "../react-native-fieldsX"
+import { Field, FieldGroup, TouchableField, InputField, SwitchField, Form } from "../react-native-fieldsX"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
   map(props) {
     props.user = this.state.profile.user;
+    props.notificationsClick = this.bindEvent(authActions.requestPushPermissions);
     props.logoutClick = this.bindEvent(authActions.logout);
   }
 }
@@ -50,13 +51,16 @@ export default class MeScreen extends Component {
             )}>
             <View style={styles.headerSpacer} />
             <View style={styles.contentContainerStyle}>
-              <FieldGroup>
-                <InputField label="Email" value={this.props.user.email} editable={false} />
-              </FieldGroup>
-              <FieldGroup>
-                <TouchableField text="Settings" onPress={() => navigate("SettingsStack")} />
-                <TouchableField text="Sign Out" onPress={this.props.logoutClick} />
-              </FieldGroup>
+              <Form onChange={this._handleFormChange.bind(this)}>
+                <FieldGroup>
+                  <InputField label="Email" value={this.props.user.email} editable={false} />
+                </FieldGroup>
+                <FieldGroup>
+                  <SwitchField label="Notifications" ref="notifications" />
+                  <TouchableField text="Settings" onPress={() => navigate("SettingsStack")} />
+                  <TouchableField text="Sign Out" onPress={this.props.logoutClick} />
+                </FieldGroup>
+              </Form>
             </View>
           </Animated.ScrollView>
         </View>
@@ -150,6 +154,13 @@ export default class MeScreen extends Component {
       </View>
     );
   }
+
+  _handleFormChange(data) {
+    if (data["notifications"] !== undefined && data["notifications"] == true) {
+      this.props.notificationsClick();
+    }
+  }
+
 }
 
 const HeaderHeight = 240;
