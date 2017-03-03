@@ -7,6 +7,7 @@ class TopicService {
   async load() {
 
     await InteractionManager.runAfterInteractions();
+    
     try {
       let query = new Parse.Query("Topic").include("owner").include("members").descending("updatedAt");
       const data = await query.find();

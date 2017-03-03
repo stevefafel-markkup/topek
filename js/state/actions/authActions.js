@@ -6,6 +6,9 @@ import * as Utils from "../../lib/utils"
 export function login(username, password) {
   return async dispatch => {
 
+    // temporarily here until we implement signup screen
+    // await authService.signup("joe@here.com", "joe@here.com", "123456", "Joe W", "joe");
+
     dispatch({type: Types.LOGIN_REQUEST});
     
     try {
