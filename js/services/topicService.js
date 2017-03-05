@@ -1,37 +1,51 @@
 import Parse from "parse/react-native"
 import { InteractionManager } from "react-native"
+import { TopicMap, Topic, Error } from "../models"
 import * as Utils from "../lib/utils"
 
 class TopicService {
 
-  async load() {
+  async load(orgId) {
 
     await InteractionManager.runAfterInteractions();
     
     try {
-      let query = new Parse.Query("Topic").include("owner").include("members").descending("updatedAt");
+
+      const ParseOrg = Parse.Object.extend("Org");
+      let org = new ParseOrg();
+      org.id = orgId;
+
+      let query = new Parse.Query("Topic")
+        .include("owner")
+        .include("members")
+        .descending("updatedAt")
+        .equalTo("org", org);
+
       const data = await query.find();
-      return data;
+      return TopicMap.fromParse(data);
     }
     catch (e) {
-      return {
-        error: Utils.msgFromError(e)
-      }
+      throw Error.fromException(e)
     }
   }
 
-  async add(title) {
+  async add(orgId, title) {
 
     await InteractionManager.runAfterInteractions();
 
     try {
 
-      const Topic = Parse.Object.extend("Topic");
+      const ParseTopic = Parse.Object.extend("Topic");
+      const ParseOrg = Parse.Object.extend("Org");
       const me = Parse.User.current();
 
-      let topic = new Topic();
+      let org = new ParseOrg();
+      org.id = orgId;
+
+      let topic = new ParseTopic();
       topic.set("name", title);
       topic.set("owner", me);
+      topic.set("org", org);
       topic.set("details", [
         {
           type: "event",
@@ -47,12 +61,10 @@ class TopicService {
       ])
 
       const result = await topic.save();
-      return result;
+      return Topic.fromParse(result);
     }
     catch (e) {
-      return {
-        error: Utils.msgFromError(e)
-      }
+      throw Error.fromException(e)
     }
   }
 
@@ -62,18 +74,16 @@ class TopicService {
 
     try {
 
-      const Topic = Parse.Object.extend("Topic");
+      const ParseTopic = Parse.Object.extend("Topic");
 
-      let topic = new Topic();
+      let topic = new ParseTopic();
       topic.set("id", id);
 
       const result = await topic.destroy();
       return id;
     }
     catch (e) {
-      return {
-        error: Utils.msgFromError(e)
-      }
+      throw Error.fromException(e)
     }
 
   }

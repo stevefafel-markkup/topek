@@ -2,16 +2,22 @@ import React, { Component } from "react"
 import { StyleSheet, View, Text, Image, Animated } from "react-native"
 import { NavbarButton, ToolbarButton, AvatarImage } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
+import Ionicons from "react-native-vector-icons/Ionicons"
 import Layout from "../lib/Layout"
 import * as authActions from "../state/actions/authActions"
+import * as orgActions from "../state/actions/orgActions"
 import { Field, FieldGroup, TouchableField, InputField, SwitchField, Form } from "../react-native-fieldsX"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
   map(props) {
     props.user = this.state.profile.user;
+    props.orgs = this.state.orgs.list;
+    props.currentOrg = this.state.orgs.current;
+    props.members = this.state.members.list;
     props.notificationsClick = this.bindEvent(authActions.requestPushPermissions);
     props.logoutClick = this.bindEvent(authActions.logout);
+    props.setOrgClick = this.bindEvent(orgActions.setCurrent);
   }
 }
 
@@ -37,6 +43,7 @@ export default class MeScreen extends Component {
     let { scrollY } = this.state;
 
     const {navigate} = this.props.navigation;
+    const { user, orgs } = this.props;
 
     return (
       <View style={Styles.screen}>
@@ -53,8 +60,13 @@ export default class MeScreen extends Component {
             <View style={styles.contentContainerStyle}>
               <Form onChange={this._handleFormChange.bind(this)}>
                 <FieldGroup>
-                  <InputField label="Email" value={this.props.user.email} editable={false} />
+                  <InputField label="Email" value={user.email} editable={false} />
                 </FieldGroup>
+
+                {this._renderOrgsGroup()}
+
+                {this._renderMembersGroup()}
+
                 <FieldGroup>
                   <SwitchField label="Notifications" ref="notifications" />
                   <TouchableField text="Settings" onPress={() => navigate("SettingsStack")} />
@@ -155,6 +167,48 @@ export default class MeScreen extends Component {
     );
   }
 
+  _renderOrgsGroup() {
+    const { orgs, currentOrg, setOrgClick } = this.props;
+    const currentId = currentOrg ? currentOrg.id : "";
+    return (
+      <FieldGroup title="Organizations">
+        {orgs.valueSeq().map((org, i) => {
+          return <TouchableField 
+                  key={i} 
+                  text={org.name} 
+                  accessory={(org.id == currentId) && "bullet"}
+                  onPress={() => setOrgClick(org)} 
+                  />
+        })}
+      </FieldGroup>
+    )
+  }
+
+  _renderMembersGroup() {
+    const { members, currentOrg } = this.props;
+
+    if (!currentOrg)
+      return null;
+
+    const all = [currentOrg.owner, ...members.valueSeq()]
+    return (
+      <FieldGroup title="Members">
+        {all.map((member, i) => {
+          const isOwner = member == currentOrg.owner;
+          return (
+            <Field key={i}>
+              <View style={styles.memberContainer}>
+                <AvatarImage user={member} background="dark" />
+                <Text style={styles.memberName}>{member.name}</Text>
+                <Text style={styles.memberAlias}>{"@" + member.alias}</Text>
+                {isOwner && <Text style={styles.memberAlias}>(owner)</Text>}
+              </View>
+            </Field>)
+        })}
+      </FieldGroup>
+    )
+  }
+
   _handleFormChange(data) {
     if (data["notifications"] !== undefined && data["notifications"] == true) {
       this.props.notificationsClick();
@@ -245,5 +299,17 @@ let styles = StyleSheet.create({
     borderRadius: 50,
     marginTop: -100,
     backgroundColor: "rgba(255, 255, 255, 0.0)"
+  },
+  memberContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1
+  },
+  memberName: {
+    marginLeft: 4
+  },
+  memberAlias: {
+    color: Color.subtle,
+    marginLeft: 4
   }
 })

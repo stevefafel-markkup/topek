@@ -3,6 +3,7 @@ import Log from "./logService"
 import PushService from "./pushService"
 import Config from "../config"
 
+import { Topic } from "../models"
 import * as Types from "../state/types"
 
 export default {
@@ -30,12 +31,12 @@ export default {
     
     subscription.on("create", (topic) => {
       console.log("LiveQuery(Topic) dispatch TOPICS_ADD_SUCCESS: ", topic);
-      dispatch({type: Types.TOPICS_ADD_SUCCESS, payload: topic});
+      dispatch({type: Types.TOPICS_ADD_SUCCESS, payload: Topic.fromParse(topic)});
     });
 
     subscription.on("update", (topic) => {
       console.log("LiveQuery(Topic) dispatch TOPICS_UPDATE_SUCCESS: ", topic);
-      dispatch({type: Types.TOPICS_UPDATE_SUCCESS, payload: topic});
+      dispatch({type: Types.TOPICS_UPDATE_SUCCESS, payload: Topic.fromParse(topic)});
     });
 
     subscription.on("delete", (topic) => {

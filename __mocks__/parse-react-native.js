@@ -1,7 +1,8 @@
 class MockQuery {
 
-  constructor(cls) {
+  constructor(cls, result) {
     this.cls = cls;
+    this.result = result;
   }
 
   include(col) {
@@ -12,20 +13,39 @@ class MockQuery {
     return this;
   }
 
-  find() {
+  equalTo(col, val) {
     return this;
+  }
+
+  find() {
+    let result = [];
+    return this.result.map(i => {
+      return new MockObject(i);
+    })
   }
 }
 
 class MockObject {
 
-  constructor() {
-    this.__cols = {}
+  constructor(cols) {
+    this.__cols = cols || {}
+  }
+
+  get id() {
+    return this.get("id");
+  }
+
+  set id(val) {
+    this.set("id", val);
   }
 
   set(col, val) {
     this.__cols[col] = val;
     return this;
+  }
+
+  get(col) {
+    return this.__cols[col];
   }
 
   save() {
@@ -38,50 +58,51 @@ class MockObject {
 const api = {
   User: {
     current: () => {
-      return this.default.User.__validUser;
+      return new MockObject({
+        id: "kjhghg",
+        createAt: new Date(),
+        updatedAt: new Date(),
+        username: "user@email.com"
+      });
     },
     logIn: (username, password) => {
-      let user = this.default.User.__validUser;
-      if (user.username != username)
+      let user = new MockObject(this.default.__loginResult);
+      if (user.get("username") != username)
         throw {
-          message: this.default.User.__invalidUsernameError
+          message: this.default.__loginUsernameError
         } 
-      if (user.password != password)
+      if (this.default.__loginValidPassword != password)
         throw {
-          message: this.default.User.__invalidPasswordError
+          message: this.default.__loginPasswordError
         } 
       if (user.error)
         throw {
-          message: user.error
+          message: this.default.__loginError
         } 
-      return {
-        username: user.username
-      }
-    }, 
-    __validUser: {
-      username: "user@email.com",
-      password: "123456",
-      error: null
-    },
-    __invalidUsernameError: "Invalid user",
-    __invalidPasswordError: "Invalid password",
+      return user
+    }
   },
 
   Query: (cls) => {
     if (this.default.__queryError)
       throw this.default.__queryError;
-    return new MockQuery(cls);
+    return new MockQuery(cls, this.default.__queryFindResult);
   },
 
+  __loginResult: {},
+  __loginValidPassword: "",
+  __loginUsernameError: null,
+  __loginPasswordError: null,
+  __loginError: null,
+  __queryFindResult: [],
   __queryError: null,
+  __saveError: null,
 
   Object: {
     extend: (cls) => {
       return MockObject;
     }
-  },
-
-  __saveError: null
+  }
 }
 
 export default api;

@@ -15,7 +15,7 @@ export default function(state = initialState, action = {}) {
   switch (action.type) {
 
     case REHYDRATE: {
-      if (action.payload["auth"]) {
+      if (action.payload["profile"]) {
         if (isPersistable) {
           state = new ProfileState().mergeDeep(action.payload["profile"]);
         }
@@ -26,7 +26,7 @@ export default function(state = initialState, action = {}) {
 
     case Types.LOGIN_SUCCESS: {
       const user = action.payload;
-      state = state.set("user", User.fromParse(user));
+      state = state.set("user", user);
       return state;
     }
 

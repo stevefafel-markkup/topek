@@ -1,23 +1,23 @@
 import * as Types from "../types"
 import Validate from "../../lib/validate"
-import * as Utils from "../../lib/utils"
+import { Error } from "../../models"
 import topicService from "../../services/topicService"
 
 export function load(skipRequest = true) {
   return async (dispatch, getState) => {
     if (!skipRequest) 
-      dispatch({type: Types.TOPICS_REQUEST});
-    
-    try {
-      var results = await topicService.load();
-      if (results.error) throw results.error;
+      dispatch({type: Types.TOPICS_LOAD_REQUEST});
 
-      dispatch({type: Types.TOPICS_SUCCESS, payload: results});
+    try {
+      const state = getState();
+      if (!state.orgs.current)
+        throw "No current org set"
+
+      var results = await topicService.load(state.orgs.current.id);
+      dispatch({type: Types.TOPICS_LOAD_SUCCESS, payload: results});
     }
     catch (e) {
-      dispatch({type: Types.TOPICS_FAILURE, payload: {
-        error: Utils.msgFromError(e)
-      }});
+      dispatch({type: Types.TOPICS_LOAD_FAILURE, payload: Error.fromException(e)});
     }
   }
 }
@@ -29,16 +29,16 @@ export function add(title) {
     try {
       Validate.notEmpty(title, "Title is required");
 
-      var results = await topicService.add(title);
-      if (results.error) throw results.error;
+      const state = getState();
+      if (!state.orgs.current)
+        throw "No current org set"
 
+      var results = await topicService.add(state.orgs.current.id, title);
       dispatch({type: Types.TOPICS_ADD_SUCCESS, payload: results});
       return true;
     }
     catch (e) {
-      dispatch({type: Types.TOPICS_UPDATE_FAILURE, payload: {
-        error: Utils.msgFromError(e)
-      }});
+      dispatch({type: Types.TOPICS_UPDATE_FAILURE, payload: Error.fromException(e)});
     }
     return false;
   }
@@ -50,15 +50,11 @@ export function destroy(id) {
     
     try {
       var results = await topicService.destroy(id);
-      if (results.error) throw results.error;
-
       dispatch({type: Types.TOPICS_REMOVE_SUCCESS, payload: results});
       return true;
     }
     catch (e) {
-      dispatch({type: Types.TOPICS_UPDATE_FAILURE, payload: {
-        error: Utils.msgFromError(e)
-      }});
+      dispatch({type: Types.TOPICS_UPDATE_FAILURE, payload: Error.fromException(e)});
     }
     return false;
   }

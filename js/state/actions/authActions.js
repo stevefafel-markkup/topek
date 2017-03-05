@@ -2,7 +2,7 @@ import * as Types from "../types"
 import Validate from "../../lib/validate"
 import authService from "../../services/authService"
 import pushService from "../../services/pushService"
-import * as Utils from "../../lib/utils"
+import { Error } from "../../models"
 
 export function login(username, password) {
   return async dispatch => {
@@ -18,14 +18,10 @@ export function login(username, password) {
       Validate.notEmpty(password, "Password is required");
 
       var results = await authService.login(username, password);
-      if (results.error) throw results.error;
-
       dispatch({type: Types.LOGIN_SUCCESS, payload: results});
     }
     catch (e) {
-      dispatch({type: Types.LOGIN_FAILURE, payload: {
-        error: Utils.msgFromError(e)
-      }});
+      dispatch({type: Types.LOGIN_FAILURE, payload: Error.fromException(e)});
     }
   }
 }
@@ -37,6 +33,7 @@ export function logout() {
 export function requestPushPermissions() {
   return async dispatch => {
     pushService.requestPermissions();
+    dispatch({type: Types.PUSH_SUCCESS});
   }
 }
 
@@ -49,14 +46,10 @@ export function registerDevice(token, channels) {
       Validate.notEmpty(token, "Device token is required");
 
       var results = await authService.registerDevice(token, channels);
-      if (results.error) throw results.error;
-
       dispatch({type: Types.REGISTER_SUCCESS, payload: results});
     }
     catch (e) {
-      dispatch({type: Types.REGISTER_FAILURE, payload: {
-        error: Utils.msgFromError(e)
-      }});
+      dispatch({type: Types.REGISTER_FAILURE, payload: Error.fromException(e)});
     }
   }
 }

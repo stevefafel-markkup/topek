@@ -5,17 +5,33 @@ import mockParse from "parse/react-native"
 
 describe("topicService", () => {
 
+  const testResults = [{
+    id: "123",
+    name: "foo"
+  }, {
+    id: "456",
+    name: "bar"
+  }]
+
+  const testOrgId = "123"
+  const testTitle = "title"
+
   describe("load method", () => {
 
     it("should load", async () => {
+      mockParse.__queryFindResult = testResults;
       const res = await topicService.load();
-      expect(res.cls).toEqual("Topic")
+      expect(res.size).toEqual(2);
     })
 
     it("should fail load", async () => {
       mockParse.__queryError = "err";
-      const res = await topicService.load();
-      expect(res.error).toEqual(mockParse.__queryError)
+      try {
+        const res = await topicService.load();
+      }
+      catch (e) {
+        expect(e.error).toEqual(mockParse.__queryError)
+      }
     })
 
   })
@@ -23,17 +39,19 @@ describe("topicService", () => {
   describe("add method", () => {
 
     it("should add", async () => {
-      const title = "title";
-      const res = await topicService.add(title);
-      expect(res.__cols["name"]).toEqual(title)
-      expect(res.__cols["owner"]).toEqual(mockParse.User.current())
+      const res = await topicService.add(testOrgId, testTitle);
+      expect(res.get("name")).toEqual(testTitle)
+      expect(res.get("owner").id).toEqual(mockParse.User.current().id)
     })
 
     it("should fail add", async () => {
-      const title = "title";
       mockParse.__saveError = "err";
-      const res = await topicService.add(title);
-      expect(res.error).toEqual(mockParse.__saveError)
+      try {
+        const res = await topicService.add(testOrgId, testTitle);
+      }
+      catch (e) {
+        expect(e.error).toEqual(mockParse.__saveError)
+      }
     })
 
   })

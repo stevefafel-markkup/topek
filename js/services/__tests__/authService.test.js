@@ -7,16 +7,54 @@ describe("authService", () => {
 
   describe("login method", () => {
 
+    const testUser = {
+      id: "123",
+      name: "foo",
+      username: "bar",
+    }
+    const validPassword = "abc";
+
     it("should login", async () => {
-      const validUsername = mockParse.User.__validUser.username
-      const validPassword = mockParse.User.__validUser.password
-      const res = await authService.login(validUsername, validPassword);
-      expect(res.username).toEqual(validUsername)
+      mockParse.__loginResult = testUser;
+      mockParse.__loginValidPassword = validPassword;
+      const res = await authService.login(testUser.username, validPassword);
+      expect(res.username).toEqual(testUser.username)
     })
 
-    it("should fail login", async () => {
-      const res = await authService.login("username", "password");
-      expect(res.error).toEqual(mockParse.User.__invalidUsernameError)
+    it("should fail login w bad username", async () => {
+      try {
+        mockParse.__loginResult = testUser;
+        mockParse.__loginValidPassword = validPassword;
+        mockParse.__loginUsernameError = "err";
+        const res = await authService.login("bad", validPassword);
+      }
+      catch (e) {
+        expect(e.error).toEqual(mockParse.__loginUsernameError)
+      }
+    })
+
+    it("should fail login w bad password", async () => {
+      try {
+        mockParse.__loginResult = testUser;
+        mockParse.__loginValidPassword = validPassword;
+        mockParse.__loginPasswordError = "err";
+        const res = await authService.login(testUser.username, "bad");
+      }
+      catch (e) {
+        expect(e.error).toEqual(mockParse.__loginPasswordError)
+      }
+    })
+
+    it("should fail login w error", async () => {
+      try {
+        mockParse.__loginResult = testUser;
+        mockParse.__loginValidPassword = validPassword;
+        mockParse.__loginError = "err";
+        const res = await authService.login(testUser.username, validPassword);
+      }
+      catch (e) {
+        expect(e.error).toEqual(mockParse.__loginError)
+      }
     })
 
   })

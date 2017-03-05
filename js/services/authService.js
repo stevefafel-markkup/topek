@@ -1,6 +1,7 @@
 import Parse from "parse/react-native"
 import { InteractionManager } from "react-native"
 import Config from "../config"
+import { User, Error } from "../models"
 import * as Utils from "../lib/utils"
 
 class AuthService {
@@ -12,12 +13,10 @@ class AuthService {
     try {
       // returns a user object
       let result = await Parse.User.logIn(username, password);
-      return result;
+      return User.fromParse(result);
     }
     catch (e) {
-      return {
-        error: Utils.msgFromError(e)
-      }
+      throw Error.fromException(e)
     }
   }
 
@@ -35,12 +34,10 @@ class AuthService {
 
       // returns a user object
       let result = await user.signUp();
-      return result;
+      return User.fromParse(result);
     }
     catch (e) {
-      return {
-        error: Utils.msgFromError(e)
-      }
+      throw Error.fromException(e)
     }
   }
 
@@ -80,9 +77,7 @@ class AuthService {
       return result;
     }
     catch (e) {
-      return {
-        error: Utils.msgFromError(e)
-      }
+      throw Error.fromException(e)
     }
   }
 
