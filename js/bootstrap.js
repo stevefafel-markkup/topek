@@ -6,8 +6,7 @@ import Config from "./config"
 import State from "./state"
 import SplashScreen from "./screens/SplashScreen"
 
-import * as topicActions from "./state/actions/topicActions"
-import * as orgActions from "./state/actions/orgActions"
+import * as appActions from "./state/actions/appActions"
 
 export default function bootstrap() {
 
@@ -33,8 +32,7 @@ export default function bootstrap() {
         Services.initialize(this.state.store.dispatch);
 
         // load our initial state
-        this.state.store.dispatch(orgActions.load())
-        //this.state.store.dispatch(topicActions.load(true))
+        this.state.store.dispatch(appActions.initialize())
         
         // setup live queries
         Services.setupLiveQueries(this.state.store.dispatch);

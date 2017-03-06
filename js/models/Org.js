@@ -8,7 +8,17 @@ const OrgRecord = Immutable.Record({
   updatedAt: null,
   name: "",
   owner: new User(),
-  membersRef: null
+  membersRef: null,
+  image: new Immutable.Record({
+    name: "",
+    url: "",
+    valid: false
+  })(),
+  icon: new Immutable.Record({
+    name: "",
+    url: "",
+    valid: false
+  })()
 })
 
 export default class Org extends OrgRecord {
@@ -23,6 +33,18 @@ export default class Org extends OrgRecord {
     }
     if (org.get("members")) {
       res = res.set("membersRef", org.get("members"))
+    }
+    if (org.get("image")) {
+      res = res
+        .setIn(["image", "name"], org.get("image").name())
+        .setIn(["image", "url"], org.get("image").url())
+        .setIn(["image", "valid"], true)
+    }
+    if (org.get("icon")) {
+      res = res
+        .setIn(["icon", "name"], org.get("icon").name())
+        .setIn(["icon", "url"], org.get("icon").url())
+        .setIn(["icon", "valid"], true)
     }
     return res;
   }

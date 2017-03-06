@@ -5,6 +5,7 @@ import topics from "./topicReducer"
 import profile from "./profileReducer"
 import orgs from "./orgReducer"
 import members from "./memberReducer"
+import prefs from "./prefsReducer"
 
 export default combineReducers({
   nav,
@@ -12,5 +13,6 @@ export default combineReducers({
   topics,
   profile,
   orgs,
-  members
+  members,
+  prefs
 });

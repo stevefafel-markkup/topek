@@ -34,12 +34,3 @@ export function loadMembers(org) {
   }
 }
 
-export function setCurrent(org) {
-  return async (dispatch, getState) => {
-
-    dispatch({type: Types.ORGS_SET_CURRENT, payload: org});
-    dispatch(loadMembers(org));
-    dispatch(topicActions.load(true));
-
-  }
-}

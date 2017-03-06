@@ -19,7 +19,8 @@ const Color = {
 }
 
 const Dims = {
-    horzPadding: 16
+    horzPadding: 16,
+    navbarHeight: 64
 }
 
 const TextSize = {

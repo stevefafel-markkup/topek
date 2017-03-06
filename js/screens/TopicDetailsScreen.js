@@ -1,10 +1,11 @@
 
 import React, { Component } from "react"
-import { StyleSheet, View, Text, Button } from "react-native"
+import { StyleSheet, View, Text, Button, Animated } from "react-native"
 import { ToolbarButton, AvatarImage, ErrorHeader } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as topicActions from "../state/actions/topicActions"
 import { Field, FieldGroup, TouchableField } from "react-native-fields"
+import Layout from "../lib/Layout"
 import ActionSheet from "react-native-actionsheet"
 import WorkingOverlay from 'react-native-loading-spinner-overlay';
 import Styles, { Color, Dims } from "../styles"
@@ -30,17 +31,25 @@ export default class TopicDetailsScreen extends Component {
     })
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      scrollY: new Animated.Value(0)
+    };
+  }
+
   componentDidMount() {
     if (this.isOwner) {
       const params = {
-        rightHeaderButton: <ToolbarButton name="more" color={Color.tintNavbar} onPress={() => this.moreSheet.show()} />
+        rightHeaderButton: <ToolbarButton name="more" color={Color.white} onPress={() => this.moreSheet.show()} />
       }
       this.props.navigation.setParams(params);
     }
   }
 
   render() {
-    const topic = this.props.topic;
+    let { scrollY } = this.state;
+    const { topic } = this.props;
 
     if (!topic) {
       return (
@@ -51,33 +60,40 @@ export default class TopicDetailsScreen extends Component {
     }
 
     return (
-      <View style={Styles.screenFields}>
+      <View style={Styles.screen}>
+
         <WorkingOverlay visible={this.props.isUpdating} />
         { this.props.updateError && <ErrorHeader text={this.props.updateError} /> }
-        <View style={styles.caption}>
-          <Text style={styles.captionTitle}>{topic.name}</Text>
-          <View style={styles.ownerContainer}>
-            <AvatarImage user={topic.owner} style={styles.ownerAvatar} />
-            <Text style={styles.owner}>{topic.owner.alias}</Text>
-          </View>
+
+        <View style={styles.animatedContainer}>
+          <Animated.ScrollView
+            scrollEventThrottle={16}
+            style={StyleSheet.absoluteFill}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true }
+            )}>
+            {this._renderHeader()}
+            <View style={styles.contentContainerStyle}>
+
+              {this._renderDetails()}
+
+              <FieldGroup title="Members">
+                <TouchableField onPress={() => {}} accessory={true}>
+                  <View style={{flexDirection:"row"}}>
+                    <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+                    <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+                    <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+                    <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+                  </View>
+                </TouchableField>
+              </FieldGroup>
+
+            </View>
+          </Animated.ScrollView>
         </View>
 
-        <FieldGroup title="Members">
-          <TouchableField onPress={() => {}} accessory={true}>
-            <View style={{flexDirection:"row"}}>
-              <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
-              <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
-              <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
-              <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
-            </View>
-          </TouchableField>
-        </FieldGroup>
-
-        {this._renderDetails()}
-
-        {/*<View style={{flex: 1, flexDirection:"row", justifyContent: "flex-end", padding: 10}}>
-          <ToolbarButton name="add" color={Color.subtle} onPress={() => {}} />
-        </View>*/}
+        {this._renderTitlebar()}
 
         <ActionSheet 
           ref={(c) => this.moreSheet = c}
@@ -86,8 +102,69 @@ export default class TopicDetailsScreen extends Component {
           destructiveButtonIndex={0}
           onPress={this._handleMore.bind(this)}
         />
-
       </View>
+    )
+  }
+
+  _renderHeader() {
+    let { scrollY } = this.state;
+    const { topic } = this.props;
+
+    let infoOpacity = scrollY.interpolate({
+      inputRange: [-200, 0, 150],
+      outputRange: [1, 1, 0],
+    });
+
+    let headerBackgroundTranslateY = scrollY.interpolate({
+      inputRange: [-1, 0],
+      outputRange: [0.2, 0],
+    });
+
+    let bottomTranslateY = scrollY.interpolate({
+      inputRange: [-10, 0, 10],
+      outputRange: [-3, 0, -11],
+    });
+
+    return (
+      <View>
+        <Animated.View 
+          style={[styles.headerBackground, { transform: [{translateY: headerBackgroundTranslateY}] }]}
+         />
+        <Animated.View 
+          style={[styles.header]}>
+          <Animated.View 
+            style={[styles.caption, {transform: [{translateY: bottomTranslateY}], opacity: infoOpacity}]}>
+            <Text style={styles.captionTitle}>{topic.name}</Text>
+            <View style={styles.ownerContainer}>
+              <AvatarImage user={topic.owner} style={styles.ownerAvatar} />
+              <Text style={styles.owner}>{topic.owner.alias}</Text>
+            </View>
+          </Animated.View>
+        </Animated.View>
+      </View>
+    );
+  }
+
+  _renderTitlebar() {
+    let { scrollY } = this.state;
+    const { topic } = this.props;
+
+    let titleOpacity = scrollY.interpolate({
+      inputRange: [-100, 0, 50],
+      outputRange: [0, 0, 1],
+    });
+
+    const {navigate} = this.props.navigation;
+
+    return (
+      <Animated.View style={[styles.titlebar, {opacity: titleOpacity}]}>
+        <View style={styles.titlebarTextContainer}>
+          <Text 
+            style={[styles.titlebarText]}
+            numberOfLines={1}
+            ellipsizeMode="tail">{topic.name}</Text>
+        </View>
+      </Animated.View>
     )
   }
 
@@ -123,12 +200,33 @@ export default class TopicDetailsScreen extends Component {
   }
 }
 
+const HeaderHeight = 240;
+
 let styles = StyleSheet.create({
-  caption: {
+  animatedContainer: {
+    flex: 1,
+    flexDirection: "column", 
+    backgroundColor: Color.backgroundFields
+  },
+  headerBackground: {
+    position: "absolute",
+    top: -Layout.window.height + Dims.navbarHeight,
+    left: 0,
+    right: 0,
+    height: Layout.window.height,
     backgroundColor: Color.tint,
-    paddingHorizontal: Dims.horzPadding,
+  },
+  header: {
+    backgroundColor: Color.tint,
     paddingTop: 20,
-    paddingBottom: 25
+    paddingBottom: 20
+  },
+  contentContainerStyle: {
+    paddingBottom: 20
+  },
+  caption: {
+    paddingHorizontal: Dims.horzPadding,
+    
   },
   captionTitle: {
     color: "white",
@@ -148,5 +246,26 @@ let styles = StyleSheet.create({
     color: "#FFFFFFCC",
     marginTop: 4,
     marginLeft: 4
+  },
+  titlebar: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0, 
+    height: 36,
+    backgroundColor: Color.tint,
+    flexDirection: "row",
+    flex: 1
+  },
+  titlebarTextContainer: {
+    paddingHorizontal: Dims.horzPadding,
+    paddingTop: 4
+  },
+  titlebarText: {
+    flex: 1,
+    textAlign: "center",
+    fontSize: 17,
+    fontWeight: "600",
+    color: Color.white
   }
 })

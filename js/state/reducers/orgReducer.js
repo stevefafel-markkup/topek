@@ -7,8 +7,7 @@ const isPersistable = false;
 const OrgState = Immutable.Record({
     list: new OrgMap(),
     isLoading: false,
-    loadError: null,
-    current: null
+    loadError: null
 })
 
 var initialState = new OrgState();
@@ -45,12 +44,6 @@ export default function(state = initialState, action = {}) {
       const {error} = action.payload;
       state = state.set("isLoading", false)
         .set("loadError", error)
-      return state;
-    }
-
-    case Types.ORGS_SET_CURRENT: {
-      const org = action.payload;
-      state = state.set("current", org)
       return state;
     }
 

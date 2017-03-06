@@ -13,7 +13,7 @@ class Props extends PropMap {
   map(props) {
     props.user = this.state.profile.user;
     props.orgs = this.state.orgs.list;
-    props.currentOrg = this.state.prefs.org;
+    props.org = this.state.prefs.org;
     props.members = this.state.members.list;
     props.notificationsClick = this.bindEvent(authActions.requestPushPermissions);
     props.logoutClick = this.bindEvent(authActions.logout);
@@ -22,10 +22,9 @@ class Props extends PropMap {
 }
 
 @connectprops(Props)
-export default class MeScreen extends Component {
+export default class OrgScreen extends Component {
 
   static navigationOptions = {
-    title: "",
     header: (navigation, defaultHeader) => ({
       ...defaultHeader,
       visible: false
@@ -42,8 +41,11 @@ export default class MeScreen extends Component {
   render() {
     let { scrollY } = this.state;
 
-    const { navigate } = this.props.navigation;
-    const { user, orgs } = this.props;
+    const {navigate} = this.props.navigation;
+    const { user, orgs, org } = this.props;
+
+    if (!org) 
+      return null;
 
     return (
       <View style={Styles.screen}>
@@ -60,13 +62,11 @@ export default class MeScreen extends Component {
             <View style={styles.contentContainerStyle}>
               <Form onChange={this._handleFormChange.bind(this)}>
                 <FieldGroup>
-                  <InputField label="Email" value={user.email} editable={false} />
+                  <TouchableField text="Change Group" onPress={() => navigate("OrgSwitch")} />
                 </FieldGroup>
-                <FieldGroup>
-                  <SwitchField label="Notifications" ref="notifications" />
-                  <TouchableField text="Settings" onPress={() => navigate("SettingsStack")} />
-                  <TouchableField text="Sign Out" onPress={this.props.logoutClick} />
-                </FieldGroup>
+
+                {this._renderMembersGroup()}
+
               </Form>
             </View>
           </Animated.ScrollView>
@@ -92,7 +92,7 @@ export default class MeScreen extends Component {
           <Animated.Text style={[styles.navbarText, {opacity: titleOpacity}]}>{this.props.user.name}</Animated.Text>
         </View>
         <ToolbarButton 
-          name="more" 
+          name="settings" 
           color={Color.tintNavbar} 
           style={styles.navbarButton}
           onPress={() => navigate("ProfileEditStack")} /> 
@@ -103,6 +103,9 @@ export default class MeScreen extends Component {
   _renderHeader() {
     let { scrollY } = this.state;
 
+    if (!this.props.user.avatar)
+      return null;
+      
     let imgScale = scrollY.interpolate({
       inputRange: [-150, 0, 150],
       outputRange: [1.5, 1, 1],
@@ -133,33 +136,71 @@ export default class MeScreen extends Component {
       outputRange: [1, 0],
     });
 
-    let avatarSource = require("../assets/images/circle-user-man-512.png")
-    if (this.props.user.avatar.valid) {
-      avatarSource = {
-        uri: this.props.user.avatar.url
+    const { org } = this.props;
+
+    if (!org.image || !org.icon)
+      return null;
+
+    let imageSource = require("../assets/images/circle-user-man-512.png")
+    if (org.image.valid) {
+      imageSource = {
+        uri: org.image.url
+      }
+    }
+
+    let iconSource = require("../assets/images/group-128.png")
+    if (org.icon.valid) {
+      iconSource = {
+        uri: org.icon.url
       }
     }
 
     return (
       <View>
-        <Animated.View 
+        <Animated.Image 
+          source={imageSource}
           style={[styles.headerBackground, { transform: [{translateY: headerBackgroundTranslateY}] }]}
          />
         <View style={styles.header}>
           <Animated.View
             style={{marginTop: -100, opacity: imgOpacity, transform: [{scale: imgScale}, {translateY: imgTranslateY}]}}>
-            <AvatarImage
-              source={avatarSource}
-              size={100}
+            <Image
+              source={iconSource}
+              style={{width:100, height:100}}
             />
           </Animated.View>
           <Animated.View style={[styles.headerBottomContainer, {transform: [{translateY: bottomTranslateY}], opacity: infoOpacity}]}>
-            <Text style={styles.headerLine1}>{this.props.user.name}</Text>
-            <Text style={styles.headerLine2}>{"@" + this.props.user.alias}</Text>
+            <Text style={styles.headerLine1}>{org.name}</Text>
+            <Text style={styles.headerLine2}>Group</Text>
           </Animated.View>
         </View>
       </View>
     );
+  }
+
+  _renderMembersGroup() {
+    const { members, org } = this.props;
+
+    if (!org)
+      return null;
+
+    const all = [org.owner, ...members.valueSeq()]
+    return (
+      <FieldGroup title="Members">
+        {all.map((member, i) => {
+          const isOwner = member == org.owner;
+          return (
+            <Field key={i}>
+              <View style={styles.memberContainer}>
+                <AvatarImage user={member} background="dark" />
+                <Text style={styles.memberName}>{member.name}</Text>
+                <Text style={styles.memberAlias}>{"@" + member.alias}</Text>
+                {isOwner && <Text style={styles.memberAlias}>(owner)</Text>}
+              </View>
+            </Field>)
+        })}
+      </FieldGroup>
+    )
   }
 
   _handleFormChange(data) {
@@ -179,7 +220,7 @@ let styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 64,
-    backgroundColor: Color.tint
+    backgroundColor: "transparent"
   },
   navbarButton: {
     position: "absolute",

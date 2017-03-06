@@ -2,12 +2,12 @@ import React from "react"
 import { StackNavigator } from "react-navigation"
 import Styles, { Color, Dims } from "../../styles"
 
-import TopicsScreen from "../../screens/TopicsScreen"
-import TopicDetailsScreen from "../../screens/TopicDetailsScreen"
+import OrgScreen from "../../screens/OrgScreen"
+import OrgSwitchScreen from "../../screens/OrgSwitchScreen"
 
-export default TopicsStack = StackNavigator({
-  Topics: { screen: TopicsScreen },
-  TopicDetails: { screen: TopicDetailsScreen }
+export default OrgTab = StackNavigator({
+  Org: { screen: OrgScreen },
+  OrgSwitch: { screen: OrgSwitchScreen }
 }, {
   headerMode: "screen",
   navigationOptions: {

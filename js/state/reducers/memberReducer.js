@@ -24,6 +24,11 @@ export default function(state = initialState, action = {}) {
       return state;  
     }
 
+    case Types.MEMBERS_LOAD_REQUEST: {
+      state = state.set("list", new UserMap())
+      return state;
+    }
+
     case Types.MEMBERS_LOAD_SUCCESS: {
       const members = action.payload;
       state = state.set("list", members)

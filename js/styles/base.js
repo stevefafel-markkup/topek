@@ -26,6 +26,11 @@ export default {
     shadowColor: "transparent"
   },
 
+  navbarTinted: {
+    backgroundColor: Color.tint,
+    shadowColor: "transparent"
+  },
+
   navbarTitle: {
     color: Color.tintNavbar
   },

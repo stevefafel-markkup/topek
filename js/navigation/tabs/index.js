@@ -9,6 +9,7 @@ import CalendarTab from "./CalendarTab"
 import TasksTab from "./TasksTab"
 import ActivityTab from "./ActivityTab"
 import MeTab from "./MeTab"
+import OrgTab from "./OrgTab"
 
 const tabsOptions = {
     initialRouteName: "Topics",
@@ -34,5 +35,6 @@ export default TabNavigator({
   Calendar: { screen: CalendarTab, navigationOptions: { tabBar: { label: "Calendar", icon: (props) => (<TabIcon {...props} icon="calendar" />) }}},
   Tasks: { screen: TasksTab, navigationOptions: { tabBar: { label: "Tasks", icon: (props) => (<TabIcon {...props} icon="checkbox" />) }}},
   Activity: { screen: ActivityTab, navigationOptions: { tabBar: { label: "Activity", icon: (props) => (<TabIcon {...props} icon="pulse" />) }}},
+  Org: { screen: OrgTab, navigationOptions: { tabBar: { label: "Group", icon: (props) => (<TabIcon {...props} icon="contacts" />) }}},
   Me: { screen: MeTab, navigationOptions: { tabBar: { label: "Me", icon: (props) => (<TabIcon {...props} icon="contact" />) }}},
 }, tabsOptions);

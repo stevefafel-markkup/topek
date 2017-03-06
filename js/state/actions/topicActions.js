@@ -10,10 +10,10 @@ export function load(skipRequest = true) {
 
     try {
       const state = getState();
-      if (!state.orgs.current)
+      if (!state.prefs.org)
         throw "No current org set"
 
-      var results = await topicService.load(state.orgs.current.id);
+      var results = await topicService.load(state.prefs.org.id);
       dispatch({type: Types.TOPICS_LOAD_SUCCESS, payload: results});
     }
     catch (e) {
@@ -30,10 +30,10 @@ export function add(title) {
       Validate.notEmpty(title, "Title is required");
 
       const state = getState();
-      if (!state.orgs.current)
+      if (!state.prefs.org)
         throw "No current org set"
 
-      var results = await topicService.add(state.orgs.current.id, title);
+      var results = await topicService.add(state.prefs.org.id, title);
       dispatch({type: Types.TOPICS_ADD_SUCCESS, payload: results});
       return true;
     }
