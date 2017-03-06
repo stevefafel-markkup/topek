@@ -23,6 +23,7 @@
     "react-native-fields": "github:markkup/react-native-fields",
     "react-native-loading-spinner-overlay": "^0.4.1",
     "react-native-push-notification": "^2.2.1",
+    "react-native-radio-buttons": "^0.14.0",
     "react-native-vector-icons": "^4.0.0",
     "react-navigation": "git+https://github.com/react-community/react-navigation.git",
     "react-redux": "^5.0.2",

@@ -32,9 +32,9 @@ const tabsOptions = {
 
 export default TabNavigator({
   Topics: { screen: TopicsTab, navigationOptions: { tabBar: { label: "Topics", icon: (props) => (<TabIcon {...props} icon="analytics" />) }}},
-  Calendar: { screen: CalendarTab, navigationOptions: { tabBar: { label: "Calendar", icon: (props) => (<TabIcon {...props} icon="calendar" />) }}},
-  Tasks: { screen: TasksTab, navigationOptions: { tabBar: { label: "Tasks", icon: (props) => (<TabIcon {...props} icon="checkbox" />) }}},
+  /*Calendar: { screen: CalendarTab, navigationOptions: { tabBar: { label: "Calendar", icon: (props) => (<TabIcon {...props} icon="calendar" />) }}},*/
+  Tasks: { screen: TasksTab, navigationOptions: { tabBar: { label: "You", icon: (props) => (<TabIcon {...props} icon="contact" />) }}},
   Activity: { screen: ActivityTab, navigationOptions: { tabBar: { label: "Activity", icon: (props) => (<TabIcon {...props} icon="pulse" />) }}},
   Org: { screen: OrgTab, navigationOptions: { tabBar: { label: "Group", icon: (props) => (<TabIcon {...props} icon="contacts" />) }}},
-  Me: { screen: MeTab, navigationOptions: { tabBar: { label: "Me", icon: (props) => (<TabIcon {...props} icon="contact" />) }}},
+  /*Me: { screen: MeTab, navigationOptions: { tabBar: { label: "Me", icon: (props) => (<TabIcon {...props} icon="contact" />) }}},*/
 }, tabsOptions);

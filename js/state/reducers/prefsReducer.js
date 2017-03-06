@@ -3,9 +3,10 @@ import Immutable from "immutable"
 import { REHYDRATE } from "redux-persist/constants"
 import * as Types from "../types"
 
-const isPersistable = false;
+const isPersistable = true;
 const PrefsState = Immutable.Record({
-    org: null
+    org: new Org(),
+    orgId: null
 })
 
 var initialState = new PrefsState();
@@ -26,7 +27,7 @@ export default function(state = initialState, action = {}) {
 
     case Types.PREFS_SET_ORG: {
       const org = action.payload;
-      state = state.set("org", org)
+      state = state.set("org", org).set("orgId", org.id)
       return state;
     }
 

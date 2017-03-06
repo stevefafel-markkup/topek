@@ -84,10 +84,15 @@ export default class MeScreen extends Component {
       outputRange: [0, 0, 1],
     });
 
-    const {navigate} = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
 
     return (
       <View style={styles.navbar}>
+        <ToolbarButton 
+          name="arrow-back" 
+          color={Color.tintNavbar} 
+          style={styles.navbarButton}
+          onPress={() => goBack(null)} /> 
         <View style={styles.navbarTextContainer}>
           <Animated.Text style={[styles.navbarText, {opacity: titleOpacity}]}>{this.props.user.name}</Animated.Text>
         </View>
@@ -179,20 +184,17 @@ let styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 64,
-    backgroundColor: Color.tint
+    backgroundColor: Color.tint,
+    flexDirection: "row"
   },
   navbarButton: {
-    position: "absolute",
-    right: 0,
-    top: 22,
-    width: 50,
-    zIndex: 1000
+    paddingTop: 22,
+    paddingLeft: 6,
+    paddingRight: 6
   },
   navbarTextContainer: {
-    position: "absolute",
-    top: 20,
-    left: 0,
-    right: 0
+    paddingTop: 20,
+    flex: 1
   },
   navbarText: {
     flex: 1,

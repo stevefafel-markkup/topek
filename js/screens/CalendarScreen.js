@@ -9,15 +9,15 @@ const customDayHeadings = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const customMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const calendarStyle = {
-    dayHeading: {
-      color: "black",
-      fontSize: 12
-    },
-    weekendHeading: {
-      color: "black",
-      fontSize: 12
-    },
-  }
+  dayHeading: {
+    color: "black",
+    fontSize: 12
+  },
+  weekendHeading: {
+    color: "black",
+    fontSize: 12
+  },
+}
 
 class Props extends PropMap {
   map(props) {

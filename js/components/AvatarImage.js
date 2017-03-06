@@ -14,7 +14,7 @@ export default class AvatarImage extends Component {
 
     let avatarSource = source;
     if (avatarSource == null && user != null) {
-      if (user.avatar.valid) {
+      if (user.avatar && user.avatar.valid) {
         avatarSource = {
           uri: user.avatar.url
         }
@@ -28,7 +28,9 @@ export default class AvatarImage extends Component {
       width: this.props.size, 
       height: this.props.size, 
       borderRadius: Platform.OS === "ios" ? this.props.size/2 : 150,
-      backgroundColor: this.props.background == "dark" ? darkBg : lightBg
+      backgroundColor: this.props.background == "dark" ? darkBg : lightBg,
+      padding: 0,
+      flexDirection: "row"
     }
 
     return (
@@ -63,6 +65,7 @@ let styles = StyleSheet.create({
   icon: {
     position: "absolute",
     top: 0,
+    left: 0,
     backgroundColor: "transparent"
   }
 })

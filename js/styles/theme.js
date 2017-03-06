@@ -2,7 +2,7 @@ const Color = {
     text: "#000",
     background: "white",
     backgroundFields: "rgb(248, 247, 250)",
-    tint: "#EC5C5B",
+    tint: "#EC5C5B", //"rgb(52, 133, 202)",
     tintInactive: "#999",
     separator: "rgba(225, 225, 225, 255)",
     subtle: "#999",

@@ -13,6 +13,7 @@ import Styles, { Color, Dims } from "../styles"
 class Props extends PropMap {
   map(props) {
     props.topic = this.state.topics.selectedTopic;
+    props.members = this.state.members.list;
     props.user = this.state.profile.user;
     props.isUpdating = this.state.topics.isUpdating;
     props.updateError = this.state.topics.updateError;
@@ -49,7 +50,7 @@ export default class TopicDetailsScreen extends Component {
 
   render() {
     let { scrollY } = this.state;
-    const { topic } = this.props;
+    const { topic, members } = this.props;
 
     if (!topic) {
       return (
@@ -81,10 +82,7 @@ export default class TopicDetailsScreen extends Component {
               <FieldGroup title="Members">
                 <TouchableField onPress={() => {}} accessory={true}>
                   <View style={{flexDirection:"row"}}>
-                    <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
-                    <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
-                    <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
-                    <AvatarImage user={null} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />
+                    {members.valueSeq().map((member, i) => this._renderMemberAvatar(member, i))}
                   </View>
                 </TouchableField>
               </FieldGroup>
@@ -104,6 +102,16 @@ export default class TopicDetailsScreen extends Component {
         />
       </View>
     )
+  }
+
+  _renderMemberAvatar(member, i) {
+    let avatarSource = null;
+    if (member.avatar.valid) {
+      avatarSource = {
+        uri: member.avatar.url
+      }
+    }
+    return (<AvatarImage key={i} user={member} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />)
   }
 
   _renderHeader() {

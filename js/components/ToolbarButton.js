@@ -11,7 +11,7 @@ export default class ToolbarButton extends Component {
 
     switch (this.props.name) {
       case "arrow-back": {
-        icon = (<IonIcon name="ios-arrow-back" size={20} color={this.props.color} style={[styles.icon,...this.props.style]} />);
+        icon = (<IonIcon name="ios-arrow-back" size={30} color={this.props.color} style={[styles.icon]} />);
         break;
       }
       case "add": {
@@ -20,6 +20,14 @@ export default class ToolbarButton extends Component {
       }
       case "more": {
         icon = (<IonIcon name="ios-more-outline" size={36} color={this.props.color} style={styles.icon} />);
+        break;
+      }
+      case "checkbox": {
+        icon = (<IonIcon name="ios-checkbox-outline" size={25} color={this.props.color} style={[styles.icon, {marginTop:-1}]} />);
+        break;
+      }
+      case "contact": {
+        icon = (<IonIcon name="ios-contact" size={25} color={this.props.color} style={[styles.icon, {marginTop:-1}]} />);
         break;
       }
       case "close": {

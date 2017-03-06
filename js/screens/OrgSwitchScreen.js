@@ -17,7 +17,7 @@ class Props extends PropMap {
 export default class ActivityScreen extends Component {
 
   static navigationOptions = {
-    title: "Activity"
+    title: "Change Group"
   }
 
   render() {
@@ -32,7 +32,7 @@ export default class ActivityScreen extends Component {
     const { orgs, org } = this.props;
     const currentId = org ? org.id : "";
     return (
-      <FieldGroup title="Organizations">
+      <FieldGroup>
         {orgs.valueSeq().map((org, i) => {
           return <TouchableField 
                   key={i} 
@@ -45,9 +45,9 @@ export default class ActivityScreen extends Component {
     )
   }
 
-  _onChangeOrg(org) {
+  async _onChangeOrg(org) {
     const { setOrgClick, navigation } = this.props;
-    setOrgClick(org)
+    await setOrgClick(org)
     navigation.goBack(null)
   }
 }

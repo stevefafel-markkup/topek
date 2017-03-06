@@ -4,6 +4,7 @@ import TabIcon from "./TabIcon"
 import ToolbarButton from "./ToolbarButton"
 import FieldButton from "./FieldButton"
 import AvatarImage from "./AvatarImage"
+import Header from "./Header"
 
 export {
   ErrorHeader,
@@ -11,5 +12,6 @@ export {
   TabIcon,
   ToolbarButton,
   FieldButton,
-  AvatarImage
+  AvatarImage,
+  Header
 }

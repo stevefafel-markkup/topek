@@ -1,10 +1,12 @@
 import React, { Component } from "react"
-import { StyleSheet, View, Text, Button, ListView, TouchableHighlight, RefreshControl } from "react-native"
-import { ErrorHeader, ToolbarButton } from "../components"
+import { StyleSheet, View, Text, Button, ListView, TouchableHighlight, TouchableOpacity, RefreshControl } from "react-native"
+import { ErrorHeader, ToolbarButton, Header } from "../components"
 import Immutable from "immutable"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as topicActions from "../state/actions/topicActions"
 import Styles, { Color, Dims } from "../styles"
+
+import IonIcon from "react-native-vector-icons/Ionicons"
 
 class Props extends PropMap {
   map(props) {
@@ -26,6 +28,7 @@ export default class TopicsScreen extends Component {
     header: (navigation, defaultHeader) => ({
       ...defaultHeader,
       right: <ToolbarButton name="add" color={Color.tintNavbar} onPress={() => navigation.navigate("TopicAddStack")} />,
+      visible: false
     })
   }
 
@@ -46,10 +49,18 @@ export default class TopicsScreen extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
+
     return (
       <View style={Styles.screen}>
+        <Header title="Topics" subtitle="MOST RECENT">
+          <TouchableOpacity onPress={() => navigate("TopicAddStack")} style={{marginRight: 10,marginBottom:0}}>
+            <IonIcon name="ios-add" size={40} color={"#fff"} />
+          </TouchableOpacity>
+        </Header>
         { this.props.loadError && <ErrorHeader text={this.props.loadError} /> }
         <ListView
+          style={{paddingTop: 8}}
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
           enableEmptySections={true}

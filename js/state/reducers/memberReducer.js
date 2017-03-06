@@ -3,7 +3,7 @@ import Immutable from "immutable"
 import { REHYDRATE } from "redux-persist/constants"
 import * as Types from "../types"
 
-const isPersistable = false;
+const isPersistable = true;
 const MemberState = Immutable.Record({
     list: new UserMap()
 })

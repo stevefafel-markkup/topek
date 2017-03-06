@@ -5,6 +5,7 @@ import SettingsScreen from "../screens/SettingsScreen"
 import TopicAddScreen from "../screens/TopicAddScreen"
 import ProfileEditScreen from "../screens/ProfileEditScreen"
 
+import MeScreen from "../screens/MeScreen"
 import TestScreen from "../screens/TestScreen"
 
 const modalOptions = {
@@ -25,6 +26,11 @@ export const TopicAddStack = StackNavigator({
 
 export const SettingsStack = StackNavigator({
   Settings: { screen: SettingsScreen },
+  SecondScreen: { screen: TestScreen }
+}, modalOptions);
+
+export const ProfileStack = StackNavigator({
+  Settings: { screen: MeScreen },
   SecondScreen: { screen: TestScreen }
 }, modalOptions);
 

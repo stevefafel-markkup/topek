@@ -31,6 +31,12 @@ export default {
     shadowColor: "transparent"
   },
 
+  navbarLarge: {
+    backgroundColor: Color.tint,
+    shadowColor: "transparent",
+    height: 88
+  },
+
   navbarTitle: {
     color: Color.tintNavbar
   },

@@ -24,7 +24,7 @@ class OrgService {
       let memberQuery = new Parse.Query("Org")
         .equalTo("members", me)
 
-      var query = Parse.Query.or(ownerQuery, memberQuery)
+      let query = Parse.Query.or(ownerQuery, memberQuery)
         .include("owner")
         .include("members")
         .descending("name")
@@ -37,12 +37,22 @@ class OrgService {
     }
   }
 
-  async loadMembers(org) {
+  async loadMembers(orgId) {
 
     await InteractionManager.runAfterInteractions();
 
     try {
-      const result = await org.membersRef.query().find();
+
+      // this query syntax was pulled together from the Parse SDK
+      let query = new Parse.Query("User");
+      query._addCondition("$relatedTo", "object", {
+        __type: "Pointer",
+        className: "Org",
+        objectId: orgId
+      });
+      query._addCondition("$relatedTo", "key", "members");
+
+      const result = await query.find();
       return UserMap.fromParse(result);
     }
     catch (e) {

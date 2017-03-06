@@ -7,7 +7,7 @@ import ActivityScreen from "../../screens/ActivityScreen"
 export default ActivityStack = StackNavigator({
   Activity: { screen: ActivityScreen }
 }, {
-  headerMode: "float",
+  headerMode: "screen",
   navigationOptions: {
     header: {
       style: Styles.navbar,

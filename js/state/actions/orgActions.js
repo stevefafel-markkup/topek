@@ -20,12 +20,12 @@ export function load() {
   }
 }
 
-export function loadMembers(org) {
+export function loadMembers(orgId) {
   return async (dispatch, getState) => {
     dispatch({type: Types.MEMBERS_LOAD_REQUEST});
 
     try {
-      var result = await orgService.loadMembers(org);
+      var result = await orgService.loadMembers(orgId);
       dispatch({type: Types.MEMBERS_LOAD_SUCCESS, payload: result});
     }
     catch (e) {
