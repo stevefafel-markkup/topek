@@ -7,6 +7,7 @@ class MessagingService {
 
   constructor() {
     this.listenFuncs = {}
+    this.messagePageSize = 20;
   }
 
   async loadRoomByKey(key) {
@@ -79,13 +80,27 @@ class MessagingService {
       let room = new ParseMessageRoom();
       room.set("id", roomId);
 
+      // get messages and count
       let query = new Parse.Query("Message")
         .include("owner")
         .descending("createdAt")
         .equalTo("room", room);
 
+      // get message count
+      let count = await query.count();
+
+      // add page limit
+      query.limit(this.messagePageSize)
       const data = await query.find();
-      return MessageMap.fromParse(data);
+
+      // determine if there's more
+      let hasMore = count > this.messagePageSize;
+
+      // return results
+      return {
+        messages: MessageMap.fromParse(data),
+        hasMore: hasMore
+      };
     }
     catch (e) {
       throw Error.fromException(e)
@@ -98,7 +113,7 @@ class MessagingService {
       this.stopListeningforMessages(roomId)
     }
 
-    let query = new Parse.Query("Message").include("owner"); //.equalTo("room", roomId);
+    let query = new Parse.Query("Message").include("owner");
     let sub = query.subscribe();
 
     this.listenFuncs[roomId] = {

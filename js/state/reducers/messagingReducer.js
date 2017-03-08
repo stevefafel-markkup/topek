@@ -9,7 +9,8 @@ const MessagingState = Immutable.Record({
     messages: new MessageMap(),
     members: new UserMap(),
     isLoading: false,
-    loadError: null
+    loadError: null,
+    hasMore: false
 })
 
 var initialState = new MessagingState();
@@ -35,6 +36,7 @@ export default function(state = initialState, action = {}) {
         .set("members", new UserMap())
         .set("isLoading", true)
         .set("loadError", null)
+        .set("hasMore", false)
       return state;
     }
 
@@ -51,8 +53,11 @@ export default function(state = initialState, action = {}) {
     }
 
     case Types.MESSAGING_MESSAGE_LOAD_SUCCESS: {
-      const messages = action.payload;
+      const { messages, hasMore } = action.payload;
       state = state.set("messages", messages)
+        .set("isLoading", false)
+        .set("loadError", null)
+        .set("hasMore", hasMore)
       return state;
     }
 
@@ -70,12 +75,12 @@ export default function(state = initialState, action = {}) {
     }
 
     case Types.MESSAGING_STOPPED: {
-      const org = action.payload;
       state = state.set("messageRoom", new MessageRoom())
         .set("messages", new MessageMap())
         .set("members", new UserMap())
         .set("isLoading", false)
         .set("loadError", null)
+        .set("hasMore", false)
       return state;
     }
 

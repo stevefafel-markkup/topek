@@ -16,6 +16,7 @@ class Props extends PropMap {
     props.messages = this.state.messaging.messages;
     props.isLoading = this.state.messaging.isLoading;
     props.loadError = this.state.messaging.loadError;
+    props.hasMoreMessages = this.state.messaging.hasMore;
     props.messagingStart = this.bindEvent(messagingActions.startOneToOneMessaging);
     props.messagingStop = this.bindEvent(messagingActions.stopMessaging);
     props.sendClicked = this.bindEvent(messagingActions.sendMessage);
@@ -92,9 +93,15 @@ export default class TestScreen extends Component {
           user={{
             _id: this.props.user.id,
           }}
+          loadEarlier={this.props.hasMoreMessages}
+          isLoadingEarlier={this.props.isLoading}
       />
       </View>
     )
+  }
+
+  _renderLoading() {
+    return (<View style={{backgroundColor:"green"}}><Text>{"loading..."}</Text></View>)
   }
 }
 
