@@ -28,7 +28,7 @@ export default function(state = initialState, action = {}) {
 
     case Types.ORGS_LOAD_REQUEST: {
       state = state.set("isLoading", true)
-        .set("loadError", null);
+        .set("loadError", null)
       return state;
     }
 
@@ -41,7 +41,7 @@ export default function(state = initialState, action = {}) {
     }
 
     case Types.ORGS_LOAD_FAILURE: {
-      const {error} = action.payload;
+      const { error } = action.payload;
       state = state.set("isLoading", false)
         .set("loadError", error)
       return state;

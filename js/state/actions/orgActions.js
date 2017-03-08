@@ -13,8 +13,6 @@ export function load() {
       dispatch({type: Types.ORGS_LOAD_SUCCESS, payload: result});
     }
     catch (e) {
-      console.log(e)
-
       dispatch({type: Types.ORGS_LOAD_FAILURE, payload: Error.fromException(e)});
     }
   }
