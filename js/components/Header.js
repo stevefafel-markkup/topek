@@ -78,7 +78,7 @@ var styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 40,
     paddingTop: 0,
-    paddingBottom: 5,
+    paddingBottom: 10,
     paddingLeft: 12,
     paddingRight: 12
   },
