@@ -1,8 +1,8 @@
 import React, { Component } from "react"
-import { StyleSheet, View, Text, Image, Animated } from "react-native"
+import { StyleSheet, View, Text, Image, Animated, TouchableOpacity } from "react-native"
 import { NavbarButton, ToolbarButton, AvatarImage } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
-import Ionicons from "react-native-vector-icons/Ionicons"
+import Ionicon from "react-native-vector-icons/Ionicons"
 import Layout from "../lib/Layout"
 import * as authActions from "../state/actions/authActions"
 import * as orgActions from "../state/actions/orgActions"
@@ -41,7 +41,7 @@ export default class OrgScreen extends Component {
   render() {
     let { scrollY } = this.state;
 
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
     const { user, orgs, org } = this.props;
 
     if (!org) 
@@ -84,7 +84,7 @@ export default class OrgScreen extends Component {
       outputRange: [0, 0, 1],
     });
 
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
 
     return (
       <View style={styles.navbar}>
@@ -179,7 +179,8 @@ export default class OrgScreen extends Component {
   }
 
   _renderMembersGroup() {
-    const { members, org } = this.props;
+    const { members, org, user } = this.props;
+    const { navigate } = this.props.navigation;
 
     if (!org)
       return null;
@@ -189,13 +190,21 @@ export default class OrgScreen extends Component {
       <FieldGroup title="Members">
         {all.map((member, i) => {
           const isOwner = member == org.owner;
+          const isCurrent = member.id == user.id
           return (
             <Field key={i}>
               <View style={styles.memberContainer}>
                 <AvatarImage user={member} background="dark" />
-                <Text style={styles.memberName}>{member.name}</Text>
-                <Text style={styles.memberAlias}>{"@" + member.alias}</Text>
-                {isOwner && <Text style={styles.memberAlias}>(owner)</Text>}
+                <View style={styles.memberNameContainer}>
+                  <Text style={styles.memberName}>{member.name}</Text>
+                  <Text style={styles.memberAlias}>{"@" + member.alias}</Text>
+                  {isOwner && <Text style={styles.memberAlias}>(owner)</Text>}
+                </View>
+                {!isCurrent && 
+                <TouchableOpacity onPress={() => navigate("MessagingStack", {member: member})}>
+                  <Ionicon name="ios-chatbubbles-outline" size={22} color={Color.tint} />
+                </TouchableOpacity>
+                }
               </View>
             </Field>)
         })}
@@ -295,9 +304,14 @@ let styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 0.0)"
   },
   memberContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  memberNameContainer: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    flex: 1
   },
   memberName: {
     marginLeft: 4

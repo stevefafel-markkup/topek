@@ -6,6 +6,7 @@ import profile from "./profileReducer"
 import orgs from "./orgReducer"
 import members from "./memberReducer"
 import prefs from "./prefsReducer"
+import messaging from "./messagingReducer"
 
 export default combineReducers({
   nav,
@@ -14,5 +15,6 @@ export default combineReducers({
   profile,
   orgs,
   members,
-  prefs
+  prefs,
+  messaging
 });

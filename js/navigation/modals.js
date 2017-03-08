@@ -3,9 +3,10 @@ import Styles, { Color, Dims } from "../styles"
 import TabsNav from "./tabs"
 import SettingsScreen from "../screens/SettingsScreen"
 import TopicAddScreen from "../screens/TopicAddScreen"
+import ProfileScreen from "../screens/MeScreen"
 import ProfileEditScreen from "../screens/ProfileEditScreen"
+import MessagingScreen from "../screens/MessagingScreen"
 
-import MeScreen from "../screens/MeScreen"
 import TestScreen from "../screens/TestScreen"
 
 const modalOptions = {
@@ -15,6 +16,9 @@ const modalOptions = {
       style: Styles.navbarModal,
       titleStyle: Styles.navbarTitleModal,
       tintColor: Color.tint
+    },
+    cardStack: {
+      gesturesEnabled: false
     }
   }
 }
@@ -30,11 +34,16 @@ export const SettingsStack = StackNavigator({
 }, modalOptions);
 
 export const ProfileStack = StackNavigator({
-  Settings: { screen: MeScreen },
+  Profile: { screen: ProfileScreen },
   SecondScreen: { screen: TestScreen }
 }, modalOptions);
 
 export const ProfileEditStack = StackNavigator({
   Settings: { screen: ProfileEditScreen },
+  SecondScreen: { screen: TestScreen }
+}, modalOptions);
+
+export const MessagingStack = StackNavigator({
+  Messaging: { screen: MessagingScreen },
   SecondScreen: { screen: TestScreen }
 }, modalOptions);
