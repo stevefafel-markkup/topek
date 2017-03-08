@@ -57,7 +57,7 @@ AvatarImage.propTypes = {
 AvatarImage.defaultProps = {
   source: null,
   user: null,
-  size: 25,
+  size: 35,
   background: "light" // dark
 }
 
