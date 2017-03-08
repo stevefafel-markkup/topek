@@ -1,3 +1,5 @@
+import { Platform } from "react-native"
+
 const Color = {
     text: "#000",
     background: "white",
@@ -26,7 +28,7 @@ const Dims = {
 const TextSize = {
     tiny: 12,
     small: 14,
-    normal: 16,
+    normal: Platform.OS === "ios" ? 18 : 16,
     large: 18
 }
 
