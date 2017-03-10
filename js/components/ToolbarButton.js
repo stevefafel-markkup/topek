@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native"
 import SimpleLineIcon from "react-native-vector-icons/SimpleLineIcons"
 import IonIcon from "react-native-vector-icons/Ionicons"
 import EvilIcon from "react-native-vector-icons/EvilIcons"
+import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons"
 
 export default class ToolbarButton extends Component {
   render() {
@@ -18,8 +19,15 @@ export default class ToolbarButton extends Component {
         icon = (<IonIcon name="ios-add" size={36} color={this.props.color} style={{marginBottom:-2}} />);
         break;
       }
-      case "more": {
-        icon = (<IonIcon name="ios-more-outline" size={36} color={this.props.color} style={styles.icon} />);
+      case "more":
+      case "more-horz": {
+        //icon = (<IonIcon name="ios-more-outline" size={36} color={this.props.color} style={styles.icon} />);
+        icon = (<MaterialCommunityIcon name="dots-horizontal" size={36} color={this.props.color} style={styles.icon} />);
+        break;
+      }
+      case "more-vert": {
+        //icon = (<IonIcon name="ios-more-outline" size={36} color={this.props.color} style={styles.icon} />);
+        icon = (<MaterialCommunityIcon name="dots-vertical" size={36} color={this.props.color} style={styles.icon} />);
         break;
       }
       case "checkbox": {

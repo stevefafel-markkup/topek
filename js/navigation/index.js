@@ -1,6 +1,6 @@
 import { StackNavigator } from "react-navigation"
 import TabsNav from "./tabs"
-import { SettingsStack, TopicAddStack, ProfileEditStack, ProfileStack, MessagingStack } from "./modals"
+import { SettingsStack, TopicAddStack, ProfileEditStack, ProfileStack, MessagingStack, MemberSelectorStack } from "./modals"
 
 export default StackNavigator({
   Tabs: { screen: TabsNav },
@@ -8,7 +8,8 @@ export default StackNavigator({
   TopicAddStack: { screen: TopicAddStack },
   ProfileEditStack: { screen: ProfileEditStack },
   ProfileStack: { screen: ProfileStack },
-  MessagingStack: { screen: MessagingStack }
+  MessagingStack: { screen: MessagingStack },
+  MemberSelectorStack: { screen: MemberSelectorStack }
 }, {
   initialRouteName: "Tabs",
   headerMode: "none",

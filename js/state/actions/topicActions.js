@@ -61,5 +61,60 @@ export function destroy(id) {
 }
 
 export function setSelected(topic) {
-  return {type: Types.TOPICS_SELECT_TOPIC, payload: topic}
+  return async (dispatch, getState) => {
+    dispatch({type: Types.TOPICS_SELECT_TOPIC, payload: topic});
+    dispatch({type: Types.TOPICS_SELECT_TOPIC_MEMBERS_REQUEST});
+
+    try {
+      var results = await topicService.loadMembers(topic.id);
+      dispatch({type: Types.TOPICS_SELECT_TOPIC_MEMBERS_SUCCESS, payload: results});
+      return true;
+    }
+    catch (e) {
+      dispatch({type: Types.TOPICS_LOAD_FAILURE, payload: Error.fromException(e)});
+    }
+    return false;
+  }
+}
+
+export function addMembersToSelectedTopic(members) {
+  return async (dispatch, getState) => {
+    dispatch({type: Types.TOPICS_SELECT_TOPIC_MEMBERS_REQUEST});
+    
+    try {
+
+      const state = getState();
+      if (!state.topics.selectedTopic)
+        throw "No topic has been selected"
+
+      var results = await topicService.addMembers(state.topics.selectedTopic.id, members);
+      dispatch({type: Types.TOPICS_SELECT_TOPIC_MEMBERS_SUCCESS, payload: results});
+      return true;
+    }
+    catch (e) {
+      dispatch({type: Types.TOPICS_UPDATE_FAILURE, payload: Error.fromException(e)});
+    }
+    return false;
+  }
+}
+
+export function removeMembersfromSelectedTopic(member) {
+  return async (dispatch, getState) => {
+    dispatch({type: Types.TOPICS_SELECT_TOPIC_MEMBERS_REQUEST});
+    
+    try {
+
+      const state = getState();
+      if (!state.topics.selectedTopic)
+        throw "No topic has been selected"
+
+      var results = await topicService.removeMember(state.topics.selectedTopic.id, member);
+      dispatch({type: Types.TOPICS_SELECT_TOPIC_MEMBERS_SUCCESS, payload: results});
+      return true;
+    }
+    catch (e) {
+      dispatch({type: Types.TOPICS_UPDATE_FAILURE, payload: Error.fromException(e)});
+    }
+    return false;
+  }
 }

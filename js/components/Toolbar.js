@@ -1,26 +1,30 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
 
 export default class Toolbar extends Component {
   render() {
+    const align = this.props.align == "right" ? "flex-end" : "flex-start";
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {justifyContent:align}]}>
         {this.props.children}
       </View>
     )
   }
 }
 
-Toolbar.defaultProps = {
+Toolbar.propTypes = {
+  align: React.PropTypes.string
 }
 
-Toolbar.propTypes = {
+Toolbar.defaultProps = {
+  align: "left"
 }
 
 var styles = StyleSheet.create({
   container: {
     height: 28,
     flexDirection: "row",
-    justifyContent: "flex-end"
+    alignItems: "center",
+    flex: 1
   }
 })

@@ -2,10 +2,10 @@ import React from "react"
 import { StackNavigator } from "react-navigation"
 import Styles, { Color, Dims } from "../../styles"
 
-import MeScreen from "../../screens/MeScreen"
+import ProfileScreen from "../../screens/ProfileScreen"
 
 export default MeTab = StackNavigator({
-  Me: { screen: MeScreen }
+  Me: { screen: ProfileScreen }
 }, {
   headerMode: "screen",
   navigationOptions: {

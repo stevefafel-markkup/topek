@@ -22,7 +22,7 @@ class Props extends PropMap {
 }
 
 @connectprops(Props)
-export default class MeScreen extends Component {
+export default class ProfileScreen extends Component {
 
   static navigationOptions = {
     title: "",
@@ -154,7 +154,7 @@ export default class MeScreen extends Component {
           <Animated.View
             style={{marginTop: -100, opacity: imgOpacity, transform: [{scale: imgScale}, {translateY: imgTranslateY}]}}>
             <AvatarImage
-              source={avatarSource}
+              user={this.props.user}
               size={100}
             />
           </Animated.View>

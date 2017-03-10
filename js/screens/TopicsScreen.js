@@ -1,7 +1,8 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Button, ListView, TouchableHighlight, TouchableOpacity, RefreshControl } from "react-native"
-import { ErrorHeader, ToolbarButton, Header } from "../components"
+import { ErrorHeader, ToolbarButton, Header, AvatarImage } from "../components"
 import Immutable from "immutable"
+import Datetime from "../lib/datetime"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as topicActions from "../state/actions/topicActions"
 import Styles, { Color, Dims } from "../styles"
@@ -27,8 +28,8 @@ export default class TopicsScreen extends Component {
     title: "Topics",
     header: (navigation, defaultHeader) => ({
       ...defaultHeader,
-      right: <ToolbarButton name="add" color={Color.tintNavbar} onPress={() => navigation.navigate("TopicAddStack")} />,
-      visible: false
+      visible: false,
+      backTitle: " "
     })
   }
 
@@ -82,9 +83,24 @@ export default class TopicsScreen extends Component {
       this.props.topicSelect(topic)
       navigate("TopicDetails")
     };
+    var date = Datetime(topic.updatedAt);
+    if (Datetime.isToday(date)) {
+      date = date.format("h:mm a")
+    }
+    else if (Datetime.isYesterday(date)) {
+      date = "Yesterday";
+    }
+    else {
+      date = date.format("M/d/Y")
+    }
     return (
       <TouchableHighlight onPress={onPress} underlayColor="#eee">
         <View style={styles.row}>
+          <View style={styles.rowHeader}>
+            <AvatarImage user={topic.owner} size={25} background="dark" />
+            <Text style={styles.owner}>{topic.owner.name}</Text>
+            <Text style={styles.date}>{date}</Text>
+          </View>
           <Text style={styles.text}>
             {topic.name} 
           </Text>
@@ -105,15 +121,33 @@ export default class TopicsScreen extends Component {
 
 let styles = StyleSheet.create({
   row: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
     padding: 10,
-    paddingLeft: 20,
-    paddingRight: 20
+    paddingLeft: Dims.horzPadding,
+    paddingRight: Dims.horzPadding
+  },
+  rowHeader: {
+    flexDirection: "row",
+    marginBottom: 3
+  },
+  owner: {
+    fontWeight: "600",
+    color: "#777",
+    flex: 1,
+    fontSize: 16,
+    marginLeft: 4,
+    marginTop: 2
   },
   text: {
     flex: 1,
     fontSize: 18,
-    paddingRight: 20
+    paddingRight: 20,
+    color: "#000",
+    marginLeft: 29
+  },
+  date: {
+    color: "#999",
+    fontSize: 14,
   }
 })

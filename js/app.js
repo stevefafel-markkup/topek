@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { addNavigationHelpers } from "react-navigation"
 import { StyleSheet, View, StatusBar, Text } from "react-native"
 import { connectprops, PropMap } from "react-redux-propmap"
+import { WorkingOverlay } from "./components"
 import Nav from "./navigation"
 import Styles from "./styles"
 import LoginScreen from "./screens/LoginScreen"
@@ -28,7 +29,7 @@ class App extends Component {
     else {
       return (
       <View style={Styles.app}>
-        {this._renderStatusBar()}
+        {this._renderStatusBar()}      
         <Nav navigation={addNavigationHelpers({dispatch: this.props.dispatch, state: this.props.nav})} />
       </View>)
     }

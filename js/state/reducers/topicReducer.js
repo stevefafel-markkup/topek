@@ -1,4 +1,4 @@
-import { Topic, TopicMap } from "../../models"
+import { Topic, TopicMap, UserMap } from "../../models"
 import Immutable from "immutable"
 import { REHYDRATE } from "redux-persist/constants"
 import * as Types from "../types"
@@ -7,6 +7,8 @@ const isPersistable = true;
 const TopicState = Immutable.Record({
   list: new TopicMap(),
   selectedTopic: null,
+  selectedTopicMembers: new UserMap(),
+  isLoadingMembers: false,
   isRefreshing: false,
   isUpdating: false,
   loadError: null,
@@ -26,7 +28,10 @@ export default function(state = initialState, action = {}) {
             .set("isUpdating", false)
             .set("updateError", null)
             .set("isRefreshing", false)
-            .set("loadError", null);
+            .set("loadError", null)
+            .set("selectedTopic", null)
+            .set("selectedTopicMembers", new UserMap())
+            .set("isLoadingMembers", false)
         }
         else state = new TopicState();
       }
@@ -98,6 +103,7 @@ export default function(state = initialState, action = {}) {
         .set("updateError", null)
       if (state.selectedTopic && state.selectedTopic.id == topicId) {
         state = state.set("selectedTopic", null)
+          .set("selectedTopicMembers", new UserMap())
       }
       return state;
     }
@@ -111,7 +117,21 @@ export default function(state = initialState, action = {}) {
 
     case Types.TOPICS_SELECT_TOPIC: {
       const topic = action.payload;
-      state = state.set("selectedTopic", topic);
+      state = state.set("selectedTopic", topic)
+        .set("selectedTopicMembers", new UserMap())
+        .set("isLoadingMembers", true)
+      return state;
+    }
+
+    case Types.TOPICS_SELECT_TOPIC_MEMBERS_REQUEST: {
+      state = state.set("isLoadingMembers", true)
+      return state;
+    }
+
+    case Types.TOPICS_SELECT_TOPIC_MEMBERS_SUCCESS: {
+      const members = action.payload;
+      state = state.set("selectedTopicMembers", members)
+        .set("isLoadingMembers", false)
       return state;
     }
 

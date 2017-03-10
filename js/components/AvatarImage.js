@@ -12,12 +12,18 @@ export default class AvatarImage extends Component {
     let darkBg = Platform.OS === "ios" ? "rgba(0, 0, 0, 0.2)" : "rgba(0, 0, 0, 0.5)";
     let lightBg = Platform.OS === "ios" ? "rgba(255, 255, 255, 0.3)" : "rgba(255, 255, 255, 0.5)";
 
+    let initials = null;
     let avatarSource = source;
     if (avatarSource == null && user != null) {
       if (user.avatar && user.avatar.valid) {
         avatarSource = {
           uri: user.avatar.url
         }
+      }
+      else if (user.name) {
+        let tokens = user.name.split(" ");
+        initials = "";
+        tokens.map(t => initials += t[0]);
       }
     }
 
@@ -31,6 +37,19 @@ export default class AvatarImage extends Component {
       backgroundColor: this.props.background == "dark" ? darkBg : lightBg,
       padding: 0,
       flexDirection: "row"
+    }
+
+    if (initials) {
+
+      const initialsStyle = {
+        fontSize: this.props.size/2,
+        color: this.props.background == "dark" ? "#666" : "#fff",
+      }
+
+      return (
+        <View style={[style, styles.initialsContainer, this.props.style]}>
+          <Text style={[styles.initials, initialsStyle]}>{initials}</Text>
+        </View>)
     }
 
     return (
@@ -67,5 +86,12 @@ let styles = StyleSheet.create({
     top: 0,
     left: 0,
     backgroundColor: "transparent"
+  },
+  initialsContainer: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  initials: {
+    color: "#666"
   }
 })

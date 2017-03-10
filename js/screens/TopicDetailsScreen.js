@@ -1,19 +1,20 @@
 
 import React, { Component } from "react"
-import { StyleSheet, View, Text, Button, Animated } from "react-native"
-import { ToolbarButton, AvatarImage, ErrorHeader } from "../components"
+import { StyleSheet, View, Text, Button, Animated, ActivityIndicator } from "react-native"
+import { ToolbarButton, AvatarImage, ErrorHeader, WorkingOverlay } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
-import * as topicActions from "../state/actions/topicActions"
 import { Field, FieldGroup, TouchableField } from "react-native-fields"
 import Layout from "../lib/Layout"
 import ActionSheet from "react-native-actionsheet"
-import WorkingOverlay from 'react-native-loading-spinner-overlay';
 import Styles, { Color, Dims } from "../styles"
+
+import * as topicActions from "../state/actions/topicActions"
 
 class Props extends PropMap {
   map(props) {
     props.topic = this.state.topics.selectedTopic;
-    props.members = this.state.members.list;
+    props.members = this.state.topics.selectedTopicMembers;
+    props.isLoadingMembers = this.state.topics.isLoadingMembers;
     props.user = this.state.profile.user;
     props.isUpdating = this.state.topics.isUpdating;
     props.updateError = this.state.topics.updateError;
@@ -25,10 +26,10 @@ class Props extends PropMap {
 export default class TopicDetailsScreen extends Component {
 
   static navigationOptions = {
-    title: "",
+    title: " ",
     header: ({state}, defaultHeader) => ({
       ...defaultHeader,
-      right: state.params && state.params.rightHeaderButton
+      right: <ToolbarButton name="more-horz" color={Color.white} onPress={() => state.params.delete()} />
     })
   }
 
@@ -40,17 +41,14 @@ export default class TopicDetailsScreen extends Component {
   }
 
   componentDidMount() {
-    if (this.isOwner) {
-      const params = {
-        rightHeaderButton: <ToolbarButton name="more" color={Color.white} onPress={() => this.moreSheet.show()} />
-      }
-      this.props.navigation.setParams(params);
-    }
+    this.props.navigation.setParams({
+        delete: () => this.moreSheet.show()
+    });
   }
 
   render() {
     let { scrollY } = this.state;
-    const { topic, members } = this.props;
+    const { topic } = this.props;
 
     if (!topic) {
       return (
@@ -78,14 +76,7 @@ export default class TopicDetailsScreen extends Component {
             <View style={styles.contentContainerStyle}>
 
               {this._renderDetails()}
-
-              <FieldGroup title="Members">
-                <TouchableField onPress={() => {}} accessory={true}>
-                  <View style={{flexDirection:"row"}}>
-                    {members.valueSeq().map((member, i) => this._renderMemberAvatar(member, i))}
-                  </View>
-                </TouchableField>
-              </FieldGroup>
+              {this._renderMembers()}
 
             </View>
           </Animated.ScrollView>
@@ -104,13 +95,24 @@ export default class TopicDetailsScreen extends Component {
     )
   }
 
+  _renderMembers() {
+    const { members, isLoadingMembers } = this.props;
+    const { navigate } = this.props.navigation;
+
+    return (
+      <FieldGroup title="Members">
+        <TouchableField onPress={() => {navigate("TopicMembers")}} accessory={true} style={{paddingVertical:6}}>
+          <View style={{flexDirection:"row", minHeight:35}}>
+            { isLoadingMembers
+              ? <ActivityIndicator />
+              : members.valueSeq().map((member, i) => this._renderMemberAvatar(member, i)) }
+          </View>
+        </TouchableField>
+      </FieldGroup>
+    )
+  }
+
   _renderMemberAvatar(member, i) {
-    let avatarSource = null;
-    if (member.avatar.valid) {
-      avatarSource = {
-        uri: member.avatar.url
-      }
-    }
     return (<AvatarImage key={i} user={member} background="dark" style={[styles.ownerAvatar, {marginRight:2}]} />)
   }
 
@@ -144,7 +146,7 @@ export default class TopicDetailsScreen extends Component {
             style={[styles.caption, {transform: [{translateY: bottomTranslateY}], opacity: infoOpacity}]}>
             <Text style={styles.captionTitle}>{topic.name}</Text>
             <View style={styles.ownerContainer}>
-              <AvatarImage user={topic.owner} style={styles.ownerAvatar} />
+              <AvatarImage user={topic.owner} size={25} style={styles.ownerAvatar} />
               <Text style={styles.owner}>{topic.owner.alias}</Text>
             </View>
           </Animated.View>
@@ -162,8 +164,6 @@ export default class TopicDetailsScreen extends Component {
       outputRange: [0, 0, 1],
     });
 
-    const {navigate} = this.props.navigation;
-
     return (
       <Animated.View style={[styles.titlebar, {opacity: titleOpacity}]}>
         <View style={styles.titlebarTextContainer}>
@@ -177,6 +177,8 @@ export default class TopicDetailsScreen extends Component {
   }
 
   _renderDetails() {
+    const { navigate } = this.props.navigation;
+
     let children = [];
     const topic = this.props.topic;
     if (topic.details) {
@@ -189,7 +191,7 @@ export default class TopicDetailsScreen extends Component {
       return null;
 
     return (
-      <FieldGroup title="Details" link={this.isOwner && "Add"}>
+      <FieldGroup title="Details" link={this.isOwner && "Edit"} onPressLink={() => navigate("TopicDetailsEdit")}>
         {children}
         { this.isOwner && children.length == 0 ? <Field key={-1} text=" " /> : null }
       </FieldGroup>
@@ -226,7 +228,7 @@ let styles = StyleSheet.create({
   },
   header: {
     backgroundColor: Color.tint,
-    paddingTop: 20,
+    paddingTop: 10,
     paddingBottom: 20
   },
   contentContainerStyle: {
@@ -234,11 +236,10 @@ let styles = StyleSheet.create({
   },
   caption: {
     paddingHorizontal: Dims.horzPadding,
-    
   },
   captionTitle: {
     color: "white",
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "500"
   },
   ownerContainer: {

@@ -21,7 +21,7 @@ const Color = {
 }
 
 const Dims = {
-    horzPadding: 16,
+    horzPadding: 14,
     navbarHeight: 64
 }
 

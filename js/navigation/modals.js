@@ -3,9 +3,10 @@ import Styles, { Color, Dims } from "../styles"
 import TabsNav from "./tabs"
 import SettingsScreen from "../screens/SettingsScreen"
 import TopicAddScreen from "../screens/TopicAddScreen"
-import ProfileScreen from "../screens/MeScreen"
+import ProfileScreen from "../screens/ProfileScreen"
 import ProfileEditScreen from "../screens/ProfileEditScreen"
 import MessagingScreen from "../screens/MessagingScreen"
+import MemberSelectorScreen from "../screens/MemberSelectorScreen"
 
 import TestScreen from "../screens/TestScreen"
 
@@ -44,6 +45,9 @@ export const ProfileEditStack = StackNavigator({
 }, modalOptions);
 
 export const MessagingStack = StackNavigator({
-  Messaging: { screen: MessagingScreen },
-  SecondScreen: { screen: TestScreen }
+  Messaging: { screen: MessagingScreen }
+}, modalOptions);
+
+export const MemberSelectorStack = StackNavigator({
+  MemberSelector: { screen: MemberSelectorScreen }
 }, modalOptions);
