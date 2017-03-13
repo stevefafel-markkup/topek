@@ -16,6 +16,7 @@ class Props extends PropMap {
     props.members = this.state.topics.selectedTopicMembers;
     props.isLoadingMembers = this.state.topics.isLoadingMembers;
     props.user = this.state.profile.user;
+    props.isOwner = this.state.topics.selectedTopic && this.state.topics.selectedTopic.owner.id == this.state.profile.user.id;
     props.isUpdating = this.state.topics.isUpdating;
     props.updateError = this.state.topics.updateError;
     props.deleteClick = this.bindEvent(topicActions.destroy);
@@ -42,7 +43,7 @@ export default class TopicDetailsScreen extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-        delete: () => this.moreSheet.show()
+        delete: () => this.props.isOwner ? this.moreSheetForOwner.show() : this.moreSheetForMember.show()
     });
   }
 
@@ -85,11 +86,20 @@ export default class TopicDetailsScreen extends Component {
         {this._renderTitlebar()}
 
         <ActionSheet 
-          ref={(c) => this.moreSheet = c}
-          options={["Delete", "Cancel"]}
+          ref={(c) => this.moreSheetForOwner = c}
+          options={["Cancel", "Delete", "Add/Edit Details"]}
+          cancelButtonIndex={0}
+          destructiveButtonIndex={1}
+          onPress={this._handleMoreForOwner.bind(this)}
+        />
+
+        <ActionSheet 
+          ref={(c) => this.moreSheetForMember = c}
+          title="You cannot edit this topic"
+          options={["Cancel"]}
           cancelButtonIndex={1}
           destructiveButtonIndex={0}
-          onPress={this._handleMore.bind(this)}
+          onPress={this._handleMoreForMember.bind(this)}
         />
       </View>
     )
@@ -202,11 +212,15 @@ export default class TopicDetailsScreen extends Component {
     return (this.props.topic.owner.id == this.props.user.id);
   }
 
-  async _handleMore(index) {
-    if (index == 0) {
+  async _handleMoreForOwner(index) {
+    if (index == 1) {
       if (await this.props.deleteClick(this.props.topic.id))
         this.props.navigation.goBack(null);
     }
+  }
+
+  _handleMoreForMember(index) {
+    
   }
 }
 
