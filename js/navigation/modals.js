@@ -1,11 +1,20 @@
 import { StackNavigator } from "react-navigation"
 import Styles, { Color, Dims } from "../styles"
 import TabsNav from "./tabs"
+
 import SettingsScreen from "../screens/SettingsScreen"
+
 import TopicAddScreen from "../screens/TopicAddScreen"
+import TopicAddTypeScreen from "../screens/TopicAddTypeScreen"
+import TopicAddTypeDetailsScreen from "../screens/TopicAddTypeDetailsScreen"
+import TopicAddMembersScreen from "../screens/TopicAddMembersScreen"
+import TopicAddConfirmScreen from "../screens/TopicAddConfirmScreen"
+
 import ProfileScreen from "../screens/ProfileScreen"
 import ProfileEditScreen from "../screens/ProfileEditScreen"
+
 import MessagingScreen from "../screens/MessagingScreen"
+
 import MemberSelectorScreen from "../screens/MemberSelectorScreen"
 
 import TestScreen from "../screens/TestScreen"
@@ -26,7 +35,10 @@ const modalOptions = {
 
 export const TopicAddStack = StackNavigator({
   TopicsAdd: { screen: TopicAddScreen },
-  SecondScreen: { screen: TestScreen }
+  TopicAddType: { screen: TopicAddTypeScreen },
+  TopicAddTypeDetails: { screen: TopicAddTypeDetailsScreen },
+  TopicAddMembers: { screen: TopicAddMembersScreen },
+  TopicAddConfirm: { screen: TopicAddConfirmScreen },
 }, modalOptions);
 
 export const SettingsStack = StackNavigator({

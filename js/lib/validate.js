@@ -1,14 +1,22 @@
+function errWithMsg(msg) {
+  if (msg !== undefined)
+    throw msg;
+  return false;
+}
+
 export default {
 
-  notEmpty: (value, msg) => {
+  isNotEmpty: (value, msg) => {
     if (!value || value == "")
-      throw msg;
+      return errWithMsg(msg);
+    return true;
   },
 
   isEmail: (value, msg) => {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(value))
-      throw msg;
+      return errWithMsg(msg);
+    return true;
   }
 
 }

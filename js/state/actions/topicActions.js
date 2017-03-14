@@ -27,7 +27,7 @@ export function add(title) {
     dispatch({type: Types.TOPICS_UPDATE_REQUEST});
     
     try {
-      Validate.notEmpty(title, "Title is required");
+      Validate.isNotEmpty(title, "Title is required");
 
       const state = getState();
       if (!state.prefs.org)

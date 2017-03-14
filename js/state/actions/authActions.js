@@ -13,9 +13,9 @@ export function login(username, password) {
     dispatch({type: Types.LOGIN_REQUEST});
     
     try {
-      Validate.notEmpty(username, "Email is required");
+      Validate.isNotEmpty(username, "Email is required");
       Validate.isEmail(username, "Email is not valid");
-      Validate.notEmpty(password, "Password is required");
+      Validate.isNotEmpty(password, "Password is required");
 
       var results = await authService.login(username, password);
       dispatch({type: Types.LOGIN_SUCCESS, payload: results});
@@ -43,7 +43,7 @@ export function registerDevice(token, channels) {
     dispatch({type: Types.REGISTER_REQUEST});
     
     try {
-      Validate.notEmpty(token, "Device token is required");
+      Validate.isNotEmpty(token, "Device token is required");
 
       var results = await authService.registerDevice(token, channels);
       dispatch({type: Types.REGISTER_SUCCESS, payload: results});

@@ -4,26 +4,26 @@ import { ToolbarTextButton, ErrorHeader, FieldButton } from "../components"
 import { Form, InputField, Field, FieldGroup, TouchableField } from "../react-native-fieldsX"
 import { connectprops, PropMap } from "react-redux-propmap"
 import * as topicActions from "../state/actions/topicActions"
-import Validate from "../lib/validate"
+import * as navActions from "../state/actions/navActions"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
   map(props) {
     props.isUpdating = this.state.topics.isUpdating;
     props.updateError = this.state.topics.updateError;
+    props.dismissModal = this.bindEvent(navActions.dismissModal);
     props.saveClick = this.bindEvent(topicActions.add);
   }
 }
 
 @connectprops(Props)
-export default class TopicAddScreen extends Component {
+export default class TopicAddConfirmScreen extends Component {
 
   static navigationOptions = {
-    title: "Enter Subject",
-    header: ({state}, defaultHeader) => ({
+    title: "Confirm",
+    header: ({ state }, defaultHeader) => ({
       ...defaultHeader,
-      left: <ToolbarTextButton title="Cancel" onPress={() => state.params.leftClick()} />,
-      right: <ToolbarTextButton title="Next" active={true} onPress={() => state.params.rightClick()} />,
+      right: <ToolbarTextButton title="Save" active={true} onPress={() => state.params.rightClick()} />,
       backTitle: " "
     })
   }
@@ -37,8 +37,7 @@ export default class TopicAddScreen extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      leftClick: () => this.props.navigation.goBack(null),
-      rightClick: () => this._next()
+      rightClick: () => this._save()
     });
   }
 
@@ -51,26 +50,11 @@ export default class TopicAddScreen extends Component {
         { this.props.updateError && <ErrorHeader text={this.props.updateError} /> }
         
         <Form
-          ref="form"
-          onChange={this._handleFormChange.bind(this)}>
+          ref="form">
         
           <FieldGroup>
-
-            <InputField 
-              ref="title"
-              multiline={true}
-              height={85}
-              placeholder="Subject" 
-              returnKeyType="done"
-              onSubmitEditing={(event) => {}}
-            />
-
+            
           </FieldGroup>
-
-          <FieldButton 
-            title="Save Topic" 
-            disabled={this.props.isUpdating}
-            onPress={() => this._next()} />
 
         </Form>
 
@@ -78,16 +62,10 @@ export default class TopicAddScreen extends Component {
     )
   }
 
-  _handleFormChange(data) {
-    this.setState({
-      title: data.title
-    })
-  }
-
-  async _next() {
+  async _save() {
     //if (await this.props.saveClick(this.state.title))
     //  this.props.navigation.goBack(null);
-    this.props.navigation.navigate("TopicAddType")
+    this.props.dismissModal("TopicAddStack")
   }
 }
 

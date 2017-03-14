@@ -30,7 +30,7 @@ export default class TopicDetailsScreen extends Component {
     title: " ",
     header: ({state}, defaultHeader) => ({
       ...defaultHeader,
-      right: <ToolbarButton name="more-horz" color={Color.white} onPress={() => state.params.delete()} />
+      right: <ToolbarButton name="more-horz" color={Color.white} onPress={() => state.params.rightClick()} />
     })
   }
 
@@ -43,7 +43,7 @@ export default class TopicDetailsScreen extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-        delete: () => this.props.isOwner ? this.moreSheetForOwner.show() : this.moreSheetForMember.show()
+      rightClick: () => this.props.isOwner ? this.moreSheetForOwner.show() : this.moreSheetForMember.show()
     });
   }
 
