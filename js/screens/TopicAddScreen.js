@@ -63,9 +63,6 @@ export default class TopicAddScreen extends Component {
               ref="title"
               multiline={true}
               height={80}
-              validationFunction={(value) => {
-                return Validate.isNotEmpty(value)
-              }}
             />
 
           </FieldGroup>
