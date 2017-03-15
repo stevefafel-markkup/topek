@@ -3,7 +3,7 @@ import React, { Component } from "react"
 import { StyleSheet, View, Text, Button, Animated, ActivityIndicator } from "react-native"
 import { ToolbarButton, AvatarImage, ErrorHeader, WorkingOverlay } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
-import { Field, FieldGroup, TouchableField } from "react-native-fields"
+import { Field, FieldGroup, TouchableField, DescriptionField } from "react-native-fields"
 import Layout from "../lib/Layout"
 import ActionSheet from "react-native-actionsheet"
 import Styles, { Color, Dims } from "../styles"
@@ -75,6 +75,9 @@ export default class TopicDetailsScreen extends Component {
             )}>
             {this._renderHeader()}
             <View style={styles.contentContainerStyle}>
+
+              <DescriptionField text={"The refresh button causes the Dashboard to refresh. The button spins to show it's refreshing."} />
+
 
               {this._renderDetails()}
               {this._renderMembers()}
@@ -201,7 +204,7 @@ export default class TopicDetailsScreen extends Component {
       return null;
 
     return (
-      <FieldGroup title="Details" link={this.isOwner && "Edit"} onPressLink={() => navigate("TopicDetailsEdit")}>
+      <FieldGroup title="Details">
         {children}
         { this.isOwner && children.length == 0 ? <Field key={-1} text=" " /> : null }
       </FieldGroup>
@@ -216,6 +219,9 @@ export default class TopicDetailsScreen extends Component {
     if (index == 1) {
       if (await this.props.deleteClick(this.props.topic.id))
         this.props.navigation.goBack(null);
+    }
+    else if (index == 2) {
+      this.props.navigation.navigate("TopicDetailsEdit")
     }
   }
 

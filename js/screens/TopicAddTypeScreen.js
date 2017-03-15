@@ -27,9 +27,6 @@ export default class TopicAddScreen extends Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      title: ""
-    }
   }
 
   render() {
@@ -44,8 +41,8 @@ export default class TopicAddScreen extends Component {
           ref="form">
         
           <FieldGroup>
-            <TouchableField text="Notice" accessory={true} onPress={() => this._saveType()} />
-            <TouchableField text="Event" accessory={true} onPress={() => this._saveType()} />
+            <TouchableField text="Announcement" icon="flag" accessory={true} onPress={() => this._saveType()} />
+            <TouchableField text="Event" icon="calendar" accessory={true} onPress={() => this._saveType()} />
           </FieldGroup>
 
         </Form>

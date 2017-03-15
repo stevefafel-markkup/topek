@@ -19,18 +19,21 @@ export default class TopicAddTypeDetailsScreen extends Component {
 
   static navigationOptions = {
     title: "Enter Details",
-    header: (navigation, defaultHeader) => ({
+    header: ({ state }, defaultHeader) => ({
       ...defaultHeader,
-      right: <ToolbarTextButton title="Next" active={true} onPress={() => navigation.navigate("TopicAddMembers")} />,
+      right: <ToolbarTextButton title="Next" active={true} onPress={() => state.params.rightClick()} />,
       backTitle: " "
     })
   }
 
   constructor(props){
     super(props);
-    this.state = {
-      title: ""
-    }
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({
+        rightClick: () => this.props.navigation.navigate("TopicAddMembers")
+    });
   }
 
   render() {

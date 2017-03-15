@@ -5,7 +5,6 @@ import { NavbarButton, ErrorHeader, AvatarImage, WorkingOverlay } from "../compo
 import { connectprops, PropMap } from "react-redux-propmap"
 import Immutable from "immutable"
 import Ionicon from "react-native-vector-icons/Ionicons"
-import { Field, FieldGroup, TouchableField } from "react-native-fields"
 import Styles, { Color, Dims, TextSize } from "../styles"
 
 import * as topicActions from "../state/actions/topicActions"
@@ -26,7 +25,7 @@ export default class TopicMembersScreen extends Component {
     title: "Topic Members",
     header: ({ navigate, state }, defaultHeader) => ({
       ...defaultHeader,
-      right: state.params && state.params.isOwner && (<NavbarButton title="Add" color={Color.tintNavbar} onPress={() => navigate("MemberSelectorStack")} />),
+      right: state.params && state.params.isOwner && (<NavbarButton title="Add" color={Color.tintNavbar} onPress={() => state.params.rightClick()} />),
     })
   }
 
@@ -40,7 +39,8 @@ export default class TopicMembersScreen extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-        isOwner: this.props.isOwner
+        isOwner: this.props.isOwner,
+        rightClick: () => this.props.navigation.navigate("MemberSelectorStack")
     });
   }
 

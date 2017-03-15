@@ -46,7 +46,7 @@ export default {
   },
 
   navbarTitleModal: {
-    color: Color.tint
+    color: "#000"
   }
 
 }

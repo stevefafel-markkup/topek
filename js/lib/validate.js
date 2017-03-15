@@ -7,7 +7,7 @@ function errWithMsg(msg) {
 export default {
 
   isNotEmpty: (value, msg) => {
-    if (!value || value == "")
+    if (!value || value.trim() == "")
       return errWithMsg(msg);
     return true;
   },

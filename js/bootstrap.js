@@ -5,6 +5,7 @@ import App from "./app"
 import Config from "./config"
 import State from "./state"
 import SplashScreen from "./screens/SplashScreen"
+import Styles from "./styles"
 
 import * as appActions from "./state/actions/appActions"
 
@@ -12,6 +13,9 @@ export default function bootstrap() {
 
   // for now, don't restore nav state
   State.purgePersistedState(["nav"]);
+
+  // setup styles
+  Styles.setup();
 
   // this root components hooks up the state.
   // it also delays rendering the app until state is rehydrated

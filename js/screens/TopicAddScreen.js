@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { StyleSheet, View, Text, Button, StatusBar, TouchableHighlight } from "react-native"
+import { StyleSheet, View, Text, Button, StatusBar, TouchableHighlight, Keyboard } from "react-native"
 import { ToolbarTextButton, ErrorHeader, FieldButton } from "../components"
 import { Form, InputField, Field, FieldGroup, TouchableField } from "../react-native-fieldsX"
 import { connectprops, PropMap } from "react-redux-propmap"
@@ -19,11 +19,11 @@ class Props extends PropMap {
 export default class TopicAddScreen extends Component {
 
   static navigationOptions = {
-    title: "Enter Subject",
+    title: "New Topic",
     header: ({state}, defaultHeader) => ({
       ...defaultHeader,
       left: <ToolbarTextButton title="Cancel" onPress={() => state.params.leftClick()} />,
-      right: <ToolbarTextButton title="Next" active={true} onPress={() => state.params.rightClick()} />,
+      right: <ToolbarTextButton title="Next" active={true} disabled={!state.params || !state.params.valid} onPress={() => state.params.rightClick()} />,
       backTitle: " "
     })
   }
@@ -37,9 +37,12 @@ export default class TopicAddScreen extends Component {
 
   componentDidMount() {
     this.props.navigation.setParams({
-      leftClick: () => this.props.navigation.goBack(null),
-      rightClick: () => this._next()
+      leftClick: () => this._cancel(),
+      rightClick: () => this._next(),
+      valid: false
     });
+
+    setTimeout(() => this.refs.form.refs.subject.refs.title.focus(), 800);
   }
 
   render() {
@@ -54,23 +57,29 @@ export default class TopicAddScreen extends Component {
           ref="form"
           onChange={this._handleFormChange.bind(this)}>
         
-          <FieldGroup>
+          <FieldGroup title="Subject" ref="subject">
 
             <InputField 
               ref="title"
               multiline={true}
-              height={85}
-              placeholder="Subject" 
-              returnKeyType="done"
-              onSubmitEditing={(event) => {}}
+              height={80}
+              validationFunction={(value) => {
+                return Validate.isNotEmpty(value)
+              }}
             />
 
           </FieldGroup>
 
-          <FieldButton 
-            title="Save Topic" 
-            disabled={this.props.isUpdating}
-            onPress={() => this._next()} />
+          <FieldGroup title="Description">
+
+            <InputField 
+              ref="description"
+              multiline={true}
+              height={160}
+              placeholder="Optional" 
+            />
+
+          </FieldGroup>
 
         </Form>
 
@@ -82,12 +91,18 @@ export default class TopicAddScreen extends Component {
     this.setState({
       title: data.title
     })
+    this.props.navigation.setParams({valid: Validate.isNotEmpty(data.title)});
   }
 
   async _next() {
     //if (await this.props.saveClick(this.state.title))
     //  this.props.navigation.goBack(null);
     this.props.navigation.navigate("TopicAddType")
+  }
+
+  _cancel() {
+    Keyboard.dismiss()
+    this.props.navigation.goBack(null)
   }
 }
 
