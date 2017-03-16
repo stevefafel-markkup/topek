@@ -4,7 +4,7 @@ import * as AppActions from "./appActions"
 import * as MessagingActions from "./messagingActions"
 import * as NavActions from "./navActions"
 import * as PrefsActions from "./prefsActions"
-import * as TopicActions from "./topActions"
+import * as TopicActions from "./topicActions"
 
 export {
   AuthActions,
