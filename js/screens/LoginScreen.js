@@ -2,8 +2,8 @@ import React, { Component } from "react"
 import { StyleSheet, View, Text, Button, Image, ActivityIndicator } from "react-native"
 import { FieldButton } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap";
-import * as authActions from "../state/actions/authActions"
 import { Form, InputField, KeyboardAwareScrollView, FieldGroup } from "react-native-fields"
+import { AuthActions } from "../state/actions"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
@@ -12,7 +12,7 @@ class Props extends PropMap {
     props.isAuthenticating = this.state.auth.isAuthenticating;
     props.error = this.state.auth.error;
     props.lastUsername = this.state.auth.lastUsername;
-    props.loginClick = this.bindEvent(authActions.login);
+    props.loginClick = this.bindEvent(AuthActions.login);
   }
 }
 

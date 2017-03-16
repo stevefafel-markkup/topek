@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Button, StatusBar, TouchableHighlight, Keyboard
 import { ToolbarTextButton, ErrorHeader, FieldButton } from "../components"
 import { Form, InputField, Field, FieldGroup, TouchableField } from "../react-native-fieldsX"
 import { connectprops, PropMap } from "react-redux-propmap"
-import * as topicActions from "../state/actions/topicActions"
+import { TopicActions } from "../state/actions"
 import Validate from "../lib/validate"
 import Styles, { Color, Dims } from "../styles"
 
@@ -11,7 +11,7 @@ class Props extends PropMap {
   map(props) {
     props.isUpdating = this.state.topics.isUpdating;
     props.updateError = this.state.topics.updateError;
-    props.saveClick = this.bindEvent(topicActions.add);
+    props.saveClick = this.bindEvent(TopicActions.add);
   }
 }
 

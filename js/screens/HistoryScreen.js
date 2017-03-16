@@ -6,7 +6,7 @@ import { connectprops, PropMap } from "react-redux-propmap"
 import { Field, FieldGroup, TouchableField, InputField, SwitchField, Form } from "../react-native-fieldsX"
 import Styles, { Color, Dims } from "../styles"
 
-import * as authActions from "../state/actions/authActions"
+import { AuthActions } from "../state/actions"
 
 class Props extends PropMap {
   map(props) {

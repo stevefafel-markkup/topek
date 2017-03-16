@@ -4,8 +4,7 @@ import { NavbarButton, ToolbarButton, AvatarImage } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import Layout from "../lib/Layout"
-import * as authActions from "../state/actions/authActions"
-import * as orgActions from "../state/actions/orgActions"
+import { AuthActions, OrgActions } from "../state/actions"
 import { Field, FieldGroup, TouchableField, InputField, SwitchField, Form } from "../react-native-fieldsX"
 import Styles, { Color, Dims } from "../styles"
 
@@ -15,9 +14,9 @@ class Props extends PropMap {
     props.orgs = this.state.orgs.list;
     props.currentOrg = this.state.prefs.org;
     props.members = this.state.members.list;
-    props.notificationsClick = this.bindEvent(authActions.requestPushPermissions);
-    props.logoutClick = this.bindEvent(authActions.logout);
-    props.setOrgClick = this.bindEvent(orgActions.setCurrent);
+    props.notificationsClick = this.bindEvent(AuthActions.requestPushPermissions);
+    props.logoutClick = this.bindEvent(AuthActions.logout);
+    props.setOrgClick = this.bindEvent(OrgActions.setCurrent);
   }
 }
 

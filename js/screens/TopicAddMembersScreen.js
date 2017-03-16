@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Button, StatusBar, TouchableHighlight } from "r
 import { ToolbarTextButton, ErrorHeader, UserSelectListView } from "../components"
 import { Form, InputField, Field, FieldGroup, TouchableField } from "../react-native-fieldsX"
 import { connectprops, PropMap } from "react-redux-propmap"
-import * as topicActions from "../state/actions/topicActions"
+import { TopicActions } from "../state/actions"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
@@ -12,7 +12,7 @@ class Props extends PropMap {
     props.orgOwner = this.state.prefs.org.owner;
     props.currentUser = this.state.profile.user;
     props.updateError = this.state.topics.updateError;
-    props.saveClick = this.bindEvent(topicActions.add);
+    props.saveClick = this.bindEvent(TopicActions.add);
   }
 }
 

@@ -4,7 +4,7 @@ import { ErrorHeader, ToolbarButton, Header, AvatarImage } from "../components"
 import Immutable from "immutable"
 import Datetime from "../lib/datetime"
 import { connectprops, PropMap } from "react-redux-propmap"
-import * as topicActions from "../state/actions/topicActions"
+import { TopicActions } from "../state/actions"
 import Styles, { Color, Dims } from "../styles"
 
 import IonIcon from "react-native-vector-icons/Ionicons"
@@ -15,9 +15,9 @@ class Props extends PropMap {
     props.topics = this.state.topics.list;
     props.isRefreshing = this.state.topics.isRefreshing;
     props.loadError = this.state.topics.loadError;
-    props.loadTopics = this.bindEvent(topicActions.load);
-    props.refreshTopics = this.bindEvent(topicActions.load);
-    props.topicSelect = this.bindEvent(topicActions.setSelected);
+    props.loadTopics = this.bindEvent(TopicActions.load);
+    props.refreshTopics = this.bindEvent(TopicActions.load);
+    props.topicSelect = this.bindEvent(TopicActions.setSelected);
   }
 }
 

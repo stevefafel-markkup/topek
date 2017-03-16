@@ -5,16 +5,15 @@ import { NavbarButton, ErrorHeader, AvatarImage, WorkingOverlay } from "../compo
 import { connectprops, PropMap } from "react-redux-propmap"
 import Immutable from "immutable"
 import Ionicon from "react-native-vector-icons/Ionicons"
+import { TopicActions } from "../state/actions"
 import Styles, { Color, Dims, TextSize } from "../styles"
-
-import * as topicActions from "../state/actions/topicActions"
 
 class Props extends PropMap {
   map(props) {
     props.members = this.state.topics.selectedTopicMembers;
     props.isOwner = this.state.topics.selectedTopic.owner.id == this.state.profile.user.id;
     props.isWorking = this.state.topics.isLoadingMembers;
-    props.removeClicked = this.bindEvent(topicActions.removeMembersfromSelectedTopic);
+    props.removeClicked = this.bindEvent(TopicActions.removeMembersfromSelectedTopic);
   }
 }
 

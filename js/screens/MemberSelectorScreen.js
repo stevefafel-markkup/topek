@@ -5,7 +5,7 @@ import { connectprops, PropMap } from "react-redux-propmap"
 import { UserMap } from "../models"
 import Styles, { Color, Dims, TextSize } from "../styles"
 
-import * as topicActions from "../state/actions/topicActions"
+import { TopicActions } from "../state/actions"
 
 class Props extends PropMap {
   map(props) {
@@ -14,7 +14,7 @@ class Props extends PropMap {
     props.currentUser = this.state.profile.user;
     props.topicMembers = this.state.topics.selectedTopicMembers;
     props.isWorking = this.state.topics.isLoadingMembers;
-    props.saveClicked = this.bindEvent(topicActions.addMembersToSelectedTopic);
+    props.saveClicked = this.bindEvent(TopicActions.addMembersToSelectedTopic);
   }
 }
 

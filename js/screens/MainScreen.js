@@ -1,13 +1,13 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
 import { connectprops, PropMap } from "react-redux-propmap"
-import * as authActions from "../state/actions/authActions"
+import { AuthActions } from "../state/actions"
 import Styles, { Color, Dims } from "../styles"
 
 class Props extends PropMap {
   map(props) {
     props.isAuthenticated = this.state.auth.isAuthenticated;
-    props.logoutClick = this.bindEvent(authActions.logout);
+    props.logoutClick = this.bindEvent(AuthActions.logout);
   }
 }
 

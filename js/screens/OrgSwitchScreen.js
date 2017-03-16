@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
 import { connectprops, PropMap } from "react-redux-propmap"
-import * as prefsActions from "../state/actions/prefsActions"
+import { PrefsActions } from "../state/actions"
 import { Field, FieldGroup, TouchableField } from "react-native-fields"
 import Styles, { Color, Dims } from "../styles"
 
@@ -9,7 +9,7 @@ class Props extends PropMap {
   map(props) {
     props.orgs = this.state.orgs.list;
     props.org = this.state.prefs.org;
-    props.setOrgClick = this.bindEvent(prefsActions.setOrg);
+    props.setOrgClick = this.bindEvent(PrefsActions.setOrg);
   }
 }
 

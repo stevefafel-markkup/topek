@@ -6,9 +6,8 @@ import { connectprops, PropMap } from "react-redux-propmap"
 import { Field, FieldGroup, TouchableField, DescriptionField } from "react-native-fields"
 import Layout from "../lib/Layout"
 import ActionSheet from "react-native-actionsheet"
+import { TopicActions } from "../state/actions"
 import Styles, { Color, Dims } from "../styles"
-
-import * as topicActions from "../state/actions/topicActions"
 
 class Props extends PropMap {
   map(props) {
@@ -19,7 +18,7 @@ class Props extends PropMap {
     props.isOwner = this.state.topics.selectedTopic && this.state.topics.selectedTopic.owner.id == this.state.profile.user.id;
     props.isUpdating = this.state.topics.isUpdating;
     props.updateError = this.state.topics.updateError;
-    props.deleteClick = this.bindEvent(topicActions.destroy);
+    props.deleteClick = this.bindEvent(TopicActions.destroy);
   }
 }
 
