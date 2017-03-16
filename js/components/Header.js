@@ -17,7 +17,10 @@ export default class Header extends Component {
       <View style={styles.component}>
         <View style={styles.content}>
           <View style={styles.title}>
-            <Text style={[styles.titleText, {marginTop: titleMarginTop}]}>{this.props.title}</Text>
+            <Text
+              numberOfLines={1} 
+              ellipsizeMode="tail" 
+              style={[styles.titleText, {marginTop: titleMarginTop}]}>{this.props.title}</Text>
             {subtitle}
           </View>
           <View style={styles.toolsContainer}>
@@ -95,7 +98,7 @@ var styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     color: "rgba(255, 255, 255, 0.7)",
-    fontSize: 12,
+    fontSize: 14,
   },
   toolsContainer: {
     flexDirection: "column",

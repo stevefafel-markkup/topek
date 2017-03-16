@@ -26,8 +26,8 @@ const Dims = {
 }
 
 const TextSize = {
-    tiny: 12,
-    small: 14,
+    tiny: 14,
+    small: 16,
     normal: Platform.OS === "ios" ? 18 : 16,
     large: 18
 }

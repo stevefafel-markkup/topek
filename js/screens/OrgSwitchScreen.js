@@ -17,7 +17,7 @@ class Props extends PropMap {
 export default class ActivityScreen extends Component {
 
   static navigationOptions = {
-    title: "Change Group"
+    title: "Choose Group"
   }
 
   render() {

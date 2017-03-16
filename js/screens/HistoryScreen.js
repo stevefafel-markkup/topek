@@ -1,12 +1,12 @@
+
 import React, { Component } from "react"
 import { StyleSheet, View, Text, ScrollView } from "react-native"
-import { Header, AvatarImage, ToolbarTextButton, ToolbarButton } from "../components"
+import { Header, AvatarImage, ToolbarTextButton } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
 import { Field, FieldGroup, TouchableField, InputField, SwitchField, Form } from "../react-native-fieldsX"
 import Styles, { Color, Dims } from "../styles"
 
-import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons"
-import IonIcon from "react-native-vector-icons/Ionicons"
+import * as authActions from "../state/actions/authActions"
 
 class Props extends PropMap {
   map(props) {
@@ -15,27 +15,23 @@ class Props extends PropMap {
 }
 
 @connectprops(Props)
-export default class ActivityScreen extends Component {
+export default class HistoryScreen extends Component {
 
   static navigationOptions = {
+    title: "History",
     header: (navigation, defaultHeader) => ({
-      visible: false
+      ...defaultHeader
     })
   }
 
   render() {
     return (
       <View style={Styles.screen}>
-        <Header title="Alerts" subtitle=" ">
-          {/*<TouchableOpacity onPress={() => navigate("TopicAddStack")} style={{marginRight: 10,marginBottom:0}}>
-            <IonIcon name="ios-add" size={40} color={"#fff"} />
-          </TouchableOpacity>*/}
-          <ToolbarButton name="history" tint={Color.white} onPress={() => this.props.navigation.navigate("History")} />
-        </Header>
         <ScrollView>
           <FieldGroup>
-            {this._renderActivity("Task: 'Return stage equipment' is due tomorrow", "2/8", "1:33p", true)}
-            {this._renderActivity("Event: Golf outing on Saturday (rain or shine)", "3/1", "5:45a", false)}
+            {this._renderActivity("@dave added a new topic 'Volleyball club parent meeting for anyone wanting to travel to Harrisburg'", "2/8", "1:33p", true)}
+            {this._renderActivity("@steve spread the love with numerous hugs and kisses", "3/1", "5:45a", false)}
+            {this._renderActivity("@dave completed his tasks for 'Task list for club picnic in  March'", "3/7", "3:17a", true)}
           </FieldGroup>
         </ScrollView>
       </View>
@@ -56,12 +52,12 @@ export default class ActivityScreen extends Component {
     return (
       <Field>
         <View style={{flexDirection: "row"}}>
-          <IonIcon name="md-alert" size={30} color={Color.tint} />
+          <AvatarImage background="dark" size={30} source={avatarSource} />
           <Text style={{flex:1, fontSize:18, marginLeft: 12}}>{text}</Text>
-          {/*<View style={{flexDirection: "column", alignItems: "center", marginLeft: 20}}>
+          <View style={{flexDirection: "column", alignItems: "center", marginLeft: 20}}>
             <Text style={{fontSize: 11, color: "#555"}}>{date}</Text>
             <Text style={{fontSize: 11, color: "#555"}}>{time}</Text>
-          </View>*/}
+          </View>
         </View>
       </Field>
     )

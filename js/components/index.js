@@ -8,6 +8,7 @@ import FieldButton from "./FieldButton"
 import AvatarImage from "./AvatarImage"
 import Header from "./Header"
 import WorkingOverlay from "./WorkingOverlay"
+import UserCell from "./UserCell"
 import UserSelectListView from "./UserSelectListView"
 
 //import WorkingOverlay from "react-native-loading-spinner-overlay"
@@ -23,5 +24,6 @@ export {
   AvatarImage,
   Header,
   WorkingOverlay,
+  UserCell,
   UserSelectListView
 }

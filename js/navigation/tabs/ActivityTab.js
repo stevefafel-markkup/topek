@@ -3,9 +3,11 @@ import { StackNavigator } from "react-navigation"
 import Styles, { Color, Dims } from "../../styles"
 
 import ActivityScreen from "../../screens/ActivityScreen"
+import HistoryScreen from "../../screens/HistoryScreen"
 
 export default ActivityStack = StackNavigator({
-  Activity: { screen: ActivityScreen }
+  Activity: { screen: ActivityScreen },
+  History: { screen: HistoryScreen }
 }, {
   headerMode: "screen",
   navigationOptions: {

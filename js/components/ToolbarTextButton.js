@@ -22,7 +22,7 @@ export default class ToolbarTextButton extends Component {
 
   _renderText() {
     const weight = this.props.active ? "600" : "400";
-    const color = this.props.disabled ? "#ccc" : this.props.color;
+    const color = this.props.disabled ? "#ccc" : this.props.tint;
     return (
       <Text style={[styles.text, {color: color, fontWeight: weight}]}>{this.props.title}</Text>
     )
@@ -32,14 +32,14 @@ export default class ToolbarTextButton extends Component {
 ToolbarTextButton.propTypes = {
   onPress: React.PropTypes.func.isRequired,
   title: React.PropTypes.string.isRequired,
-  color: React.PropTypes.string,
+  tint: React.PropTypes.string,
   active: React.PropTypes.bool,
   disabled: React.PropTypes.bool,
   working: React.PropTypes.bool
 }
 
 ToolbarTextButton.defaultProps = {
-  color: Color.tint,
+  tint: Color.tint,
   active: false,
   disabled: false,
   working: false

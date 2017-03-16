@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, ListView, TouchableHighlight } from "react-native"
-import { AvatarImage, Toolbar, ToolbarTextButton } from "."
+import { AvatarImage, Toolbar, ToolbarTextButton, UserCell } from "."
 import SearchBar from "react-native-search-box"
 import Immutable from "immutable"
 import MaterialIcon from "react-native-vector-icons/MaterialIcons"
@@ -72,19 +72,12 @@ export default class UserSelectListView extends Component {
     };
     const { member, checked } = rowData;
     return (
-      <TouchableHighlight onPress={() => this._checkMember(member.id)} underlayColor="#eee">
-        <View style={styles.row}>
-          <AvatarImage user={member} background="dark" style={[styles.avatar]} />
-          <View style={styles.identity}>
-            <Text style={styles.name}>{member.name}</Text>
-            <Text style={styles.alias}>{"@" + member.alias}</Text>
-          </View>
-          {(checked)
+      <UserCell user={member} onPress={() => this._checkMember(member.id)}>
+        {(checked)
             ? <MaterialIcon name="check-box" size={30} color={Color.tint} />
             : <MaterialIcon name="check-box-outline-blank" size={30} color={Color.tint} />}
-        </View>
-      </TouchableHighlight>
-    );
+      </UserCell>
+    )
   }
 
   _onSearchTextChange(keyword) {
@@ -175,29 +168,6 @@ UserSelectListView.defaultProps = {
 let styles = StyleSheet.create({
   component: {
     flex: 1
-  },
-  row: {
-    paddingHorizontal: Dims.horzPadding,
-    paddingVertical: 4,
-    flexDirection: "row",
-    flex: 1,
-    alignItems: "center"
-  },
-  avatar: {
-
-  },
-  identity: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  name: {
-    fontSize: TextSize.normal,
-    marginLeft: 6
-  },
-  alias: {
-    fontSize: TextSize.normal,
-    color: "#777",
-    marginLeft: 6
   },
   toolbarContainer: {
     borderTopWidth: StyleSheet.hairlineWidth,

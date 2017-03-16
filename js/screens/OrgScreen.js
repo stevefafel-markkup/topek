@@ -1,11 +1,8 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Image, Animated, TouchableOpacity } from "react-native"
-import { NavbarButton, ToolbarButton, AvatarImage } from "../components"
+import { NavbarButton, ToolbarButton, AvatarImage, UserCell } from "../components"
 import { connectprops, PropMap } from "react-redux-propmap"
-import Ionicon from "react-native-vector-icons/Ionicons"
 import Layout from "../lib/Layout"
-import * as authActions from "../state/actions/authActions"
-import * as orgActions from "../state/actions/orgActions"
 import { Field, FieldGroup, TouchableField, InputField, SwitchField, Form } from "../react-native-fieldsX"
 import Styles, { Color, Dims } from "../styles"
 
@@ -15,9 +12,6 @@ class Props extends PropMap {
     props.orgs = this.state.orgs.list;
     props.org = this.state.prefs.org;
     props.members = this.state.members.list;
-    props.notificationsClick = this.bindEvent(authActions.requestPushPermissions);
-    props.logoutClick = this.bindEvent(authActions.logout);
-    props.setOrgClick = this.bindEvent(orgActions.setCurrent);
   }
 }
 
@@ -62,11 +56,13 @@ export default class OrgScreen extends Component {
             <View style={styles.contentContainerStyle}>
               <Form onChange={this._handleFormChange.bind(this)}>
                 <FieldGroup>
-                  <TouchableField text="Change Group" onPress={() => navigate("OrgSwitch")} />
+                  <InputField label="Name" value={org.name} editable={false} />
                 </FieldGroup>
-
-                {this._renderMembersGroup()}
-
+                <FieldGroup title="Admins">
+                  <Field style={{paddingVertical:4,paddingHorizontal:0}} >
+                    <UserCell user={org.owner} />
+                  </Field>
+                </FieldGroup>
               </Form>
             </View>
           </Animated.ScrollView>
@@ -84,16 +80,21 @@ export default class OrgScreen extends Component {
       outputRange: [0, 0, 1],
     });
 
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
 
     return (
       <View style={styles.navbar}>
+        <ToolbarButton 
+          name="arrow-back" 
+          tint={Color.tintNavbar} 
+          style={styles.navbarButton}
+          onPress={() => goBack(null)} /> 
         <View style={styles.navbarTextContainer}>
           <Animated.Text style={[styles.navbarText, {opacity: titleOpacity}]}>{this.props.user.name}</Animated.Text>
         </View>
         <ToolbarButton 
           name="settings" 
-          color={Color.tintNavbar} 
+          tint={Color.tintNavbar} 
           style={styles.navbarButton}
           onPress={() => navigate("ProfileEditStack")} /> 
       </View>
@@ -178,40 +179,6 @@ export default class OrgScreen extends Component {
     );
   }
 
-  _renderMembersGroup() {
-    const { members, org, user } = this.props;
-    const { navigate } = this.props.navigation;
-
-    if (!org)
-      return null;
-
-    const all = [org.owner, ...members.valueSeq()]
-    return (
-      <FieldGroup title="Members">
-        {all.map((member, i) => {
-          const isOwner = member == org.owner;
-          const isCurrent = member.id == user.id
-          return (
-            <Field key={i}>
-              <View style={styles.memberContainer}>
-                <AvatarImage user={member} background="dark" />
-                <View style={styles.memberNameContainer}>
-                  <Text style={styles.memberName}>{member.name}</Text>
-                  <Text style={styles.memberAlias}>{"@" + member.alias}</Text>
-                  {isOwner && <Text style={styles.memberAlias}>(owner)</Text>}
-                </View>
-                {!isCurrent && 
-                <TouchableOpacity onPress={() => navigate("MessagingStack", {member: member})}>
-                  <Ionicon name="ios-chatbubbles-outline" size={22} color={Color.tint} />
-                </TouchableOpacity>
-                }
-              </View>
-            </Field>)
-        })}
-      </FieldGroup>
-    )
-  }
-
   _handleFormChange(data) {
     if (data["notifications"] !== undefined && data["notifications"] == true) {
       this.props.notificationsClick();
@@ -229,20 +196,17 @@ let styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 64,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    flexDirection: "row"
   },
   navbarButton: {
-    position: "absolute",
-    right: 0,
-    top: 22,
-    width: 50,
-    zIndex: 1000
+    paddingTop: 22,
+    paddingLeft: 6,
+    paddingRight: 6
   },
   navbarTextContainer: {
-    position: "absolute",
-    top: 20,
-    left: 0,
-    right: 0
+    paddingTop: 20,
+    flex: 1
   },
   navbarText: {
     flex: 1,

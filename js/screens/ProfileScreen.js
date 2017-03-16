@@ -90,7 +90,7 @@ export default class ProfileScreen extends Component {
       <View style={styles.navbar}>
         <ToolbarButton 
           name="arrow-back" 
-          color={Color.tintNavbar} 
+          tint={Color.tintNavbar} 
           style={styles.navbarButton}
           onPress={() => goBack(null)} /> 
         <View style={styles.navbarTextContainer}>
@@ -98,7 +98,7 @@ export default class ProfileScreen extends Component {
         </View>
         <ToolbarButton 
           name="more" 
-          color={Color.tintNavbar} 
+          tint={Color.tintNavbar} 
           style={styles.navbarButton}
           onPress={() => navigate("ProfileEditStack")} /> 
       </View>

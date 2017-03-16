@@ -30,7 +30,7 @@ export default class TopicDetailsScreen extends Component {
     title: " ",
     header: ({state}, defaultHeader) => ({
       ...defaultHeader,
-      right: <ToolbarButton name="more-horz" color={Color.white} onPress={() => state.params.rightClick()} />
+      right: <ToolbarButton name="more-horz" tint={Color.white} onPress={() => state.params.rightClick()} />
     })
   }
 
@@ -76,7 +76,8 @@ export default class TopicDetailsScreen extends Component {
             {this._renderHeader()}
             <View style={styles.contentContainerStyle}>
 
-              <DescriptionField text={"The refresh button causes the Dashboard to refresh. The button spins to show it's refreshing."} />
+              {topic.description &&
+              <DescriptionField text={"The refresh button causes the Dashboard to refresh. The button spins to show it's refreshing. This next line should put us over 3 lines."} />}
 
 
               {this._renderDetails()}
